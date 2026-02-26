@@ -70,9 +70,12 @@ const fullTitle = title === 'SynthLab' ? title : `${title} | SynthLab`;
             }
           });
         },
-        { threshold: 0.08, rootMargin: '0px 0px -40px 0px' }
+        { threshold: 0.05, rootMargin: '0px 0px -20px 0px' }
       );
-      document.querySelectorAll('.fade-in').forEach((el) => observer.observe(el));
+      // Small delay ensures layout is settled before observing
+      requestAnimationFrame(() => {
+        document.querySelectorAll('.fade-in').forEach((el) => observer.observe(el));
+      });
     </script>
   </body>
 </html>
