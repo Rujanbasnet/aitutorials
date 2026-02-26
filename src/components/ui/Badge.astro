@@ -1,0 +1,25 @@
+---
+interface Props {
+  variant?: 'default' | 'accent' | 'sage' | 'clay' | 'danger';
+  size?: 'sm' | 'md';
+}
+
+const { variant = 'default', size = 'sm' } = Astro.props;
+
+const colors: Record<string, string> = {
+  default: 'bg-[var(--color-bg-warm)] text-[var(--color-text-muted)]',
+  accent: 'bg-[var(--color-accent-soft)] text-[var(--color-accent-hover)]',
+  sage: 'bg-[var(--color-sage-soft)] text-[var(--color-sage)]',
+  clay: 'bg-[var(--color-clay-soft)] text-[var(--color-clay)]',
+  danger: 'bg-[#FEE2E2] text-[#B91C1C]',
+};
+
+const sizes: Record<string, string> = {
+  sm: 'text-[0.6875rem] px-2 py-0.5',
+  md: 'text-xs px-3 py-1',
+};
+---
+
+<span class:list={['inline-flex items-center rounded-sm font-semibold uppercase tracking-wider', colors[variant], sizes[size]]}>
+  <slot />
+</span>

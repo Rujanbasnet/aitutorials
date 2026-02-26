@@ -1,0 +1,255 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import PostCard from '@components/content/PostCard.astro';
+import { formatDateShort } from '@utils/dates';
+import { getPublishedTutorials, getPublishedNews, getPublishedBlog } from '@utils/collections';
+
+const tutorials = await getPublishedTutorials();
+const news = await getPublishedNews();
+const blog = await getPublishedBlog();
+
+const featured = tutorials[0];
+const latestTutorials = tutorials.slice(0, 3);
+const latestNews = news.slice(0, 3);
+const latestBlog = blog.slice(0, 3);
+---
+
+<BaseLayout title="SynthLab" description="Learn AI, build with AI, ship faster. Tutorials, news, and tools for the AI era.">
+
+  <!-- ─── Hero ─────────────────────────────────────── -->
+  <section class="relative overflow-hidden">
+    <!-- Animated gradient blob -->
+    <div class="absolute top-[-200px] right-[-150px] blob pointer-events-none" aria-hidden="true"></div>
+    <div class="absolute bottom-[-100px] left-[-200px] w-[400px] h-[400px] rounded-full bg-[var(--color-sage-soft)] blur-[100px] opacity-20 pointer-events-none" aria-hidden="true"></div>
+
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 pb-24 lg:pt-28 lg:pb-32 relative">
+      <div class="max-w-2xl">
+        <p class="label mb-5 fade-in">The AI Knowledge Engine</p>
+        <h1 class="text-display mb-6 fade-in">
+          Learn to build with<br />
+          <span class="text-[var(--color-accent)]">artificial intelligence</span>
+        </h1>
+        <p class="text-lg text-[var(--color-text-secondary)] mb-10 max-w-lg leading-relaxed fade-in">
+          Practical tutorials, honest tool reviews, and curated resources for developers and creators. No hype — just what works.
+        </p>
+        <div class="flex flex-wrap items-center gap-4 fade-in">
+          <a
+            href="/tutorials/"
+            class="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-[var(--color-text-primary)] text-white text-sm font-medium hover:bg-[var(--color-text-secondary)] transition-colors"
+          >
+            Browse tutorials
+            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
+            </svg>
+          </a>
+          <a
+            href="/resources/"
+            class="inline-flex items-center gap-2 px-6 py-3 text-sm font-medium text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)] transition-colors"
+          >
+            Free resources &rarr;
+          </a>
+        </div>
+      </div>
+
+      <!-- Hero visual — decorative illustration using Unsplash -->
+      <div class="hidden lg:block absolute right-0 top-1/2 -translate-y-1/2 w-[420px] h-[340px] rounded-2xl overflow-hidden border border-[var(--color-border)] shadow-[0_20px_60px_rgba(20,20,19,0.08)] rotate-2">
+        <img
+          src="https://images.unsplash.com/photo-1677442136019-21780ecad995?w=840&h=680&fit=crop&q=80"
+          alt="Abstract AI visualization"
+          class="w-full h-full object-cover"
+          loading="eager"
+        />
+        <div class="absolute inset-0 bg-gradient-to-t from-[var(--color-bg-primary)] via-transparent to-transparent opacity-30"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── Stats bar ────────────────────────────────── -->
+  <section class="border-y border-[var(--color-border)] bg-[var(--color-bg-card)]">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
+        <div class="fade-in">
+          <div class="text-2xl text-[var(--color-text-primary)]" style="font-family: var(--font-display)">{tutorials.length}+</div>
+          <div class="text-xs text-[var(--color-text-muted)] mt-1 font-medium uppercase tracking-wider">Tutorials</div>
+        </div>
+        <div class="fade-in">
+          <div class="text-2xl text-[var(--color-text-primary)]" style="font-family: var(--font-display)">{news.length}+</div>
+          <div class="text-xs text-[var(--color-text-muted)] mt-1 font-medium uppercase tracking-wider">News Articles</div>
+        </div>
+        <div class="fade-in">
+          <div class="text-2xl text-[var(--color-text-primary)]" style="font-family: var(--font-display)">Free</div>
+          <div class="text-xs text-[var(--color-text-muted)] mt-1 font-medium uppercase tracking-wider">Always</div>
+        </div>
+        <div class="fade-in">
+          <div class="text-2xl text-[var(--color-text-primary)]" style="font-family: var(--font-display)">Weekly</div>
+          <div class="text-xs text-[var(--color-text-muted)] mt-1 font-medium uppercase tracking-wider">New Content</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── Featured Article ─────────────────────────── -->
+  {featured && (
+    <section class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-20 fade-in">
+      <p class="label mb-6">Featured</p>
+      <a href={`/tutorials/${featured.id}/`} class="card-feature block overflow-hidden group">
+        <div class="grid md:grid-cols-5 gap-0">
+          <div class="md:col-span-2 aspect-[4/3] md:aspect-auto overflow-hidden">
+            <img
+              src="https://images.unsplash.com/photo-1620712943543-bcc4688e7485?w=600&h=500&fit=crop&q=80"
+              alt={featured.data.title}
+              class="w-full h-full object-cover group-hover:scale-[1.03] transition-transform duration-700 ease-out"
+            />
+          </div>
+          <div class="md:col-span-3 p-6 sm:p-8 lg:p-10 flex flex-col justify-center">
+            <div class="flex items-center gap-3 mb-4">
+              <span class="badge-intermediate text-[0.6875rem] font-semibold px-2.5 py-0.5 rounded-sm uppercase tracking-wider">Featured</span>
+              <span class="text-xs text-[var(--color-text-muted)]">{formatDateShort(featured.data.pubDate)}</span>
+            </div>
+            <h2 class="text-title group-hover:text-[var(--color-accent)] transition-colors mb-3">
+              {featured.data.title}
+            </h2>
+            <p class="text-[var(--color-text-secondary)] max-w-xl leading-relaxed mb-4">
+              {featured.data.description}
+            </p>
+            <span class="text-sm font-medium text-[var(--color-accent)] group-hover:underline">
+              Read article &rarr;
+            </span>
+          </div>
+        </div>
+      </a>
+    </section>
+  )}
+
+  <!-- ─── Latest Tutorials ─────────────────────────── -->
+  {latestTutorials.length > 0 && (
+    <section class="bg-warm py-20 fade-in">
+      <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex items-end justify-between mb-10">
+          <div>
+            <p class="label mb-2">Learn</p>
+            <h2 class="text-heading">Latest Tutorials</h2>
+          </div>
+          <a href="/tutorials/" class="text-sm font-medium text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)] transition-colors hidden sm:block">
+            View all &rarr;
+          </a>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 stagger">
+          {latestTutorials.map((t) => (
+            <div class="fade-in">
+              <PostCard
+                title={t.data.title}
+                description={t.data.description}
+                href={`/tutorials/${t.id}/`}
+                pubDate={t.data.pubDate}
+                tags={t.data.tags}
+                difficulty={t.data.difficulty}
+                body={t.body || ''}
+              />
+            </div>
+          ))}
+        </div>
+        <a href="/tutorials/" class="sm:hidden block text-center mt-8 text-sm font-medium text-[var(--color-accent)]">
+          View all tutorials &rarr;
+        </a>
+      </div>
+    </section>
+  )}
+
+  <!-- ─── AI News ──────────────────────────────────── -->
+  {latestNews.length > 0 && (
+    <section class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-20 fade-in">
+      <div class="flex items-end justify-between mb-10">
+        <div>
+          <p class="label mb-2">Stay current</p>
+          <h2 class="text-heading">AI News</h2>
+        </div>
+        <a href="/news/" class="text-sm font-medium text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)] transition-colors hidden sm:block">
+          View all &rarr;
+        </a>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 stagger">
+        {latestNews.map((n) => (
+          <div class="fade-in">
+            <PostCard
+              title={n.data.title}
+              description={n.data.description}
+              href={`/news/${n.id}/`}
+              pubDate={n.data.pubDate}
+              tags={n.data.tags}
+              body={n.body || ''}
+            />
+          </div>
+        ))}
+      </div>
+    </section>
+  )}
+
+  <!-- ─── Blog ─────────────────────────────────────── -->
+  {latestBlog.length > 0 && (
+    <section class="bg-warm py-20 fade-in">
+      <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex items-end justify-between mb-10">
+          <div>
+            <p class="label mb-2">Insights</p>
+            <h2 class="text-heading">From the Blog</h2>
+          </div>
+          <a href="/blog/" class="text-sm font-medium text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)] transition-colors hidden sm:block">
+            View all &rarr;
+          </a>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 stagger">
+          {latestBlog.map((b) => (
+            <div class="fade-in">
+              <PostCard
+                title={b.data.title}
+                description={b.data.description}
+                href={`/blog/${b.id}/`}
+                pubDate={b.data.pubDate}
+                tags={b.data.tags}
+                body={b.body || ''}
+              />
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  )}
+
+  <!-- ─── Visual break — full-width image ──────────── -->
+  <section class="relative h-64 sm:h-80 overflow-hidden fade-in">
+    <img
+      src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=1600&h=600&fit=crop&q=80"
+      alt="Technology visualization"
+      class="w-full h-full object-cover"
+      loading="lazy"
+    />
+    <div class="absolute inset-0 bg-gradient-to-r from-[var(--color-bg-primary)] via-[var(--color-bg-primary)]/60 to-transparent"></div>
+    <div class="absolute inset-0 flex items-center">
+      <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
+        <p class="label mb-3 text-[var(--color-text-muted)]">Open source</p>
+        <h2 class="text-title max-w-md">Built for the next generation of AI builders</h2>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── Newsletter CTA ──────────────────────────── -->
+  <section class="py-24 fade-in">
+    <div class="max-w-xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <p class="label mb-4">Newsletter</p>
+      <h2 class="text-title mb-4">Stay sharp on AI</h2>
+      <p class="text-[var(--color-text-secondary)] mb-8 leading-relaxed">
+        Weekly curated tutorials, tool reviews, and industry insights delivered to your inbox. No spam, unsubscribe anytime.
+      </p>
+      <a
+        href="/newsletter/"
+        class="inline-flex items-center gap-2 px-7 py-3.5 rounded-full bg-[var(--color-text-primary)] text-white font-medium hover:bg-[var(--color-text-secondary)] transition-colors"
+      >
+        Subscribe to newsletter
+        <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
+        </svg>
+      </a>
+    </div>
+  </section>
+</BaseLayout>

@@ -1,0 +1,78 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import Button from '@components/ui/Button.astro';
+---
+
+<BaseLayout title="About" description="SynthLab is an AI learning platform helping developers, creators, and professionals master artificial intelligence.">
+  <!-- Hero -->
+  <section class="relative overflow-hidden bg-warm">
+    <img
+      src="https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=1600&h=500&fit=crop&q=80"
+      alt=""
+      class="absolute inset-0 w-full h-full object-cover opacity-[0.05]"
+      loading="eager"
+      aria-hidden="true"
+    />
+    <div class="relative max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-20 lg:py-24">
+      <p class="label mb-4">About</p>
+      <h1 class="text-display mb-6">
+        About <span class="text-[var(--color-accent)]">SynthLab</span>
+      </h1>
+      <p class="text-xl text-[var(--color-text-secondary)] leading-relaxed max-w-xl">
+        An AI knowledge engine for the modern era. We create tutorials, tools, and resources that help people harness artificial intelligence effectively.
+      </p>
+    </div>
+  </section>
+
+  <section class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+    <!-- Mission -->
+    <div class="card-warm p-8 sm:p-10 mb-16 rounded-xl fade-in">
+      <p class="label mb-3">Our mission</p>
+      <h2 class="text-heading mb-4">Bridging the AI knowledge gap</h2>
+      <p class="text-[var(--color-text-secondary)] leading-relaxed">
+        AI is transforming every industry. But most people are either overwhelmed by the pace of change or unsure where to start. SynthLab bridges that gap with clear, practical, no-fluff content that helps you build real skills.
+      </p>
+    </div>
+
+    <!-- What we cover -->
+    <div class="mb-16 fade-in">
+      <p class="label mb-3">What we cover</p>
+      <h2 class="text-heading mb-8">Four pillars of AI mastery</h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div class="card-accent p-6 rounded-xl">
+          <div class="text-2xl mb-3" style="font-family: var(--font-display)">01</div>
+          <h3 class="text-sm font-semibold text-[var(--color-text-primary)] mb-2 uppercase tracking-wider">Prompt Engineering</h3>
+          <p class="text-sm text-[var(--color-text-secondary)] leading-relaxed">Master the art of communicating with AI models effectively.</p>
+        </div>
+        <div class="card-accent p-6 rounded-xl">
+          <div class="text-2xl mb-3" style="font-family: var(--font-display)">02</div>
+          <h3 class="text-sm font-semibold text-[var(--color-text-primary)] mb-2 uppercase tracking-wider">AI Tools</h3>
+          <p class="text-sm text-[var(--color-text-secondary)] leading-relaxed">Reviews, comparisons, and tutorials for the latest AI tools.</p>
+        </div>
+        <div class="card-accent p-6 rounded-xl">
+          <div class="text-2xl mb-3" style="font-family: var(--font-display)">03</div>
+          <h3 class="text-sm font-semibold text-[var(--color-text-primary)] mb-2 uppercase tracking-wider">Automation</h3>
+          <p class="text-sm text-[var(--color-text-secondary)] leading-relaxed">Build AI-powered workflows that save hours of manual work.</p>
+        </div>
+        <div class="card-accent p-6 rounded-xl">
+          <div class="text-2xl mb-3" style="font-family: var(--font-display)">04</div>
+          <h3 class="text-sm font-semibold text-[var(--color-text-primary)] mb-2 uppercase tracking-wider">AI Agents</h3>
+          <p class="text-sm text-[var(--color-text-secondary)] leading-relaxed">Design and build autonomous AI agents that accomplish complex tasks.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Built with -->
+    <div class="mb-16 fade-in">
+      <p class="label mb-3">Tech</p>
+      <h2 class="text-heading mb-4">Built with modern tools</h2>
+      <p class="text-[var(--color-text-secondary)] mb-8 leading-relaxed">
+        This site is built with Astro, Tailwind CSS, and MDX. It's open source, lightning fast, and runs on GitHub Pages.
+      </p>
+      <div class="flex flex-wrap gap-3">
+        <Button href="/tutorials/" variant="primary">Start Learning</Button>
+        <Button href="/newsletter/" variant="secondary">Subscribe</Button>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

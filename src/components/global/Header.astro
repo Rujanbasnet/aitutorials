@@ -1,0 +1,90 @@
+---
+const navLinks = [
+  { label: 'Tutorials', href: '/tutorials/' },
+  { label: 'News', href: '/news/' },
+  { label: 'Blog', href: '/blog/' },
+  { label: 'Resources', href: '/resources/' },
+];
+const currentPath = Astro.url.pathname;
+---
+
+<header class="glass-nav fixed top-0 left-0 right-0 z-50">
+  <nav class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+    <!-- Logo -->
+    <a href="/" class="flex items-center gap-2.5 group">
+      <div class="w-8 h-8 rounded-lg bg-[var(--color-accent)] flex items-center justify-center text-white text-sm" style="font-family: var(--font-display)">
+        S
+      </div>
+      <span class="text-lg text-[var(--color-text-primary)] tracking-tight" style="font-family: var(--font-display)">
+        SynthLab
+      </span>
+    </a>
+
+    <!-- Desktop Nav -->
+    <div class="hidden md:flex items-center gap-1">
+      {navLinks.map((link) => (
+        <a
+          href={link.href}
+          class:list={[
+            'px-3 py-1.5 text-sm font-medium transition-colors hover-line',
+            currentPath.startsWith(link.href)
+              ? 'text-[var(--color-text-primary)]'
+              : 'text-[var(--color-text-muted)] hover:text-[var(--color-text-primary)]',
+          ]}
+        >
+          {link.label}
+        </a>
+      ))}
+    </div>
+
+    <!-- Actions -->
+    <div class="flex items-center gap-3">
+      <a
+        href="/newsletter/"
+        class="hidden sm:inline-flex items-center px-4 py-1.5 text-sm font-medium rounded-full bg-[var(--color-text-primary)] text-white hover:bg-[var(--color-text-secondary)] transition-colors"
+      >
+        Subscribe
+      </a>
+
+      <button
+        id="mobile-menu-btn"
+        class="md:hidden p-2 rounded-lg text-[var(--color-text-muted)] hover:text-[var(--color-text-primary)] transition-colors"
+        aria-label="Toggle menu"
+      >
+        <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+        </svg>
+      </button>
+    </div>
+  </nav>
+
+  <!-- Mobile Nav -->
+  <div id="mobile-menu" class="md:hidden hidden border-t border-[var(--color-border)]">
+    <div class="px-4 py-3 space-y-1">
+      {navLinks.map((link) => (
+        <a
+          href={link.href}
+          class:list={[
+            'block px-4 py-2.5 rounded-lg text-sm font-medium transition-colors',
+            currentPath.startsWith(link.href)
+              ? 'text-[var(--color-text-primary)] bg-[var(--color-bg-warm)]'
+              : 'text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)] hover:bg-[var(--color-bg-warm)]',
+          ]}
+        >
+          {link.label}
+        </a>
+      ))}
+      <a href="/newsletter/" class="block px-4 py-2.5 rounded-lg text-sm font-medium text-[var(--color-accent)]">
+        Subscribe
+      </a>
+    </div>
+  </div>
+</header>
+
+<div class="h-16"></div>
+
+<script>
+  const menuBtn = document.getElementById('mobile-menu-btn')!;
+  const mobileMenu = document.getElementById('mobile-menu')!;
+  menuBtn.addEventListener('click', () => mobileMenu.classList.toggle('hidden'));
+</script>

@@ -1,0 +1,109 @@
+---
+title: "Prompt Engineering Fundamentals: Write Prompts That Actually Work"
+description: "Master the art of prompt engineering. Learn proven frameworks, patterns, and techniques to get consistently better results from any AI model."
+pubDate: 2026-02-18
+author: "SynthLab"
+tags: ["prompt-engineering", "techniques", "productivity"]
+category: "prompt-engineering"
+difficulty: "intermediate"
+estimatedTime: "20 min"
+prerequisites: ["basic-ai-knowledge"]
+tools: ["ChatGPT", "Claude", "Any LLM"]
+---
+
+## Why Prompt Engineering Matters
+
+The difference between a mediocre AI response and a brilliant one is almost always the prompt. Prompt engineering isn't just about asking nicely — it's a systematic approach to communicating with AI models.
+
+## The CRAFT Framework
+
+Use this framework for every important prompt:
+
+- **C**ontext — Set the scene. Who are you? What's the situation?
+- **R**ole — Give the AI a persona. "You are a senior DevOps engineer..."
+- **A**ction — Be specific about what you want done
+- **F**ormat — Specify the output format (table, list, code, JSON)
+- **T**one — Set the communication style
+
+### Example Using CRAFT
+
+```
+Context: I'm launching a SaaS product for small business accounting.
+Role: You are a growth marketing strategist with 10 years of experience.
+Action: Create a 90-day go-to-market launch plan.
+Format: Present as a week-by-week timeline with milestones and KPIs.
+Tone: Strategic and actionable, no fluff.
+```
+
+## Essential Patterns
+
+### Few-Shot Learning
+
+Show the AI examples of what you want:
+
+```
+Convert these product descriptions to compelling one-liners:
+
+Input: "A 500ml stainless steel water bottle with double-wall insulation"
+Output: "Keep your drinks ice-cold for 24 hours with our bulletproof steel bottle."
+
+Input: "A wireless bluetooth speaker with 20-hour battery life"
+Output: "Your soundtrack, untethered. 20 hours of wireless audio bliss."
+
+Input: "A mechanical keyboard with cherry MX switches and RGB lighting"
+Output:
+```
+
+### Chain of Thought
+
+Force step-by-step reasoning:
+
+```
+Solve this problem step by step. Show your reasoning at each stage before giving the final answer.
+
+A company's revenue grew 15% in Q1, declined 8% in Q2, grew 22% in Q3, and grew 5% in Q4. If they started the year at $1M monthly revenue, what was their revenue at the end of Q4?
+```
+
+### Constraint Setting
+
+Set clear boundaries:
+
+```
+Write a technical blog post about Kubernetes autoscaling.
+
+Constraints:
+- Target audience: mid-level developers
+- Length: 800-1000 words
+- Include at least 2 code examples
+- Avoid jargon without explanation
+- End with 3 actionable takeaways
+```
+
+## Common Mistakes
+
+1. **Being too vague** — "Write something about AI" gives you generic content
+2. **Not specifying format** — You'll get walls of text instead of structured output
+3. **Ignoring iteration** — The first response is a draft. Always refine.
+4. **Overcomplicating** — Sometimes a simple, clear prompt beats an elaborate one
+
+## Practice Exercise
+
+Try this prompt on your favorite AI model and compare the results:
+
+```
+I'm a freelance web developer building a portfolio site. Help me write the "About Me" section.
+
+About me:
+- 5 years experience
+- Specialize in React and Node.js
+- Based in Melbourne, Australia
+- Passionate about clean code and accessibility
+
+Requirements:
+- 150 words max
+- Professional but approachable tone
+- Include a subtle call-to-action
+- First person perspective
+```
+
+Prompt engineering is a skill that compounds. Each conversation teaches you what works and what doesn't. Start applying these patterns today.

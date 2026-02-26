@@ -1,0 +1,66 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+---
+
+<BaseLayout title="Newsletter" description="Subscribe to the SynthLab newsletter for weekly AI tutorials, tool reviews, and industry insights.">
+  <section class="max-w-xl mx-auto px-4 sm:px-6 lg:px-8 py-20 lg:py-28">
+    <div class="text-center mb-12">
+      <p class="label mb-4">Newsletter</p>
+      <h1 class="text-display mb-5">
+        Stay ahead of <span class="text-[var(--color-accent)]">AI</span>
+      </h1>
+      <p class="text-lg text-[var(--color-text-secondary)] leading-relaxed">
+        Weekly curated AI tutorials, tool reviews, and insights delivered straight to your inbox.
+      </p>
+    </div>
+
+    <!-- Newsletter Form -->
+    <div class="card p-8 sm:p-10 mb-12">
+      <form class="space-y-5">
+        <div>
+          <label for="email" class="block text-sm font-medium text-[var(--color-text-secondary)] mb-2">
+            Email address
+          </label>
+          <input
+            type="email"
+            id="email"
+            placeholder="you@example.com"
+            class="w-full px-4 py-3 rounded-lg bg-[var(--color-bg-warm)] border border-[var(--color-border)] text-[var(--color-text-primary)] placeholder:text-[var(--color-text-muted)] focus:outline-none focus:border-[var(--color-accent)] focus:ring-1 focus:ring-[var(--color-accent)] transition-all"
+          />
+        </div>
+        <button
+          type="submit"
+          class="w-full px-6 py-3 rounded-full bg-[var(--color-text-primary)] text-white font-medium hover:bg-[var(--color-text-secondary)] transition-colors"
+        >
+          Subscribe
+        </button>
+        <p class="text-xs text-[var(--color-text-muted)] text-center">
+          No spam. Unsubscribe anytime.
+        </p>
+      </form>
+    </div>
+
+    <!-- What you'll get -->
+    <div class="fade-in">
+      <p class="label text-center mb-6">What you'll get</p>
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div class="card-warm p-5 rounded-xl">
+          <div class="text-sm font-semibold text-[var(--color-accent)] mb-1">Tutorials</div>
+          <p class="text-sm text-[var(--color-text-secondary)]">Step-by-step guides on the latest AI tools and techniques.</p>
+        </div>
+        <div class="card-warm p-5 rounded-xl">
+          <div class="text-sm font-semibold text-[var(--color-sage)] mb-1">Tool Reviews</div>
+          <p class="text-sm text-[var(--color-text-secondary)]">Honest reviews of AI products and platforms.</p>
+        </div>
+        <div class="card-warm p-5 rounded-xl">
+          <div class="text-sm font-semibold text-[var(--color-clay)] mb-1">Industry News</div>
+          <p class="text-sm text-[var(--color-text-secondary)]">Curated AI news that matters, no noise.</p>
+        </div>
+        <div class="card-warm p-5 rounded-xl">
+          <div class="text-sm font-semibold text-[var(--color-text-primary)] mb-1">Free Resources</div>
+          <p class="text-sm text-[var(--color-text-secondary)]">Prompt libraries, cheat sheets, and templates.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

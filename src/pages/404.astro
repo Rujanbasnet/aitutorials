@@ -1,0 +1,18 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import Button from '@components/ui/Button.astro';
+---
+
+<BaseLayout title="404 - Not Found">
+  <section class="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 py-28 lg:py-36 text-center">
+    <div class="text-[8rem] leading-none text-[var(--color-accent)] opacity-20 mb-4" style="font-family: var(--font-display)">404</div>
+    <h1 class="text-title mb-4">Page not found</h1>
+    <p class="text-[var(--color-text-secondary)] mb-10 max-w-md mx-auto leading-relaxed">
+      The page you're looking for doesn't exist or has been moved. Let's get you back on track.
+    </p>
+    <div class="flex flex-wrap justify-center gap-3">
+      <Button href="/" variant="primary">Go Home</Button>
+      <Button href="/tutorials/" variant="secondary">Browse Tutorials</Button>
+    </div>
+  </section>
+</BaseLayout>

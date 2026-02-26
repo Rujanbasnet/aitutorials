@@ -1,0 +1,66 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import PostCard from '@components/content/PostCard.astro';
+import { getPublishedTutorials } from '@utils/collections';
+
+const tutorials = await getPublishedTutorials();
+const categories = ['all', 'prompt-engineering', 'ai-tools', 'automation', 'coding-with-ai', 'ai-agents', 'machine-learning'];
+---
+
+<BaseLayout title="AI Tutorials" description="Step-by-step AI tutorials from beginner to advanced. Learn prompt engineering, AI tools, automation, and more.">
+  <!-- Header with background image -->
+  <section class="relative overflow-hidden bg-warm">
+    <img
+      src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=1600&h=400&fit=crop&q=80"
+      alt=""
+      class="absolute inset-0 w-full h-full object-cover opacity-[0.06]"
+      loading="eager"
+      aria-hidden="true"
+    />
+    <div class="relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16 lg:py-20">
+      <p class="label mb-3">Learn</p>
+      <h1 class="text-title mb-3">AI Tutorials</h1>
+      <p class="text-lg text-[var(--color-text-secondary)] max-w-xl">
+        Step-by-step guides to master AI tools, prompt engineering, and automation. From beginner to advanced.
+      </p>
+    </div>
+  </section>
+
+  <section class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <!-- Category Filter -->
+    <div class="flex flex-wrap gap-2 mb-10">
+      {categories.map((cat) => (
+        <button
+          class="px-4 py-2 rounded-full text-sm font-medium border border-[var(--color-border)] text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)] hover:border-[var(--color-border-strong)] transition-all capitalize"
+          data-category={cat}
+        >
+          {cat === 'all' ? 'All' : cat.replace(/-/g, ' ')}
+        </button>
+      ))}
+    </div>
+
+    {tutorials.length > 0 ? (
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 stagger">
+        {tutorials.map((tutorial) => (
+          <div class="fade-in">
+            <PostCard
+              title={tutorial.data.title}
+              description={tutorial.data.description}
+              href={`/tutorials/${tutorial.id}/`}
+              pubDate={tutorial.data.pubDate}
+              tags={tutorial.data.tags}
+              difficulty={tutorial.data.difficulty}
+              image={tutorial.data.image}
+              body={tutorial.body || ''}
+            />
+          </div>
+        ))}
+      </div>
+    ) : (
+      <div class="card-warm p-16 text-center rounded-xl">
+        <h3 class="text-heading mb-2">Coming soon</h3>
+        <p class="text-[var(--color-text-secondary)]">Tutorials are being written. Check back soon or subscribe to get notified.</p>
+      </div>
+    )}
+  </section>
+</BaseLayout>

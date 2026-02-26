@@ -1,0 +1,143 @@
+---
+title: "Claude API Quickstart Guide"
+description: "Get up and running with the Anthropic Claude API in under 10 minutes. Covers authentication, first request, streaming, and tool use."
+pubDate: 2026-02-18
+author: "SynthLab"
+tags: ["claude", "developer-tools", "reference"]
+resourceType: "reference"
+draft: false
+---
+
+## Setup
+
+### 1. Get an API Key
+
+Sign up at [console.anthropic.com](https://console.anthropic.com) and create an API key.
+
+### 2. Install the SDK
+
+```bash
+# Python
+pip install anthropic
+
+# Node.js
+npm install @anthropic-ai/sdk
+```
+
+### 3. Set Your API Key
+
+```bash
+export ANTHROPIC_API_KEY="your-key-here"
+```
+
+## First Request
+
+### Python
+
+```python
+import anthropic
+
+client = anthropic.Anthropic()
+
+message = client.messages.create(
+    model="claude-sonnet-4-20250514",
+    max_tokens=1024,
+    messages=[
+        {"role": "user", "content": "What is machine learning in one paragraph?"}
+    ]
+)
+
+print(message.content[0].text)
+```
+
+### Node.js
+
+```javascript
+import Anthropic from '@anthropic-ai/sdk';
+
+const client = new Anthropic();
+
+const message = await client.messages.create({
+  model: 'claude-sonnet-4-20250514',
+  max_tokens: 1024,
+  messages: [
+    { role: 'user', content: 'What is machine learning in one paragraph?' }
+  ]
+});
+
+console.log(message.content[0].text);
+```
+
+## Streaming
+
+For real-time output:
+
+```python
+with client.messages.stream(
+    model="claude-sonnet-4-20250514",
+    max_tokens=1024,
+    messages=[{"role": "user", "content": "Explain neural networks"}]
+) as stream:
+    for text in stream.text_stream:
+        print(text, end="", flush=True)
+```
+
+## System Prompts
+
+Set behavior with system prompts:
+
+```python
+message = client.messages.create(
+    model="claude-sonnet-4-20250514",
+    max_tokens=1024,
+    system="You are a Python expert. Respond with code examples.",
+    messages=[
+        {"role": "user", "content": "How do I read a CSV file?"}
+    ]
+)
+```
+
+## Tool Use
+
+Give Claude access to functions:
+
+```python
+tools = [{
+    "name": "get_weather",
+    "description": "Get current weather for a location",
+    "input_schema": {
+        "type": "object",
+        "properties": {
+            "location": {"type": "string", "description": "City name"}
+        },
+        "required": ["location"]
+    }
+}]
+
+message = client.messages.create(
+    model="claude-sonnet-4-20250514",
+    max_tokens=1024,
+    tools=tools,
+    messages=[{"role": "user", "content": "What's the weather in Tokyo?"}]
+)
+```
+
+## Available Models
+
+| Model | Best For | Context |
+|-------|---------|---------|
+| claude-opus-4-20250514 | Most capable, complex tasks | 200K |
+| claude-sonnet-4-20250514 | Best balance of speed and quality | 200K |
+| claude-haiku-3-5-20241022 | Fastest, cheapest | 200K |
+
+## Rate Limits
+
+- **Free tier:** 40 requests/minute
+- **Build tier:** 1,000 requests/minute
+- **Scale tier:** Custom limits
+
+## Next Steps
+
+- Read the [full API documentation](https://docs.anthropic.com)
+- Try [extended thinking](https://docs.anthropic.com/en/docs/build-with-claude/extended-thinking) for complex reasoning
+- Explore [Claude Code](https://docs.anthropic.com/en/docs/claude-code) for agentic coding
