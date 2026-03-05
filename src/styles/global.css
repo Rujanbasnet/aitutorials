@@ -185,6 +185,13 @@ a { color: inherit; text-decoration: none; }
   color: var(--color-text-secondary);
 }
 
+/* ── Filter active state ─────────────────────────── */
+.filter-active {
+  background-color: var(--color-text-primary);
+  color: #fff;
+  border-color: var(--color-text-primary);
+}
+
 /* ── Badge variants ──────────────────────────────── */
 .badge-beginner     { background: var(--color-sage-soft); color: var(--color-sage); }
 .badge-intermediate { background: var(--color-accent-soft); color: var(--color-accent-hover); }
@@ -275,6 +282,19 @@ code { font-family: var(--font-mono); font-size: 0.88em; }
   animation: morph 25s ease-in-out infinite;
   filter: blur(80px);
   opacity: 0.35;
+}
+
+/* ── Pagefind UI overrides ───────────────────────── */
+.pagefind-ui {
+  --pagefind-ui-scale: 0.9;
+  --pagefind-ui-primary: var(--color-accent);
+  --pagefind-ui-text: var(--color-text-primary);
+  --pagefind-ui-background: var(--color-bg-card);
+  --pagefind-ui-border: var(--color-border);
+  --pagefind-ui-tag: var(--color-bg-warm);
+  --pagefind-ui-border-width: 1px;
+  --pagefind-ui-border-radius: 8px;
+  --pagefind-ui-font: var(--font-body);
 }
 
 /* ── Section number markers ──────────────────────── */

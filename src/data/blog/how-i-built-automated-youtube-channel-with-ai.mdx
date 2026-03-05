@@ -1,0 +1,125 @@
+---
+title: "How I Built a Fully Automated YouTube Channel with AI (No Coding Background)"
+description: "From zero coding experience to 29 published videos — here's exactly how I built an automated YouTube Shorts pipeline using Claude, ElevenLabs, HeyGen, and FFmpeg."
+pubDate: 2026-03-05
+author: "AI Tutorials"
+tags: ["automation", "ai-tools", "case-study", "youtube"]
+category: "case-study"
+draft: false
+---
+
+## The Goal
+
+I wanted to run a YouTube channel that publishes meditation Shorts consistently — without manually editing every video. The problem: I have zero coding background. No Python, no video editing experience, no API knowledge.
+
+The channel is called **Flickpause**. It publishes guided meditation Shorts featuring AI-generated voices, music, and avatar presenters. Every step from script to upload is automated.
+
+Here's how I built it, what it costs, and what I've learned after 29 published videos.
+
+## The Pipeline
+
+Each video flows through seven automated steps:
+
+1. **Script Generation** — Claude writes the meditation script using a master prompt that includes style guidelines, format rules, and performance learnings from analytics
+2. **Voice Generation** — ElevenLabs V3 converts the script to natural speech with word-level timestamps
+3. **Music & SFX** — ElevenLabs generates ambient background music and nature sound effects
+4. **Avatar Video** — HeyGen creates a video of a photorealistic avatar speaking the script, lip-synced to the audio
+5. **Captions** — A Python script builds animated karaoke-style captions (ASS format) synced to each word
+6. **Assembly** — FFmpeg combines avatar video, voice, music, SFX, and captions into the final video
+7. **Upload** — The YouTube Data API uploads the video with title, description, tags, and thumbnail
+
+Each script is a standalone Python file. I run them in sequence — one command per step. The whole pipeline from script to published video takes about 10 minutes of hands-on time, with most of that being wait time for HeyGen to render the avatar.
+
+## Cost Breakdown
+
+This was one of my biggest concerns going in. Here's what each Short actually costs:
+
+| Component | Cost |
+|-----------|------|
+| ElevenLabs voice | ~$0.30 |
+| ElevenLabs music | ~$0.10 |
+| ElevenLabs SFX | ~$0.05 |
+| HeyGen avatar | ~$0.85 |
+| **Total per Short** | **~$1.30** |
+
+Claude (for script writing) is covered by my existing subscription. YouTube hosting and upload is free.
+
+At $1.30 per video, I can publish daily for under $40/month. That's cheaper than most stock footage subscriptions.
+
+## The Analytics Self-Improvement Loop
+
+This is the part I'm most proud of. The pipeline doesn't just create videos — it learns from how they perform.
+
+I built two additional scripts:
+
+- **youtube_analytics.py** — Pulls performance data for all published videos (views, watch time, retention rates, click-through rates)
+- **analytics_improve.py** — Analyzes the data, identifies what's working and what isn't, then automatically updates the master script prompt with performance learnings
+
+So when Claude writes the next script, it already knows which formats retain viewers and which don't. The prompt evolves based on real data, not guesswork.
+
+I run these weekly. It takes about 30 seconds.
+
+## Results So Far
+
+After 29 published videos, here's what the data shows:
+
+**Best performing categories:**
+- **Micro-Meditation** — 195.9% average retention (viewers replay these)
+- **Body Wake-Up** — 177.9% retention, 912 average views
+- **Guided Micro-Breathwork** — 849 average views
+
+**Top individual videos:**
+- "Wakeup" — 1,676 views
+- "Subtle Focus" — 1,671 views
+
+**What doesn't work:**
+- **Wisdom Drop** format — 49.4% retention. Long philosophical narration loses people fast on Shorts. The analytics loop caught this early and the prompt now deprioritizes this style.
+
+The retention numbers above 100% mean viewers are watching the Short more than once — they're replaying it. That's the metric I'm optimizing for.
+
+## What I Learned
+
+### AI tools are mature enough for production
+
+This isn't a proof of concept. It's a real pipeline producing real content that real people watch. ElevenLabs voices sound natural. HeyGen avatars look convincing. Claude writes scripts that match the tone I want. A year ago this wouldn't have been possible at this quality level.
+
+### The hardest part wasn't coding — it was debugging
+
+I built this pipeline with Claude Code as my coding partner. I described what I wanted, it wrote the Python, I tested it. The actual coding was the easy part.
+
+The hard part was debugging integration issues. ElevenLabs V3 developed a Japanese accent when the text contained blank lines. HeyGen's API would silently fail if the audio was too long. YouTube's OAuth tokens expire and need refreshing. Each of these took hours to figure out.
+
+### Data-driven improvement actually works
+
+Before the analytics loop, I was guessing which formats worked. After implementing it, the data was clear: short, action-oriented formats (breathwork, body scans) crush philosophical monologues. The prompt now reflects this and quality has improved noticeably.
+
+### Cost scales linearly
+
+There are no hidden scaling costs. Want 10 videos? That's $13. Want 100? That's $130. The pipeline doesn't care how many you run — each video costs the same $1.30. This makes planning straightforward.
+
+### You don't need to code to build with AI
+
+I want to be clear about this: I had no programming background when I started this project. Every Python script was written by Claude Code. I described what I needed in plain English and iterated on the results. Understanding *what* you want to build is more valuable than knowing *how* to code it.
+
+## What's Next
+
+The Shorts pipeline is stable and running. Here's what's coming:
+
+- **Long-form content** — 5-minute guided meditation videos with new characters and deeper sessions. The pipeline scripts are already built; I'm creating the avatar characters in Midjourney now.
+- **TikTok and Instagram** — Cross-posting to reach audiences beyond YouTube. Same content, different platforms.
+- **New characters** — Four new avatar characters designed for the long-form format, each with a distinct visual style and voice.
+
+## Try It Yourself
+
+If you're thinking about building something similar, here's my advice:
+
+1. **Start with the simplest possible version.** My first video was assembled manually. Only automate once you know what works.
+2. **Use Claude Code (or a similar AI coding agent) as your developer.** Describe what you want. Test the output. Iterate.
+3. **Build the analytics loop early.** Don't wait until you have 100 videos to start measuring. Data from even 10 videos will change your approach.
+4. **Budget for API costs.** Know your per-unit cost before you scale. Mine is $1.30/video — acceptable for my goals.
+
+The barrier to automated content isn't coding ability anymore. It's having a clear idea of what you want to create and the patience to debug the integrations.
+
+---
+
+*This article is part of my building-in-public series. I'll keep sharing what I learn as the channel grows. Subscribe to the newsletter if you want updates.*

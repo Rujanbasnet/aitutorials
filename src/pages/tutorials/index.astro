@@ -28,11 +28,16 @@ const categories = ['all', 'prompt-engineering', 'ai-tools', 'automation', 'codi
 
   <section class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
     <!-- Category Filter -->
-    <div class="flex flex-wrap gap-2 mb-10">
+    <div class="flex flex-wrap gap-2 mb-10" id="filter-bar">
       {categories.map((cat) => (
         <button
-          class="px-4 py-2 rounded-full text-sm font-medium border border-[var(--color-border)] text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)] hover:border-[var(--color-border-strong)] transition-all capitalize"
-          data-category={cat}
+          class:list={[
+            'px-4 py-2 rounded-full text-sm font-medium border transition-all capitalize',
+            cat === 'all'
+              ? 'filter-active'
+              : 'border-[var(--color-border)] text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)] hover:border-[var(--color-border-strong)]',
+          ]}
+          data-filter={cat}
         >
           {cat === 'all' ? 'All' : cat.replace(/-/g, ' ')}
         </button>
@@ -40,9 +45,9 @@ const categories = ['all', 'prompt-engineering', 'ai-tools', 'automation', 'codi
     </div>
 
     {tutorials.length > 0 ? (
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 stagger">
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 stagger" id="tutorial-grid">
         {tutorials.map((tutorial) => (
-          <div class="fade-in">
+          <div class="fade-in" data-category={tutorial.data.category}>
             <PostCard
               title={tutorial.data.title}
               description={tutorial.data.description}
@@ -63,4 +68,25 @@ const categories = ['all', 'prompt-engineering', 'ai-tools', 'automation', 'codi
       </div>
     )}
   </section>
+
+  <script>
+    const buttons = document.querySelectorAll<HTMLButtonElement>('#filter-bar [data-filter]');
+    const cards = document.querySelectorAll<HTMLElement>('#tutorial-grid [data-category]');
+
+    buttons.forEach((btn) => {
+      btn.addEventListener('click', () => {
+        buttons.forEach((b) => b.classList.remove('filter-active'));
+        btn.classList.add('filter-active');
+
+        const filter = btn.dataset.filter;
+        cards.forEach((card) => {
+          if (filter === 'all' || card.dataset.category === filter) {
+            card.style.display = '';
+          } else {
+            card.style.display = 'none';
+          }
+        });
+      });
+    });
+  </script>
 </BaseLayout>

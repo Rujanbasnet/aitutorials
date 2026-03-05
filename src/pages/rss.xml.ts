@@ -16,7 +16,7 @@ export async function GET(context: APIContext) {
   ].sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
 
   return rss({
-    title: 'SynthLab',
+    title: 'AI Tutorials',
     description: 'Learn AI, build with AI, ship faster. Tutorials, news, and tools for the AI era.',
     site: context.site!.toString(),
     items: allItems.map((item) => ({

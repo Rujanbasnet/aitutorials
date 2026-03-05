@@ -5,8 +5,7 @@ import sitemap from '@astrojs/sitemap';
 import tailwindcss from '@tailwindcss/vite';
 
 export default defineConfig({
-  site: 'https://rujanbasnet.github.io',
-  base: '/aitutorials',
+  site: 'https://aitutorials.com.au',
   output: 'static',
   integrations: [
     mdx(),

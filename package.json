@@ -1,10 +1,10 @@
 {
-  "name": "synthlab",
+  "name": "aitutorials",
   "type": "module",
   "version": "0.0.1",
   "scripts": {
     "dev": "astro dev",
-    "build": "astro build",
+    "build": "astro build && npx pagefind --site dist",
     "preview": "astro preview",
     "astro": "astro"
   },
@@ -16,5 +16,8 @@
     "astro": "^5.18.0",
     "tailwindcss": "^4.2.1",
     "typescript": "^5.9.3"
+  },
+  "devDependencies": {
+    "pagefind": "^1.4.0"
   }
 }

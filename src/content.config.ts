@@ -7,7 +7,7 @@ const baseSchema = z.object({
   description: z.string(),
   pubDate: z.coerce.date(),
   updatedDate: z.coerce.date().optional(),
-  author: z.string().default('SynthLab'),
+  author: z.string().default('AI Tutorials'),
   image: z.string().optional(),
   imageAlt: z.string().optional(),
   tags: z.array(z.string()).default([]),

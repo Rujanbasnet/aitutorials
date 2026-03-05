@@ -2,7 +2,7 @@
 import BaseLayout from '@layouts/BaseLayout.astro';
 ---
 
-<BaseLayout title="Newsletter" description="Subscribe to the SynthLab newsletter for weekly AI tutorials, tool reviews, and industry insights.">
+<BaseLayout title="Newsletter" description="Subscribe to the AI Tutorials newsletter for weekly AI tutorials, tool reviews, and industry insights.">
   <section class="max-w-xl mx-auto px-4 sm:px-6 lg:px-8 py-20 lg:py-28">
     <div class="text-center mb-12">
       <p class="label mb-4">Newsletter</p>
@@ -63,4 +63,22 @@ import BaseLayout from '@layouts/BaseLayout.astro';
       </div>
     </div>
   </section>
+
+  <script>
+    const form = document.querySelector('.card form');
+    if (form) {
+      form.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const card = form.closest('.card')!;
+        card.innerHTML = `
+          <div class="text-center py-6">
+            <p class="text-heading mb-3" style="font-family: var(--font-display)">Coming soon</p>
+            <p class="text-sm text-[var(--color-text-secondary)]">
+              The newsletter isn't live yet. Check back soon — we'll be launching shortly.
+            </p>
+          </div>
+        `;
+      });
+    }
+  </script>
 </BaseLayout>

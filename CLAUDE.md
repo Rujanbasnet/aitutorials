@@ -1,4 +1,4 @@
-# SynthLab — Project CLAUDE.md
+# AI Tutorials — Project CLAUDE.md
 
 ## Overview
 AI learning platform built with Astro 5, Tailwind CSS v4, and MDX.

@@ -1,0 +1,84 @@
+<!-- Search modal powered by Pagefind -->
+<button
+  id="search-trigger"
+  class="p-2 rounded-lg text-[var(--color-text-muted)] hover:text-[var(--color-text-primary)] transition-colors"
+  aria-label="Search"
+>
+  <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+    <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
+  </svg>
+</button>
+
+<div id="search-overlay" class="fixed inset-0 z-[100] hidden">
+  <div class="absolute inset-0 bg-black/40 backdrop-blur-sm" id="search-backdrop"></div>
+  <div class="relative max-w-2xl mx-auto mt-[15vh] px-4">
+    <div class="bg-[var(--color-bg-card)] rounded-xl border border-[var(--color-border)] shadow-2xl overflow-hidden">
+      <div id="search-container" class="p-4"></div>
+    </div>
+  </div>
+</div>
+
+<script is:inline>
+  (function() {
+    var trigger = document.getElementById('search-trigger');
+    var overlay = document.getElementById('search-overlay');
+    var backdrop = document.getElementById('search-backdrop');
+    var container = document.getElementById('search-container');
+    var loaded = false;
+
+    function loadScript(src) {
+      return new Promise(function(resolve, reject) {
+        var s = document.createElement('script');
+        s.src = src;
+        s.onload = resolve;
+        s.onerror = reject;
+        document.head.appendChild(s);
+      });
+    }
+
+    function openSearch() {
+      overlay.classList.remove('hidden');
+      document.body.style.overflow = 'hidden';
+
+      if (!loaded) {
+        var link = document.createElement('link');
+        link.rel = 'stylesheet';
+        link.href = '/pagefind/pagefind-ui.css';
+        document.head.appendChild(link);
+
+        loadScript('/pagefind/pagefind-ui.js').then(function() {
+          new PagefindUI({
+            element: container,
+            showSubResults: true,
+            showImages: false,
+          });
+          loaded = true;
+          setTimeout(function() {
+            var input = container.querySelector('input');
+            if (input) input.focus();
+          }, 100);
+        });
+      } else {
+        setTimeout(function() {
+          var input = container.querySelector('input');
+          if (input) input.focus();
+        }, 100);
+      }
+    }
+
+    function closeSearch() {
+      overlay.classList.add('hidden');
+      document.body.style.overflow = '';
+    }
+
+    trigger.addEventListener('click', openSearch);
+    backdrop.addEventListener('click', closeSearch);
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape' && !overlay.classList.contains('hidden')) closeSearch();
+      if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+        e.preventDefault();
+        overlay.classList.contains('hidden') ? openSearch() : closeSearch();
+      }
+    });
+  })();
+</script>
