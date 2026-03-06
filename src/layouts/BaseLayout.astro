@@ -8,6 +8,8 @@ interface Props {
   description?: string;
   image?: string;
   type?: 'website' | 'article';
+  pubDate?: Date;
+  author?: string;
 }
 
 const {
@@ -15,6 +17,8 @@ const {
   description = 'Learn AI, build with AI, ship faster. Tutorials, news, and tools for the AI era.',
   image = '/images/brand/og-default.png',
   type = 'website',
+  pubDate,
+  author,
 } = Astro.props;
 
 const canonicalUrl = new URL(Astro.url.pathname, Astro.site);
@@ -43,6 +47,21 @@ const fullTitle = title === 'AI Tutorials' ? title : `${title} | AI Tutorials`;
     <meta name="twitter:title" content={fullTitle} />
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={new URL(image, Astro.site)} />
+
+    {type === 'article' && pubDate && (
+      <meta property="article:published_time" content={pubDate.toISOString()} />
+    )}
+    {type === 'article' && author && (
+      <meta property="article:author" content={author} />
+    )}
+
+    <script type="application/ld+json" set:html={JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "AI Tutorials",
+      "url": "https://aitutorials.com.au",
+      "description": description,
+    })} />
 
     <!-- Fonts: Instrument Serif (display) + Inter (body) + JetBrains Mono (code) -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
