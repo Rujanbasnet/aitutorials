@@ -117,16 +117,63 @@ const difficultyClass: Record<string, string> = {
       <div class="card-warm p-8 sm:p-10 text-center rounded-xl">
         <h3 class="text-heading mb-3">Enjoyed this article?</h3>
         <p class="text-[var(--color-text-secondary)] mb-6 max-w-md mx-auto">Subscribe for more AI insights delivered to your inbox every week.</p>
-        <a
-          href="/newsletter/"
-          class="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-[var(--color-text-primary)] text-white font-medium hover:bg-[var(--color-text-secondary)] transition-colors"
+        <form
+          id="article-newsletter-form"
+          method="POST"
+          action="https://b4556b17.sibforms.com/serve/MUIFAHjyU7YMpzSHJctCG76TeifU-zeadE5xjY7m1BVB8OAp92-d_PQhCoOWQEOmk4MS7WNag_cREDOfr2gD_9admQ-lmt1YRRSin829IqgP-7m6OgZ0UjrDdasmFSz8flCQlk8y_YBI-lKiQQ9qqxWgkhUmBJsqzUenQVwYH8PQvtI1fDVLICJxRSqP5KofXY00WORK9nXSGAsqiQ=="
+          class="max-w-md mx-auto"
         >
-          Subscribe to Newsletter
-          <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
-          </svg>
-        </a>
+          <div class="flex flex-col sm:flex-row gap-3">
+            <input
+              type="email"
+              name="EMAIL"
+              required
+              placeholder="you@example.com"
+              class="flex-1 px-4 py-3 rounded-full bg-[var(--color-bg-primary)] border border-[var(--color-border)] text-[var(--color-text-primary)] placeholder:text-[var(--color-text-muted)] focus:outline-none focus:border-[var(--color-accent)] focus:ring-1 focus:ring-[var(--color-accent)] transition-all text-sm"
+            />
+            <button
+              type="submit"
+              class="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-full bg-[var(--color-text-primary)] text-white font-medium hover:bg-[var(--color-text-secondary)] transition-colors text-sm whitespace-nowrap"
+            >
+              Subscribe
+              <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
+              </svg>
+            </button>
+          </div>
+          <div style="position: absolute; left: -5000px;" aria-hidden="true">
+            <input type="text" name="email_address_check" value="" tabindex="-1" autocomplete="off" />
+          </div>
+          <input type="hidden" name="locale" value="en" />
+          <p class="text-xs text-[var(--color-text-muted)] mt-3">No spam. Unsubscribe anytime.</p>
+        </form>
+        <div id="article-newsletter-success" style="display:none;">
+          <p class="text-heading mb-2" style="font-family: var(--font-display)">You're in!</p>
+          <p class="text-sm text-[var(--color-text-secondary)]">Check your inbox to confirm.</p>
+        </div>
       </div>
     </div>
+
+    <script is:inline>
+      const artForm = document.getElementById('article-newsletter-form');
+      if (artForm) {
+        artForm.addEventListener('submit', async (e) => {
+          e.preventDefault();
+          const formData = new FormData(artForm);
+          const btn = artForm.querySelector('button[type="submit"]');
+          const originalHTML = btn.innerHTML;
+          btn.textContent = 'Subscribing...';
+          btn.disabled = true;
+          try {
+            await fetch(artForm.action, { method: 'POST', body: formData, mode: 'no-cors' });
+            artForm.style.display = 'none';
+            document.getElementById('article-newsletter-success').style.display = 'block';
+          } catch (err) {
+            btn.innerHTML = originalHTML;
+            btn.disabled = false;
+          }
+        });
+      }
+    </script>
   </article>
 </BaseLayout>

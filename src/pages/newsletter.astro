@@ -16,18 +16,30 @@ import BaseLayout from '@layouts/BaseLayout.astro';
 
     <!-- Newsletter Form -->
     <div class="card p-8 sm:p-10 mb-12">
-      <form class="space-y-5">
+      <form
+        id="newsletter-form"
+        method="POST"
+        action="https://b4556b17.sibforms.com/serve/MUIFAHjyU7YMpzSHJctCG76TeifU-zeadE5xjY7m1BVB8OAp92-d_PQhCoOWQEOmk4MS7WNag_cREDOfr2gD_9admQ-lmt1YRRSin829IqgP-7m6OgZ0UjrDdasmFSz8flCQlk8y_YBI-lKiQQ9qqxWgkhUmBJsqzUenQVwYH8PQvtI1fDVLICJxRSqP5KofXY00WORK9nXSGAsqiQ=="
+        class="space-y-5"
+      >
         <div>
-          <label for="email" class="block text-sm font-medium text-[var(--color-text-secondary)] mb-2">
+          <label for="EMAIL" class="block text-sm font-medium text-[var(--color-text-secondary)] mb-2">
             Email address
           </label>
           <input
             type="email"
-            id="email"
+            id="EMAIL"
+            name="EMAIL"
+            required
             placeholder="you@example.com"
             class="w-full px-4 py-3 rounded-lg bg-[var(--color-bg-warm)] border border-[var(--color-border)] text-[var(--color-text-primary)] placeholder:text-[var(--color-text-muted)] focus:outline-none focus:border-[var(--color-accent)] focus:ring-1 focus:ring-[var(--color-accent)] transition-all"
           />
         </div>
+        <!-- Honeypot anti-spam field -->
+        <div style="position: absolute; left: -5000px;" aria-hidden="true">
+          <input type="text" name="email_address_check" value="" tabindex="-1" autocomplete="off" />
+        </div>
+        <input type="hidden" name="locale" value="en" />
         <button
           type="submit"
           class="w-full px-6 py-3 rounded-full bg-[var(--color-text-primary)] text-white font-medium hover:bg-[var(--color-text-secondary)] transition-colors"
@@ -38,6 +50,13 @@ import BaseLayout from '@layouts/BaseLayout.astro';
           No spam. Unsubscribe anytime.
         </p>
       </form>
+      <!-- Success message (hidden by default) -->
+      <div id="newsletter-success" class="hidden text-center py-6">
+        <p class="text-heading mb-3" style="font-family: var(--font-display)">You're in!</p>
+        <p class="text-sm text-[var(--color-text-secondary)]">
+          Check your inbox to confirm your subscription.
+        </p>
+      </div>
     </div>
 
     <!-- What you'll get -->
@@ -64,20 +83,30 @@ import BaseLayout from '@layouts/BaseLayout.astro';
     </div>
   </section>
 
-  <script>
-    const form = document.querySelector('.card form');
+  <script is:inline>
+    const form = document.getElementById('newsletter-form');
     if (form) {
-      form.addEventListener('submit', (e) => {
+      form.addEventListener('submit', async (e) => {
         e.preventDefault();
-        const card = form.closest('.card')!;
-        card.innerHTML = `
-          <div class="text-center py-6">
-            <p class="text-heading mb-3" style="font-family: var(--font-display)">Coming soon</p>
-            <p class="text-sm text-[var(--color-text-secondary)]">
-              The newsletter isn't live yet. Check back soon — we'll be launching shortly.
-            </p>
-          </div>
-        `;
+        const formData = new FormData(form);
+        const btn = form.querySelector('button[type="submit"]');
+        const originalText = btn.textContent;
+        btn.textContent = 'Subscribing...';
+        btn.disabled = true;
+
+        try {
+          await fetch(form.action, {
+            method: 'POST',
+            body: formData,
+            mode: 'no-cors',
+          });
+          form.classList.add('hidden');
+          document.getElementById('newsletter-success').classList.remove('hidden');
+        } catch (err) {
+          btn.textContent = originalText;
+          btn.disabled = false;
+          alert('Something went wrong. Please try again.');
+        }
       });
     }
   </script>
