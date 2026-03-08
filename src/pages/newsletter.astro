@@ -2,86 +2,602 @@
 import BaseLayout from '@layouts/BaseLayout.astro';
 ---
 
-<BaseLayout title="Newsletter" description="Subscribe to the AI Tutorials newsletter for weekly AI tutorials, tool reviews, and industry insights.">
-  <section class="max-w-xl mx-auto px-4 sm:px-6 lg:px-8 py-20 lg:py-28">
-    <div class="text-center mb-12">
-      <p class="label mb-4">Newsletter</p>
-      <h1 class="text-display mb-5">
-        Stay ahead of <span class="text-[var(--color-accent)]">AI</span>
+<BaseLayout title="Newsletter — AI Tutorials" description="Join the AI Tutorials newsletter. Weekly tutorials, tool reviews, prompt libraries, and industry insights delivered to your inbox.">
+
+  <!-- Hero -->
+  <section class="nl-hero">
+    <div class="nl-hero__inner">
+      <div class="nl-hero__badge">
+        <span class="nl-hero__badge-dot"></span>
+        Free weekly newsletter
+      </div>
+      <h1 class="nl-hero__title">
+        Your weekly edge<br/>in <span class="nl-hero__accent">AI</span>
       </h1>
-      <p class="text-lg text-[var(--color-text-secondary)] leading-relaxed">
-        Weekly curated AI tutorials, tool reviews, and insights delivered straight to your inbox.
+      <p class="nl-hero__subtitle">
+        Every Tuesday, we break down the AI tools, techniques, and news that
+        actually matter — so you can skip the noise and stay ahead.
+      </p>
+
+      <!-- Form card -->
+      <div class="nl-form-card">
+        <form
+          id="newsletter-form"
+          method="POST"
+          action="https://b4556b17.sibforms.com/serve/MUIFAHjyU7YMpzSHJctCG76TeifU-zeadE5xjY7m1BVB8OAp92-d_PQhCoOWQEOmk4MS7WNag_cREDOfr2gD_9admQ-lmt1YRRSin829IqgP-7m6OgZ0UjrDdasmFSz8flCQlk8y_YBI-lKiQQ9qqxWgkhUmBJsqzUenQVwYH8PQvtI1fDVLICJxRSqP5KofXY00WORK9nXSGAsqiQ=="
+        >
+          <div class="nl-form__fields">
+            <div class="nl-form__field">
+              <label for="FNAME" class="nl-form__label">First name</label>
+              <input
+                type="text"
+                id="FNAME"
+                name="FNAME"
+                placeholder="Your first name"
+                class="nl-form__input"
+              />
+            </div>
+            <div class="nl-form__field">
+              <label for="EMAIL" class="nl-form__label">Email address <span class="nl-form__req">*</span></label>
+              <input
+                type="email"
+                id="EMAIL"
+                name="EMAIL"
+                required
+                placeholder="you@example.com"
+                class="nl-form__input"
+              />
+            </div>
+          </div>
+          <!-- Honeypot -->
+          <div style="position: absolute; left: -5000px;" aria-hidden="true">
+            <input type="text" name="email_address_check" value="" tabindex="-1" autocomplete="off" />
+          </div>
+          <input type="hidden" name="locale" value="en" />
+          <button type="submit" class="nl-form__btn">
+            Subscribe — it's free
+            <svg class="nl-form__btn-arrow" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
+            </svg>
+          </button>
+          <p class="nl-form__fine">
+            <svg class="nl-form__lock" viewBox="0 0 16 16" fill="currentColor"><path d="M8 1a4 4 0 0 0-4 4v2H3a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1V8a1 1 0 0 0-1-1h-1V5a4 4 0 0 0-4-4zm2.5 6h-5V5a2.5 2.5 0 1 1 5 0v2z"/></svg>
+            No spam, ever. Unsubscribe in one click.
+          </p>
+        </form>
+        <!-- Success -->
+        <div id="newsletter-success" class="nl-success hidden">
+          <div class="nl-success__icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 1 1-18 0 9 9 0 0 1 18 0z"/></svg>
+          </div>
+          <p class="nl-success__title">You're in!</p>
+          <p class="nl-success__text">Check your inbox to confirm your subscription. Welcome to the community.</p>
+        </div>
+      </div>
+
+      <p class="nl-hero__proof">
+        Trusted by developers, designers, and AI enthusiasts across Australia and beyond.
       </p>
     </div>
+  </section>
 
-    <!-- Newsletter Form -->
-    <div class="card p-8 sm:p-10 mb-12">
-      <form
-        id="newsletter-form"
-        method="POST"
-        action="https://b4556b17.sibforms.com/serve/MUIFAHjyU7YMpzSHJctCG76TeifU-zeadE5xjY7m1BVB8OAp92-d_PQhCoOWQEOmk4MS7WNag_cREDOfr2gD_9admQ-lmt1YRRSin829IqgP-7m6OgZ0UjrDdasmFSz8flCQlk8y_YBI-lKiQQ9qqxWgkhUmBJsqzUenQVwYH8PQvtI1fDVLICJxRSqP5KofXY00WORK9nXSGAsqiQ=="
-        class="space-y-5"
-      >
-        <div>
-          <label for="EMAIL" class="block text-sm font-medium text-[var(--color-text-secondary)] mb-2">
-            Email address
-          </label>
-          <input
-            type="email"
-            id="EMAIL"
-            name="EMAIL"
-            required
-            placeholder="you@example.com"
-            class="w-full px-4 py-3 rounded-lg bg-[var(--color-bg-warm)] border border-[var(--color-border)] text-[var(--color-text-primary)] placeholder:text-[var(--color-text-muted)] focus:outline-none focus:border-[var(--color-accent)] focus:ring-1 focus:ring-[var(--color-accent)] transition-all"
-          />
-        </div>
-        <!-- Honeypot anti-spam field -->
-        <div style="position: absolute; left: -5000px;" aria-hidden="true">
-          <input type="text" name="email_address_check" value="" tabindex="-1" autocomplete="off" />
-        </div>
-        <input type="hidden" name="locale" value="en" />
-        <button
-          type="submit"
-          class="w-full px-6 py-3 rounded-full bg-[var(--color-text-primary)] text-white font-medium hover:bg-[var(--color-text-secondary)] transition-colors"
-        >
-          Subscribe
-        </button>
-        <p class="text-xs text-[var(--color-text-muted)] text-center">
-          No spam. Unsubscribe anytime.
-        </p>
-      </form>
-      <!-- Success message (hidden by default) -->
-      <div id="newsletter-success" class="hidden text-center py-6">
-        <p class="text-heading mb-3" style="font-family: var(--font-display)">You're in!</p>
-        <p class="text-sm text-[var(--color-text-secondary)]">
-          Check your inbox to confirm your subscription.
-        </p>
-      </div>
-    </div>
+  <!-- What you'll get -->
+  <section class="nl-features">
+    <div class="nl-features__inner">
+      <p class="label text-center mb-3">What's inside every issue</p>
+      <h2 class="nl-features__heading">Everything you need to keep up with AI</h2>
 
-    <!-- What you'll get -->
-    <div class="fade-in">
-      <p class="label text-center mb-6">What you'll get</p>
-      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-        <div class="card-warm p-5 rounded-xl">
-          <div class="text-sm font-semibold text-[var(--color-accent)] mb-1">Tutorials</div>
-          <p class="text-sm text-[var(--color-text-secondary)]">Step-by-step guides on the latest AI tools and techniques.</p>
+      <div class="nl-features__grid">
+        <div class="nl-feature">
+          <div class="nl-feature__icon nl-feature__icon--amber">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M4.26 10.147a60.438 60.438 0 0 0-.491 6.347A48.62 48.62 0 0 1 12 20.904a48.62 48.62 0 0 1 8.232-4.41 60.46 60.46 0 0 0-.491-6.347m-15.482 0a50.636 50.636 0 0 0-2.658-.813A59.906 59.906 0 0 1 12 3.493a59.903 59.903 0 0 1 10.399 5.84c-.896.248-1.783.52-2.658.814m-15.482 0A50.717 50.717 0 0 1 12 13.489a50.702 50.702 0 0 1 7.74-3.342M6.75 15a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5zm0 0v-3.675A55.378 55.378 0 0 1 12 8.443m-7.007 11.55A5.981 5.981 0 0 0 6.75 15.75v-1.5"/></svg>
+          </div>
+          <h3 class="nl-feature__title">Step-by-step tutorials</h3>
+          <p class="nl-feature__desc">Practical guides that walk you through real AI workflows — from beginner prompts to advanced automation chains.</p>
         </div>
-        <div class="card-warm p-5 rounded-xl">
-          <div class="text-sm font-semibold text-[var(--color-sage)] mb-1">Tool Reviews</div>
-          <p class="text-sm text-[var(--color-text-secondary)]">Honest reviews of AI products and platforms.</p>
+
+        <div class="nl-feature">
+          <div class="nl-feature__icon nl-feature__icon--sage">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M11.42 15.17l-5.657-5.657m12.727 0l-5.657 5.657M12 12h.008v.008H12V12zm-8.485 2.828a8 8 0 1 1 11.314-11.313 8 8 0 0 1-11.314 11.313z"/></svg>
+          </div>
+          <h3 class="nl-feature__title">Honest tool reviews</h3>
+          <p class="nl-feature__desc">We test every tool before recommending it. No sponsored fluff — just real opinions on what's worth your time and money.</p>
         </div>
-        <div class="card-warm p-5 rounded-xl">
-          <div class="text-sm font-semibold text-[var(--color-clay)] mb-1">Industry News</div>
-          <p class="text-sm text-[var(--color-text-secondary)]">Curated AI news that matters, no noise.</p>
+
+        <div class="nl-feature">
+          <div class="nl-feature__icon nl-feature__icon--clay">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M12 7.5h1.5m-1.5 3h1.5m-7.5 3h7.5m-7.5 3h7.5m3-9h3.375c.621 0 1.125.504 1.125 1.125V18a2.25 2.25 0 0 1-2.25 2.25M16.5 7.5V18a2.25 2.25 0 0 0 2.25 2.25M16.5 7.5V4.875c0-.621-.504-1.125-1.125-1.125H4.125C3.504 3.75 3 4.254 3 4.875V18a2.25 2.25 0 0 0 2.25 2.25h13.5M6 7.5h3v3H6v-3z"/></svg>
+          </div>
+          <h3 class="nl-feature__title">Curated AI news</h3>
+          <p class="nl-feature__desc">The top 3-5 AI stories of the week, summarised and explained. No hype, no clickbait — just signal.</p>
         </div>
-        <div class="card-warm p-5 rounded-xl">
-          <div class="text-sm font-semibold text-[var(--color-text-primary)] mb-1">Free Resources</div>
-          <p class="text-sm text-[var(--color-text-secondary)]">Prompt libraries, cheat sheets, and templates.</p>
+
+        <div class="nl-feature">
+          <div class="nl-feature__icon nl-feature__icon--dark">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 0 0-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 0 0 3.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 0 0 3.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 0 0-3.09 3.09zM18.259 8.715L18 9.75l-.259-1.035a3.375 3.375 0 0 0-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 0 0 2.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 0 0 2.455 2.456L21.75 6l-1.036.259a3.375 3.375 0 0 0-2.455 2.456zM16.894 20.567L16.5 21.75l-.394-1.183a2.25 2.25 0 0 0-1.423-1.423L13.5 18.75l1.183-.394a2.25 2.25 0 0 0 1.423-1.423l.394-1.183.394 1.183a2.25 2.25 0 0 0 1.423 1.423l1.183.394-1.183.394a2.25 2.25 0 0 0-1.423 1.423z"/></svg>
+          </div>
+          <h3 class="nl-feature__title">Free resources</h3>
+          <p class="nl-feature__desc">Prompt libraries, cheat sheets, workflow templates, and exclusive guides you won't find on the website.</p>
         </div>
       </div>
     </div>
   </section>
+
+  <!-- Sample issue preview -->
+  <section class="nl-preview">
+    <div class="nl-preview__inner">
+      <p class="label text-center mb-3">A taste of what's coming</p>
+      <h2 class="nl-preview__heading">Recent topics we've covered</h2>
+
+      <div class="nl-preview__list">
+        <div class="nl-preview__item">
+          <span class="nl-preview__num">01</span>
+          <div>
+            <p class="nl-preview__item-title">Building AI agents with Claude — a practical walkthrough</p>
+            <p class="nl-preview__item-tag">Tutorial</p>
+          </div>
+        </div>
+        <div class="nl-preview__item">
+          <span class="nl-preview__num">02</span>
+          <div>
+            <p class="nl-preview__item-title">The best free AI coding tools in 2026 — ranked and tested</p>
+            <p class="nl-preview__item-tag">Tool Review</p>
+          </div>
+        </div>
+        <div class="nl-preview__item">
+          <span class="nl-preview__num">03</span>
+          <div>
+            <p class="nl-preview__item-title">Google's Gemini 2.5 Pro: what changed and should you switch?</p>
+            <p class="nl-preview__item-tag">News Analysis</p>
+          </div>
+        </div>
+        <div class="nl-preview__item">
+          <span class="nl-preview__num">04</span>
+          <div>
+            <p class="nl-preview__item-title">10 ChatGPT prompt patterns that actually work (with examples)</p>
+            <p class="nl-preview__item-tag">Resource</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="nl-faq">
+    <div class="nl-faq__inner">
+      <h2 class="nl-faq__heading">Common questions</h2>
+      <div class="nl-faq__grid">
+        <div class="nl-faq__item">
+          <h3 class="nl-faq__q">How often will I hear from you?</h3>
+          <p class="nl-faq__a">Once a week, every Tuesday morning. That's it — no surprise emails or sales pitches.</p>
+        </div>
+        <div class="nl-faq__item">
+          <h3 class="nl-faq__q">Is it really free?</h3>
+          <p class="nl-faq__a">100% free. We fund the site through optional affiliate links on our tools page, never through your data.</p>
+        </div>
+        <div class="nl-faq__item">
+          <h3 class="nl-faq__q">I'm a complete beginner — is this for me?</h3>
+          <p class="nl-faq__a">Absolutely. We write for curious people, not just engineers. Every tutorial starts from the basics.</p>
+        </div>
+        <div class="nl-faq__item">
+          <h3 class="nl-faq__q">Can I unsubscribe?</h3>
+          <p class="nl-faq__a">One click, any time, no questions asked. There's an unsubscribe link at the bottom of every email.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Bottom CTA -->
+  <section class="nl-bottom-cta">
+    <div class="nl-bottom-cta__inner">
+      <h2 class="nl-bottom-cta__title">Ready to stay ahead?</h2>
+      <p class="nl-bottom-cta__text">Join the newsletter and get your first issue next Tuesday.</p>
+      <a href="#newsletter-form" class="nl-bottom-cta__btn">
+        Subscribe now
+        <svg class="nl-form__btn-arrow" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12h15m0 0l-6.75-6.75M19.5 12l-6.75 6.75" />
+        </svg>
+      </a>
+    </div>
+  </section>
+
+  <style>
+    /* ── Hero ────────────────────────────────────────── */
+    .nl-hero {
+      padding: 5rem 1rem 4rem;
+      text-align: center;
+    }
+    .nl-hero__inner {
+      max-width: 38rem;
+      margin: 0 auto;
+    }
+    .nl-hero__badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.8rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--color-accent);
+      margin-bottom: 1.5rem;
+    }
+    .nl-hero__badge-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--color-accent);
+      animation: nl-pulse 2s ease-in-out infinite;
+    }
+    @keyframes nl-pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.3; }
+    }
+    .nl-hero__title {
+      font-family: var(--font-display);
+      font-size: clamp(2.75rem, 2rem + 3.5vw, 4.5rem);
+      line-height: 1.05;
+      letter-spacing: -0.035em;
+      color: var(--color-text-primary);
+      margin-bottom: 1.25rem;
+    }
+    .nl-hero__accent {
+      color: var(--color-accent);
+    }
+    .nl-hero__subtitle {
+      font-size: 1.125rem;
+      line-height: 1.7;
+      color: var(--color-text-secondary);
+      max-width: 32rem;
+      margin: 0 auto 2.5rem;
+    }
+    .nl-hero__proof {
+      margin-top: 1.5rem;
+      font-size: 0.8rem;
+      color: var(--color-text-muted);
+    }
+
+    /* ── Form card ──────────────────────────────────── */
+    .nl-form-card {
+      background: var(--color-bg-card);
+      border: 1px solid var(--color-border);
+      border-radius: 1rem;
+      padding: 2rem 2rem;
+      text-align: left;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.04), 0 8px 24px rgba(0,0,0,0.03);
+    }
+    .nl-form__fields {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+      margin-bottom: 1rem;
+    }
+    @media (max-width: 520px) {
+      .nl-form__fields { grid-template-columns: 1fr; }
+    }
+    .nl-form__label {
+      display: block;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--color-text-secondary);
+      margin-bottom: 0.4rem;
+    }
+    .nl-form__req {
+      color: var(--color-accent);
+    }
+    .nl-form__input {
+      width: 100%;
+      padding: 0.7rem 0.9rem;
+      border-radius: 0.5rem;
+      border: 1px solid var(--color-border);
+      background: var(--color-bg-warm);
+      color: var(--color-text-primary);
+      font-size: 0.95rem;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    .nl-form__input::placeholder {
+      color: var(--color-text-muted);
+    }
+    .nl-form__input:focus {
+      outline: none;
+      border-color: var(--color-accent);
+      box-shadow: 0 0 0 3px var(--color-accent-soft);
+    }
+    .nl-form__btn {
+      width: 100%;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      padding: 0.8rem 1.5rem;
+      border-radius: 9999px;
+      border: none;
+      background: var(--color-text-primary);
+      color: #fff;
+      font-size: 0.95rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.15s;
+    }
+    .nl-form__btn:hover {
+      background: var(--color-text-secondary);
+      transform: translateY(-1px);
+    }
+    .nl-form__btn:active {
+      transform: translateY(0);
+    }
+    .nl-form__btn:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      transform: none;
+    }
+    .nl-form__btn-arrow {
+      width: 1rem;
+      height: 1rem;
+      transition: transform 0.2s;
+    }
+    .nl-form__btn:hover .nl-form__btn-arrow {
+      transform: translateX(3px);
+    }
+    .nl-form__fine {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.35rem;
+      margin-top: 0.75rem;
+      font-size: 0.75rem;
+      color: var(--color-text-muted);
+    }
+    .nl-form__lock {
+      width: 0.85rem;
+      height: 0.85rem;
+      opacity: 0.5;
+    }
+
+    /* ── Success ────────────────────────────────────── */
+    .nl-success {
+      text-align: center;
+      padding: 2rem 0;
+    }
+    .nl-success__icon {
+      width: 3.5rem;
+      height: 3.5rem;
+      margin: 0 auto 1rem;
+      background: var(--color-sage-soft);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .nl-success__icon svg {
+      width: 1.75rem;
+      height: 1.75rem;
+      color: var(--color-sage);
+    }
+    .nl-success__title {
+      font-family: var(--font-display);
+      font-size: 1.75rem;
+      color: var(--color-text-primary);
+      margin-bottom: 0.5rem;
+    }
+    .nl-success__text {
+      font-size: 0.95rem;
+      color: var(--color-text-secondary);
+    }
+    .hidden { display: none; }
+
+    /* ── Features ────────────────────────────────────── */
+    .nl-features {
+      padding: 5rem 1rem;
+      background: var(--color-bg-warm);
+    }
+    .nl-features__inner {
+      max-width: 52rem;
+      margin: 0 auto;
+    }
+    .nl-features__heading {
+      font-family: var(--font-display);
+      font-size: clamp(1.75rem, 1.25rem + 2vw, 2.5rem);
+      text-align: center;
+      color: var(--color-text-primary);
+      margin-bottom: 3rem;
+    }
+    .nl-features__grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1.5rem;
+    }
+    @media (max-width: 640px) {
+      .nl-features__grid { grid-template-columns: 1fr; }
+    }
+    .nl-feature {
+      background: var(--color-bg-card);
+      border: 1px solid var(--color-border);
+      border-radius: 0.875rem;
+      padding: 1.75rem;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    .nl-feature:hover {
+      border-color: var(--color-border-strong);
+      box-shadow: 0 4px 16px rgba(0,0,0,0.04);
+    }
+    .nl-feature__icon {
+      width: 2.5rem;
+      height: 2.5rem;
+      border-radius: 0.625rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 1rem;
+    }
+    .nl-feature__icon svg {
+      width: 1.25rem;
+      height: 1.25rem;
+    }
+    .nl-feature__icon--amber {
+      background: var(--color-accent-soft);
+      color: var(--color-accent);
+    }
+    .nl-feature__icon--sage {
+      background: var(--color-sage-soft);
+      color: var(--color-sage);
+    }
+    .nl-feature__icon--clay {
+      background: var(--color-clay-soft);
+      color: var(--color-clay);
+    }
+    .nl-feature__icon--dark {
+      background: #E8E6E1;
+      color: var(--color-text-primary);
+    }
+    .nl-feature__title {
+      font-family: var(--font-body);
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--color-text-primary);
+      margin-bottom: 0.4rem;
+      letter-spacing: 0;
+      line-height: 1.4;
+    }
+    .nl-feature__desc {
+      font-size: 0.875rem;
+      color: var(--color-text-secondary);
+      line-height: 1.6;
+    }
+
+    /* ── Preview / Sample topics ─────────────────────── */
+    .nl-preview {
+      padding: 5rem 1rem;
+    }
+    .nl-preview__inner {
+      max-width: 38rem;
+      margin: 0 auto;
+    }
+    .nl-preview__heading {
+      font-family: var(--font-display);
+      font-size: clamp(1.75rem, 1.25rem + 2vw, 2.5rem);
+      text-align: center;
+      color: var(--color-text-primary);
+      margin-bottom: 2.5rem;
+    }
+    .nl-preview__list {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+    .nl-preview__item {
+      display: flex;
+      align-items: flex-start;
+      gap: 1.25rem;
+      padding: 1.25rem 0;
+      border-bottom: 1px solid var(--color-border);
+    }
+    .nl-preview__item:first-child {
+      padding-top: 0;
+    }
+    .nl-preview__item:last-child {
+      border-bottom: none;
+    }
+    .nl-preview__num {
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      color: var(--color-text-muted);
+      flex-shrink: 0;
+      padding-top: 0.15rem;
+    }
+    .nl-preview__item-title {
+      font-size: 1rem;
+      font-weight: 500;
+      color: var(--color-text-primary);
+      line-height: 1.45;
+      margin-bottom: 0.25rem;
+    }
+    .nl-preview__item-tag {
+      display: inline-block;
+      font-size: 0.7rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--color-accent);
+    }
+
+    /* ── FAQ ─────────────────────────────────────────── */
+    .nl-faq {
+      padding: 4rem 1rem 5rem;
+      background: var(--color-bg-warm);
+    }
+    .nl-faq__inner {
+      max-width: 42rem;
+      margin: 0 auto;
+    }
+    .nl-faq__heading {
+      font-family: var(--font-display);
+      font-size: clamp(1.75rem, 1.25rem + 2vw, 2.5rem);
+      text-align: center;
+      color: var(--color-text-primary);
+      margin-bottom: 2.5rem;
+    }
+    .nl-faq__grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 2rem 3rem;
+    }
+    @media (max-width: 640px) {
+      .nl-faq__grid { grid-template-columns: 1fr; gap: 1.5rem; }
+    }
+    .nl-faq__q {
+      font-family: var(--font-body);
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--color-text-primary);
+      margin-bottom: 0.4rem;
+      letter-spacing: 0;
+      line-height: 1.4;
+    }
+    .nl-faq__a {
+      font-size: 0.875rem;
+      color: var(--color-text-secondary);
+      line-height: 1.65;
+    }
+
+    /* ── Bottom CTA ──────────────────────────────────── */
+    .nl-bottom-cta {
+      padding: 5rem 1rem;
+      text-align: center;
+    }
+    .nl-bottom-cta__inner {
+      max-width: 30rem;
+      margin: 0 auto;
+    }
+    .nl-bottom-cta__title {
+      font-family: var(--font-display);
+      font-size: clamp(2rem, 1.5rem + 2vw, 3rem);
+      color: var(--color-text-primary);
+      margin-bottom: 0.75rem;
+    }
+    .nl-bottom-cta__text {
+      font-size: 1rem;
+      color: var(--color-text-secondary);
+      margin-bottom: 2rem;
+    }
+    .nl-bottom-cta__btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.9rem 2rem;
+      border-radius: 9999px;
+      background: var(--color-text-primary);
+      color: #fff;
+      font-size: 0.95rem;
+      font-weight: 600;
+      text-decoration: none;
+      transition: background 0.2s, transform 0.15s;
+    }
+    .nl-bottom-cta__btn:hover {
+      background: var(--color-text-secondary);
+      transform: translateY(-1px);
+    }
+  </style>
 
   <script is:inline>
     const form = document.getElementById('newsletter-form');
@@ -90,7 +606,7 @@ import BaseLayout from '@layouts/BaseLayout.astro';
         e.preventDefault();
         const formData = new FormData(form);
         const btn = form.querySelector('button[type="submit"]');
-        const originalText = btn.textContent;
+        const originalHTML = btn.innerHTML;
         btn.textContent = 'Subscribing...';
         btn.disabled = true;
 
@@ -100,14 +616,23 @@ import BaseLayout from '@layouts/BaseLayout.astro';
             body: formData,
             mode: 'no-cors',
           });
-          form.classList.add('hidden');
+          form.style.display = 'none';
           document.getElementById('newsletter-success').classList.remove('hidden');
         } catch (err) {
-          btn.textContent = originalText;
+          btn.innerHTML = originalHTML;
           btn.disabled = false;
           alert('Something went wrong. Please try again.');
         }
       });
     }
+
+    /* Smooth scroll for bottom CTA link */
+    document.querySelectorAll('a[href="#newsletter-form"]').forEach(link => {
+      link.addEventListener('click', (e) => {
+        e.preventDefault();
+        document.getElementById('newsletter-form').scrollIntoView({ behavior: 'smooth', block: 'center' });
+        setTimeout(() => document.getElementById('EMAIL').focus(), 500);
+      });
+    });
   </script>
 </BaseLayout>

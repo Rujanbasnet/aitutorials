@@ -13,6 +13,9 @@ yarn-error.log*
 pnpm-debug.log*
 
 
+# credentials (API keys, tokens — never commit)
+credentials/
+
 # environment variables
 .env
 .env.production
