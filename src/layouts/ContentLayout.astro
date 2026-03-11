@@ -49,6 +49,31 @@ const difficultyClass: Record<string, string> = {
     "publisher": { "@type": "Organization", "name": "AI Tutorials", "url": "https://aitutorials.com.au" },
     ...(image ? { "image": image } : {}),
   })} />
+
+  <script type="application/ld+json" set:html={JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": "https://aitutorials.com.au/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": collection.charAt(0).toUpperCase() + collection.slice(1),
+        "item": `https://aitutorials.com.au/${collection}/`
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": title
+      }
+    ]
+  })} />
+
   <article class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:py-16">
     <!-- Breadcrumb -->
     <nav class="mb-8 text-sm text-[var(--color-text-muted)]">

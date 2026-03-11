@@ -56,7 +56,7 @@ const products = defineCollection({
     currency: z.string().default('USD'),
     gumroadId: z.string(),
     gumroadUrl: z.string().url(),
-    productType: z.enum(['template', 'prompt-pack', 'course', 'ebook', 'tool']),
+    productType: z.enum(['template', 'prompt-pack', 'course', 'ebook', 'tool', 'guide']),
     featured: z.boolean().default(false),
   }),
 });

@@ -4,6 +4,45 @@ import BaseLayout from '@layouts/BaseLayout.astro';
 
 <BaseLayout title="Newsletter — AI Tutorials" description="Join the AI Tutorials newsletter. Weekly tutorials, tool reviews, prompt libraries, and industry insights delivered to your inbox.">
 
+  <script type="application/ld+json" set:html={JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "How often will I hear from you?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Once a week, every Tuesday morning. That's it -- no surprise emails or sales pitches."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Is it really free?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "100% free. We fund the site through optional affiliate links on our tools page, never through your data."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "I'm a complete beginner -- is this for me?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Absolutely. We write for curious people, not just engineers. Every tutorial starts from the basics."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Can I unsubscribe?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "One click, any time, no questions asked. There's an unsubscribe link at the bottom of every email."
+        }
+      }
+    ]
+  })} />
+
   <!-- Hero -->
   <section class="nl-hero">
     <div class="nl-hero__inner">
