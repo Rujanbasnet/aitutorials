@@ -1,0 +1,35 @@
+---
+title: "Anthropic Launches AI Code Review That Uses Parallel Agents"
+description: "Anthropic's new Code Review feature sends multiple AI agents to inspect your pull requests, catching bugs human reviewers miss."
+pubDate: 2026-03-11
+author: "AI Tutorials"
+tags: ["anthropic", "claude", "code-review", "ai-tools", "developer-tools", "github"]
+draft: false
+category: "product-launch"
+source: "Anthropic"
+sourceUrl: "https://www.anthropic.com/news/code-review"
+---
+
+Anthropic has launched Code Review for Claude Code, a new feature that dispatches multiple AI agents to inspect pull requests on GitHub. Rather than running a single pass over your code, it sends specialised agents to examine different angles of a change in parallel, then validates and ranks their findings before posting comments.
+
+## How It Works
+
+When a pull request is opened, the system kicks off several Claude agents simultaneously. Each looks at the code from a different perspective — logic errors, security gaps, parameter handling, cross-file regressions. A separate "critic" component then checks the agents' findings, filters out noise, and ranks the remaining issues by severity before posting them as GitHub comments.
+
+The key difference from existing linting tools is what Anthropic calls "repository-aware reasoning." Instead of flagging style violations, Code Review tries to understand your codebase's architecture and catch the kind of subtle bugs that slip through — like a function change in one file breaking something three files away.
+
+## The Numbers
+
+Anthropic tested Code Review internally before launch. The results: 54% of pull requests now receive substantive review comments, up from just 16% with their previous approach. Engineers marked fewer than 1% of the AI's findings as incorrect — meaning nearly every flagged issue was worth looking at.
+
+Each review costs between $15 and $25 and takes around 20 minutes to complete. Human developers still make all merge decisions.
+
+## Getting Started
+
+Code Review is available now as a research preview for Claude Team and Claude Enterprise customers. Setup involves installing the Anthropic GitHub app, connecting your repositories, and optionally adding a `REVIEW.md` file to guide what the reviewer focuses on.
+
+## What This Means for You
+
+If you're writing code — whether professionally or as a learner — AI-powered code review is becoming a practical reality. This isn't a replacement for human reviewers, but a second pair of eyes that never gets tired and can spot patterns across thousands of lines of code.
+
+For teams already using Claude Code for writing code, having the same AI review that code creates a tighter feedback loop. And as AI-generated code becomes more common, having AI check AI's work is quickly becoming a necessity rather than a luxury.
