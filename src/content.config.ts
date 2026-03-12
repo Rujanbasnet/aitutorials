@@ -61,6 +61,13 @@ const products = defineCollection({
   }),
 });
 
+const nonCoder = defineCollection({
+  loader: glob({ pattern: '**/*.{md,mdx}', base: './src/data/non-coder' }),
+  schema: baseSchema.extend({
+    category: z.enum(['ai-basics', 'tools-explained', 'coding-literacy', 'practical-skills']),
+  }),
+});
+
 const resources = defineCollection({
   loader: glob({ pattern: '**/*.{md,mdx}', base: './src/data/resources' }),
   schema: baseSchema.extend({
@@ -70,4 +77,4 @@ const resources = defineCollection({
   }),
 });
 
-export const collections = { tutorials, news, blog, products, resources };
+export const collections = { tutorials, news, blog, nonCoder, products, resources };
