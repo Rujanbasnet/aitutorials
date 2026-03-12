@@ -1,0 +1,73 @@
+---
+title: "The Tech Nerd's Guide to Understanding Code (Without Becoming a Coder)"
+description: "You don't need to write code to build with AI. But understanding the basics makes you dramatically better at it. Here's what actually matters."
+pubDate: 2026-03-12
+author: "AI Tutorials"
+tags: ["vibe-coding", "beginners", "guide", "web-development", "programming-basics"]
+category: "guide"
+draft: false
+---
+
+AI coding tools like Claude Code and Cursor have made it possible to build real software without writing a single line of code yourself. But there's a difference between blindly accepting what the AI generates and actually understanding what's happening. You don't need to become a developer. You just need enough literacy to have a productive conversation with the tools doing the work.
+
+Think of it like driving a car. You don't need to be a mechanic, but knowing the difference between the engine and the transmission helps you explain what's wrong when something breaks.
+
+## The Web Stack: How Websites Actually Work
+
+Every website you've ever visited is built from three layers that work together.
+
+**HTML** is the structure. It tells the browser what's on the page — headings, paragraphs, images, links. It's not really a programming language. It's a markup language, which means it describes content rather than performing logic. When you right-click a webpage and hit "View Source," that wall of text is HTML.
+
+**CSS** is the style. It controls how things look — colours, fonts, spacing, layout, animations. HTML without CSS looks like a plain text document from 1995. CSS is what turns a wall of text into something that actually looks designed.
+
+**JavaScript** is the behaviour. It makes things interactive. Click a button and a menu appears? That's JavaScript. A form checks your email before you submit it? JavaScript. It's the only programming language that runs directly in web browsers.
+
+One thing worth knowing: **Java and JavaScript are completely different languages.** The relationship is like "car" and "carpet." Java is used for Android apps and banking systems. JavaScript is for the web.
+
+## Frameworks: Why People Say "React"
+
+Once JavaScript became the backbone of the web, developers built frameworks on top of it to speed things up. If JavaScript is raw timber and a hammer, a framework is pre-fabricated wall panels and a power drill. Same house, much faster.
+
+**React** is the most popular JavaScript framework, built by Meta. It's how most modern web apps are built. When an AI tool generates a `.jsx` file, that's a React component.
+
+**Next.js** builds on top of React and adds features like server-side rendering, which helps with SEO. **Tailwind CSS** is a framework for styling — instead of writing CSS from scratch, you use shorthand classes directly in your HTML. **Astro** (which this site is built with) is designed for content-heavy websites and ships minimal JavaScript to keep pages fast.
+
+You don't need to memorise these. What matters is understanding that when your AI tool picks a framework, it's choosing a set of pre-built patterns that shape how the project is structured.
+
+## Beyond the Web: Other Languages
+
+Not everything is a website. Here are the other languages you'll bump into.
+
+**Python** is the Swiss army knife of programming. It dominates AI, data science, automation, and scripting. When an AI assistant writes a quick script to rename files, process data, or call an API, it's usually Python. It's also the most beginner-friendly language if you ever want to read code.
+
+**TypeScript** is JavaScript with safety rails. It adds type checking — the code explicitly states "this should be a number" or "this should be text" — so mistakes get caught before things break. Most serious JavaScript projects use TypeScript now, and AI tools often generate it by default.
+
+**Bash** is the language of the terminal. When you type commands into a command line, that's Bash. It's not for building apps — it's for telling your computer to do things: install packages, run scripts, move files around.
+
+## Key Terms You'll See Everywhere
+
+**API** (Application Programming Interface) — A menu that tells software what it can order from another piece of software. When one app talks to another — pulling weather data, generating a voice, sending an email — it's using an API.
+
+**JSON** — The format APIs use to send data back and forth. It looks like this: `{"name": "Rujan", "city": "Hobart"}`. You'll see it in config files, API responses, and error logs constantly.
+
+**Git** — A system that tracks every change to your code so you can undo mistakes. Think of it as "save game" for code. **GitHub** is the website where those saves live online.
+
+**npm** — An app store for JavaScript code packages. When you see `npm install something`, it's downloading a pre-built tool that your project needs to run.
+
+**Frontend vs Backend** — Frontend is everything the user sees in their browser. Backend is everything behind the scenes — the server, database, and logic that powers the frontend. "Full stack" means both.
+
+**Localhost** — When you run a website on your own computer for testing, it lives at `localhost` (usually `localhost:3000` or similar). It's your private test server that only you can see.
+
+**.env files** — Files that store secrets like API keys and passwords, kept separate from the code so they don't accidentally end up on GitHub. If an AI tool creates a `.env` file, never share it or commit it.
+
+## What You Should Actually Focus On
+
+You don't need to learn everything above equally. Here's a practical breakdown.
+
+**Understand conceptually** — what HTML, CSS, and JavaScript do, the difference between frontend and backend, how APIs and JSON work, what Git does. This gives you enough context to describe what you want and understand what the AI is building.
+
+**Get comfortable reading** — terminal output (so error messages make sense), basic JSON structure (so you can spot config mistakes), and how environment variables work (so you don't accidentally leak secrets).
+
+**Let the AI handle** — writing React components, Python scripts, CSS styling, complex terminal commands. This is exactly what AI coding tools are built for.
+
+The sweet spot is being a **technical translator** — someone who understands enough to describe what they want, read error messages, and make smart architecture decisions, without needing to write the code. That's a genuinely powerful position to be in with the tools available today.
