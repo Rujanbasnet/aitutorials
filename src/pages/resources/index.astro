@@ -7,18 +7,18 @@ const resources = await getPublishedResources();
 ---
 
 <BaseLayout title="Resources" description="Cheat sheets, reference guides, tool directories, and templates to accelerate your AI workflow.">
-  <section class="relative overflow-hidden bg-warm">
+  <section class="relative overflow-hidden" style="background: var(--color-bg-dark);">
     <img
-      src="https://images.unsplash.com/photo-1507842217343-583bb7270b66?w=1600&h=400&fit=crop&q=80"
-      alt=""
-      class="absolute inset-0 w-full h-full object-cover opacity-[0.06]"
+      src="https://images.unsplash.com/photo-1507842217343-583bb7270b66?w=1600&h=600&fit=crop&q=80"
+      alt="Library bookshelves"
+      class="absolute inset-0 w-full h-full object-cover opacity-60"
       loading="eager"
-      aria-hidden="true"
     />
+    <div class="absolute inset-0 bg-gradient-to-r from-[rgba(20,20,19,0.7)] via-[rgba(20,20,19,0.3)] to-transparent"></div>
     <div class="relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16 lg:py-20">
-      <p class="label mb-3">Tools & references</p>
-      <h1 class="text-title mb-3">Resources</h1>
-      <p class="text-lg text-[var(--color-text-secondary)] max-w-xl">
+      <p class="label mb-3" style="color: var(--color-accent-soft);">Tools & References</p>
+      <h1 class="text-title mb-3" style="color: white;">Resources</h1>
+      <p class="text-lg max-w-xl" style="color: rgba(255,255,255,0.75);">
         Cheat sheets, references, and tools to accelerate your AI workflow.
       </p>
     </div>
@@ -37,6 +37,8 @@ const resources = await getPublishedResources();
               tags={resource.data.tags}
               image={resource.data.image}
               body={resource.body || ''}
+              category={resource.data.resourceType}
+              collection="resources"
             />
           </div>
         ))}

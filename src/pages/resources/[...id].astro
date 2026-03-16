@@ -23,6 +23,7 @@ const { Content } = await render(entry);
   tags={entry.data.tags}
   body={entry.body || ''}
   collection="resources"
+  category={entry.data.resourceType}
 >
   <Content />
 </ContentLayout>

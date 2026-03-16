@@ -7,18 +7,18 @@ const posts = await getPublishedBlog();
 ---
 
 <BaseLayout title="Blog" description="Opinions, reviews, guides, and insights about AI tools, workflows, and the future of technology.">
-  <section class="relative overflow-hidden bg-warm">
+  <section class="relative overflow-hidden" style="background: var(--color-bg-dark);">
     <img
-      src="https://images.unsplash.com/photo-1456324504439-367cee3b3c32?w=1600&h=400&fit=crop&q=80"
-      alt=""
-      class="absolute inset-0 w-full h-full object-cover opacity-[0.06]"
+      src="/images/blog/scrolls.jpg"
+      alt="Ancient scrolls and manuscripts"
+      class="absolute inset-0 w-full h-full object-cover opacity-60"
       loading="eager"
-      aria-hidden="true"
     />
+    <div class="absolute inset-0 bg-gradient-to-r from-[rgba(20,20,19,0.7)] via-[rgba(20,20,19,0.3)] to-transparent"></div>
     <div class="relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16 lg:py-20">
-      <p class="label mb-3">Insights</p>
-      <h1 class="text-title mb-3">Blog</h1>
-      <p class="text-lg text-[var(--color-text-secondary)] max-w-xl">
+      <p class="label mb-3" style="color: var(--color-accent-soft);">Insights</p>
+      <h1 class="text-title mb-3" style="color: white;">Blog</h1>
+      <p class="text-lg max-w-xl" style="color: rgba(255,255,255,0.75);">
         Opinions, reviews, and deep dives into the AI ecosystem.
       </p>
     </div>
@@ -37,6 +37,8 @@ const posts = await getPublishedBlog();
               tags={post.data.tags}
               image={post.data.image}
               body={post.body || ''}
+              category={post.data.category}
+              collection="blog"
             />
           </div>
         ))}

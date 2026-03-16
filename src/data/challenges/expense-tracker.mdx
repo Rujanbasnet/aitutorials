@@ -1,0 +1,71 @@
+---
+title: "Build a Personal Expense Tracker"
+description: "Create a working expense tracker app that saves your data — from a single prompt. Track spending, see charts, and stay on budget."
+pubDate: 2026-03-16
+tags: ['beginner', 'productivity', 'html']
+category: 'practical'
+difficulty: 'beginner'
+estimatedTime: '3 min'
+whatYoullBuild: 'A functional expense tracker with categories, charts, budget tracking, and local storage'
+platforms: ['ChatGPT', 'Claude', 'Gemini']
+---
+
+## What you'll build
+
+A complete personal expense tracker that runs in your browser. Add expenses by category, see where your money goes with a visual chart, set monthly budgets, and your data persists between visits (saved to your browser's localStorage).
+
+## The prompt
+
+Copy and paste this into any AI chatbot:
+
+```text
+Create a single-file HTML page for a personal expense tracker app. Features:
+
+1. **Add Expense form**: amount (number input), category (dropdown: Food, Transport, Entertainment, Shopping, Bills, Health, Other), description (text), date (defaults to today)
+2. **Monthly budget**: let users set a monthly budget at the top. Show a progress bar of spent vs budget, turns red when over budget
+3. **Expense list**: show all expenses for the current month in a clean table, sorted newest first. Each row has a delete button
+4. **Category breakdown**: a simple horizontal bar chart showing spending per category, using CSS (no chart library needed). Each category gets a distinct colour
+5. **Monthly summary**: total spent, remaining budget, number of transactions, top spending category
+6. **Data persistence**: save everything to localStorage so data survives page refreshes
+
+Design requirements:
+- Clean, modern UI with a white card-based layout on a light grey background (#f5f5f5)
+- Use a professional blue (#2563eb) as the primary accent colour
+- Subtle shadows and rounded corners on cards
+- Responsive — works on mobile with stacked layout
+- Smooth transitions when adding/removing expenses
+- Format all currency with $ and two decimal places
+- All HTML, CSS, and JavaScript in a single file, no external dependencies
+
+Output ONLY the complete HTML file.
+```
+
+## Where to paste it
+
+- **[ChatGPT](https://chat.openai.com)** — Free tier works. Interactive preview available.
+- **[Claude](https://claude.ai)** — Free tier works. Renders as a working artifact.
+- **[Gemini](https://gemini.google.com)** — Free tier works. Copy code and open in browser.
+
+## How to run it
+
+**If you see a preview**: start adding expenses immediately.
+
+**If you get raw code**:
+1. Copy all the code
+2. Save as `expenses.html`
+3. Open in your browser
+4. Bookmark it — your data saves automatically
+
+## What just happened
+
+You just built a fully functional personal finance app. It has form handling, data validation, dynamic chart rendering, persistent storage, and responsive design. The kind of thing that would take a developer a full day to build from scratch.
+
+The best part? Your data stays private — it's saved in YOUR browser, not on some company's server.
+
+## Level it up
+
+- *"Add an export to CSV button so I can download my expenses"*
+- *"Add a monthly comparison — show this month vs last month"*
+- *"Let me add recurring expenses that auto-add each month"*
+- *"Add a pie chart next to the bar chart"*
+- *"Change the currency to AUD and use Australian date format"*

@@ -1,0 +1,131 @@
+---
+interface Props {
+  title: string;
+  category?: string;
+  collection?: string;
+  class?: string;
+}
+
+const { title, category = '', collection = '', class: className = '' } = Astro.props;
+
+// Deterministic hash from category string for gradient angle variation
+function hashCode(str: string): number {
+  let hash = 0;
+  for (let i = 0; i < str.length; i++) {
+    hash = ((hash << 5) - hash) + str.charCodeAt(i);
+    hash |= 0;
+  }
+  return Math.abs(hash);
+}
+
+// Use title for challenges (unique per card), category+collection for others
+const hashInput = collection === 'challenges' ? title : (category + collection);
+const hash = hashCode(hashInput);
+const angle = (hash % 8) * 45; // 0, 45, 90, 135, 180, 225, 270, 315
+
+// Collection-specific color schemes
+type CollectionStyle = {
+  gradient: string;
+  pattern: string;
+  patternColor: string;
+};
+
+const collectionStyles: Record<string, CollectionStyle> = {
+  tutorials: {
+    gradient: `linear-gradient(${angle}deg, var(--color-sage) 0%, var(--color-accent) 100%)`,
+    pattern: 'dots',
+    patternColor: 'rgba(255,255,255,0.12)',
+  },
+  news: {
+    gradient: `linear-gradient(${angle}deg, var(--color-clay) 0%, var(--color-accent) 100%)`,
+    pattern: 'diagonal',
+    patternColor: 'rgba(255,255,255,0.1)',
+  },
+  blog: {
+    gradient: `radial-gradient(ellipse at ${30 + (hash % 40)}% ${30 + (hash % 40)}%, var(--color-accent) 0%, var(--color-clay) 100%)`,
+    pattern: 'circles',
+    patternColor: 'rgba(255,255,255,0.08)',
+  },
+  'non-coder': {
+    gradient: `linear-gradient(${angle}deg, var(--color-sage-soft) 0%, var(--color-accent-soft) 100%)`,
+    pattern: 'rounded',
+    patternColor: 'rgba(45,106,79,0.12)',
+  },
+  nonCoder: {
+    gradient: `linear-gradient(${angle}deg, var(--color-sage-soft) 0%, var(--color-accent-soft) 100%)`,
+    pattern: 'rounded',
+    patternColor: 'rgba(45,106,79,0.12)',
+  },
+  tools: {
+    gradient: `linear-gradient(${angle}deg, var(--color-accent) 0%, var(--color-sage) 100%)`,
+    pattern: 'grid',
+    patternColor: 'rgba(255,255,255,0.1)',
+  },
+  resources: {
+    gradient: `linear-gradient(${angle}deg, var(--color-sage) 0%, var(--color-clay) 100%)`,
+    pattern: 'dots',
+    patternColor: 'rgba(255,255,255,0.1)',
+  },
+  products: {
+    gradient: `linear-gradient(${angle}deg, var(--color-accent) 0%, var(--color-clay) 100%)`,
+    pattern: 'diagonal',
+    patternColor: 'rgba(255,255,255,0.1)',
+  },
+  challenges: (() => {
+    // Muted, desaturated gradients — editorial feel, not shiny AI slop
+    const challengeGradients = [
+      `linear-gradient(${angle}deg, #E8E0D4 0%, #C4B8A8 100%)`,       // warm linen → stone
+      `linear-gradient(${angle}deg, #D4CFC4 0%, #A8B0A0 100%)`,       // parchment → muted sage
+      `linear-gradient(${angle}deg, #C8B8A4 0%, #A09888 100%)`,       // sandstone → driftwood
+      `linear-gradient(${angle}deg, #B8C4B8 0%, #8C9C8C 100%)`,       // soft moss → slate green
+      `linear-gradient(${angle}deg, #D0C4B4 0%, #B0A494 50%, #C8BCA8 100%)`, // clay wash → taupe → wheat
+      `linear-gradient(${angle}deg, #C4B4A0 0%, #9CA494 100%)`,       // oatmeal → sage grey
+      `linear-gradient(${angle}deg, #B4BCB0 0%, #A09484 100%)`,       // lichen → walnut
+      `linear-gradient(${angle}deg, #D8CCC0 0%, #A4A898 50%, #C0B4A4 100%)`, // cream → pewter → biscuit
+    ];
+    const challengePatterns: ('dots' | 'diagonal' | 'circles' | 'rounded' | 'grid')[] = ['diagonal', 'circles', 'dots', 'grid', 'rounded', 'diagonal', 'circles', 'grid'];
+    const idx = hash % challengeGradients.length;
+    return {
+      gradient: challengeGradients[idx],
+      pattern: challengePatterns[idx],
+      patternColor: 'rgba(0,0,0,0.06)',
+    };
+  })(),
+};
+
+const style = collectionStyles[collection] || collectionStyles.tutorials;
+
+// SVG patterns per type
+const patterns: Record<string, string> = {
+  dots: `<pattern id="p-${hash}" width="20" height="20" patternUnits="userSpaceOnUse"><circle cx="10" cy="10" r="1.5" fill="${style.patternColor}"/></pattern>`,
+  diagonal: `<pattern id="p-${hash}" width="16" height="16" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><line x1="0" y1="0" x2="0" y2="16" stroke="${style.patternColor}" stroke-width="1.5"/></pattern>`,
+  circles: `<pattern id="p-${hash}" width="40" height="40" patternUnits="userSpaceOnUse"><circle cx="20" cy="20" r="12" fill="none" stroke="${style.patternColor}" stroke-width="1"/></pattern>`,
+  rounded: `<pattern id="p-${hash}" width="24" height="24" patternUnits="userSpaceOnUse"><rect x="4" y="4" width="16" height="16" rx="4" fill="none" stroke="${style.patternColor}" stroke-width="1"/></pattern>`,
+  grid: `<pattern id="p-${hash}" width="24" height="24" patternUnits="userSpaceOnUse"><path d="M24 0H0v24" fill="none" stroke="${style.patternColor}" stroke-width="0.5"/></pattern>`,
+};
+
+const patternSvg = patterns[style.pattern] || patterns.dots;
+---
+
+<div
+  class:list={['hero-image relative overflow-hidden', className]}
+  style={`background: ${style.gradient};`}
+  role="img"
+  aria-label={title}
+>
+  <svg class="absolute inset-0 w-full h-full" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+    <defs set:html={patternSvg} />
+    <rect width="100%" height="100%" fill={`url(#p-${hash})`} />
+  </svg>
+  <div class="absolute bottom-3 left-4 right-4">
+    <span class="text-xs font-semibold uppercase tracking-widest opacity-60" style={`color: ${(style.pattern === 'rounded' || collection === 'challenges') ? 'var(--color-text-primary)' : 'white'};`}>
+      {category || collection}
+    </span>
+  </div>
+</div>
+
+<style>
+  .hero-image {
+    aspect-ratio: 16 / 9;
+  }
+</style>

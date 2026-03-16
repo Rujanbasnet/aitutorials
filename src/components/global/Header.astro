@@ -1,13 +1,13 @@
 ---
 import Search from './Search.astro';
 const navLinks = [
+  { label: 'Start Here', href: '/start/', accent: true },
+  { label: 'Try It', href: '/challenges/' },
   { label: 'Tutorials', href: '/tutorials/' },
   { label: 'Non-Coder', href: '/non-coder/' },
   { label: 'News', href: '/news/' },
   { label: 'Blog', href: '/blog/' },
-  { label: 'Products', href: '/products/' },
   { label: 'Tools', href: '/tools/' },
-  { label: 'Resources', href: '/resources/' },
 ];
 const currentPath = Astro.url.pathname;
 ---
@@ -26,19 +26,25 @@ const currentPath = Astro.url.pathname;
 
     <!-- Desktop Nav -->
     <div class="hidden md:flex items-center gap-1">
-      {navLinks.map((link) => (
-        <a
-          href={link.href}
-          class:list={[
-            'px-3 py-1.5 text-sm font-medium transition-colors hover-line',
-            currentPath.startsWith(link.href)
-              ? 'text-[var(--color-text-primary)]'
-              : 'text-[var(--color-text-muted)] hover:text-[var(--color-text-primary)]',
-          ]}
-        >
-          {link.label}
-        </a>
-      ))}
+      {navLinks.map((link) => {
+        const isActive = currentPath.startsWith(link.href);
+        return (
+          <a
+            href={link.href}
+            class:list={[
+              'nav-link px-3 py-1.5 text-sm transition-colors hover-line',
+              isActive
+                ? 'nav-active font-semibold'
+                : 'font-medium text-[var(--color-text-muted)] hover:text-[var(--color-text-primary)]',
+            ]}
+            style={isActive
+              ? 'color: var(--color-accent);'
+              : undefined}
+          >
+            {link.label}
+          </a>
+        );
+      })}
     </div>
 
     <!-- Actions -->
@@ -87,6 +93,22 @@ const currentPath = Astro.url.pathname;
 </header>
 
 <div class="h-16"></div>
+
+<style>
+  .nav-active {
+    position: relative;
+  }
+  .nav-active::after {
+    content: '';
+    position: absolute;
+    left: 0.75rem;
+    right: 0.75rem;
+    bottom: -2px;
+    height: 2px;
+    background: var(--color-accent);
+    border-radius: 1px;
+  }
+</style>
 
 <script>
   const menuBtn = document.getElementById('mobile-menu-btn')!;

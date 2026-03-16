@@ -7,18 +7,18 @@ const news = await getPublishedNews();
 ---
 
 <BaseLayout title="AI News" description="Stay up to date with the latest AI news, product launches, research breakthroughs, and industry analysis.">
-  <section class="relative overflow-hidden bg-warm">
+  <section class="relative overflow-hidden" style="background: var(--color-bg-dark);">
     <img
-      src="https://images.unsplash.com/photo-1504711434969-e33886168d6c?w=1600&h=400&fit=crop&q=80"
-      alt=""
-      class="absolute inset-0 w-full h-full object-cover opacity-[0.06]"
+      src="/images/news/newspaper.jpg"
+      alt="AI news headlines on a newspaper"
+      class="absolute inset-0 w-full h-full object-cover opacity-60"
       loading="eager"
-      aria-hidden="true"
     />
+    <div class="absolute inset-0 bg-gradient-to-r from-[rgba(20,20,19,0.7)] via-[rgba(20,20,19,0.3)] to-transparent"></div>
     <div class="relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16 lg:py-20">
-      <p class="label mb-3">Stay current</p>
-      <h1 class="text-title mb-3">AI News</h1>
-      <p class="text-lg text-[var(--color-text-secondary)] max-w-xl">
+      <p class="label mb-3" style="color: var(--color-accent-soft);">Stay Current</p>
+      <h1 class="text-title mb-3" style="color: white;">AI News</h1>
+      <p class="text-lg max-w-xl" style="color: rgba(255,255,255,0.75);">
         The latest in AI — product launches, research breakthroughs, and industry analysis.
       </p>
     </div>
@@ -37,6 +37,8 @@ const news = await getPublishedNews();
               tags={item.data.tags}
               image={item.data.image}
               body={item.body || ''}
+              category={item.data.category}
+              collection="news"
             />
           </div>
         ))}

@@ -1,5 +1,6 @@
 ---
 import { formatDateShort } from '@utils/dates';
+import HeroImage from './HeroImage.astro';
 
 interface Props {
   title: string;
@@ -8,14 +9,16 @@ interface Props {
   pubDate: Date;
   tags?: string[];
   image?: string;
+  category?: string;
+  collection?: string;
 }
 
-const { title, description, href, pubDate, tags = [], image } = Astro.props;
+const { title, description, href, pubDate, tags = [], image, category = '', collection = '' } = Astro.props;
 ---
 
 <a href={href} class="card-feature block overflow-hidden group md:col-span-2 lg:col-span-2">
   <div class="grid md:grid-cols-2 gap-0">
-    {image && (
+    {image ? (
       <div class="aspect-video md:aspect-auto overflow-hidden">
         <img
           src={image}
@@ -24,6 +27,8 @@ const { title, description, href, pubDate, tags = [], image } = Astro.props;
           loading="lazy"
         />
       </div>
+    ) : (
+      <HeroImage title={title} category={category} collection={collection} class="md:!aspect-auto md:h-full" />
     )}
     <div class="p-6 sm:p-8 flex flex-col justify-center">
       <div class="flex flex-wrap items-center gap-2 mb-3">

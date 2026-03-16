@@ -77,4 +77,15 @@ const resources = defineCollection({
   }),
 });
 
-export const collections = { tutorials, news, blog, nonCoder, products, resources };
+const challenges = defineCollection({
+  loader: glob({ pattern: '**/*.{md,mdx}', base: './src/data/challenges' }),
+  schema: baseSchema.extend({
+    category: z.enum(['build', 'create', 'practical', 'fun']),
+    difficulty: z.enum(['beginner', 'intermediate']),
+    estimatedTime: z.string(),
+    whatYoullBuild: z.string(),
+    platforms: z.array(z.string()).default(['ChatGPT', 'Claude', 'Gemini']),
+  }),
+});
+
+export const collections = { tutorials, news, blog, nonCoder, products, resources, challenges };

@@ -9,7 +9,8 @@
     "pricingDetail": "Free / $20/mo Plus",
     "trending": true,
     "new": false,
-    "dateAdded": "2026-03-08"
+    "dateAdded": "2026-03-08",
+    "image": null
   },
   {
     "name": "Claude",
@@ -21,7 +22,8 @@
     "pricingDetail": "Free / $20/mo Pro",
     "trending": true,
     "new": false,
-    "dateAdded": "2026-03-08"
+    "dateAdded": "2026-03-08",
+    "image": null
   },
   {
     "name": "Gemini",
@@ -33,7 +35,8 @@
     "pricingDetail": "Free / $20/mo Advanced",
     "trending": true,
     "new": false,
-    "dateAdded": "2026-03-08"
+    "dateAdded": "2026-03-08",
+    "image": null
   },
   {
     "name": "Perplexity",
@@ -45,7 +48,8 @@
     "pricingDetail": "Free / $20/mo Pro",
     "trending": true,
     "new": false,
-    "dateAdded": "2026-03-08"
+    "dateAdded": "2026-03-08",
+    "image": null
   },
   {
     "name": "Cursor",
@@ -57,7 +61,8 @@
     "pricingDetail": "Free / $20/mo Pro",
     "trending": true,
     "new": false,
-    "dateAdded": "2026-03-08"
+    "dateAdded": "2026-03-08",
+    "image": null
   },
   {
     "name": "Claude Code",
@@ -69,7 +74,8 @@
     "pricingDetail": "API pricing",
     "trending": true,
     "new": true,
-    "dateAdded": "2026-03-08"
+    "dateAdded": "2026-03-08",
+    "image": null
   },
   {
     "name": "v0",
@@ -81,7 +87,8 @@
     "pricingDetail": "Free / $20/mo Premium",
     "trending": true,
     "new": false,
-    "dateAdded": "2026-03-08"
+    "dateAdded": "2026-03-08",
+    "image": null
   },
   {
     "name": "Bolt",
@@ -93,7 +100,8 @@
     "pricingDetail": "Free / $20/mo Pro",
     "trending": true,
     "new": false,
-    "dateAdded": "2026-03-08"
+    "dateAdded": "2026-03-08",
+    "image": null
   },
   {
     "name": "Lovable",
@@ -105,7 +113,8 @@
     "pricingDetail": "Free / $20/mo Starter",
     "trending": true,
     "new": true,
-    "dateAdded": "2026-03-08"
+    "dateAdded": "2026-03-08",
+    "image": null
   },
   {
     "name": "Midjourney",
@@ -117,7 +126,8 @@
     "pricingDetail": "From $10/mo",
     "trending": false,
     "new": false,
-    "dateAdded": "2026-03-08"
+    "dateAdded": "2026-03-08",
+    "image": null
   },
   {
     "name": "DALL-E 3",
@@ -129,7 +139,8 @@
     "pricingDetail": "With ChatGPT Plus",
     "trending": false,
     "new": false,
-    "dateAdded": "2026-03-08"
+    "dateAdded": "2026-03-08",
+    "image": null
   },
   {
     "name": "ElevenLabs",
@@ -141,7 +152,8 @@
     "pricingDetail": "Free / $5/mo Starter",
     "trending": true,
     "new": false,
-    "dateAdded": "2026-03-08"
+    "dateAdded": "2026-03-08",
+    "image": null
   },
   {
     "name": "Suno",
@@ -153,7 +165,8 @@
     "pricingDetail": "Free / $10/mo Pro",
     "trending": true,
     "new": false,
-    "dateAdded": "2026-03-08"
+    "dateAdded": "2026-03-08",
+    "image": null
   },
   {
     "name": "Runway",
@@ -165,7 +178,8 @@
     "pricingDetail": "Free / $12/mo Standard",
     "trending": true,
     "new": false,
-    "dateAdded": "2026-03-08"
+    "dateAdded": "2026-03-08",
+    "image": null
   },
   {
     "name": "Descript",
@@ -177,7 +191,8 @@
     "pricingDetail": "Free / $24/mo Pro",
     "trending": false,
     "new": false,
-    "dateAdded": "2026-03-08"
+    "dateAdded": "2026-03-08",
+    "image": null
   },
   {
     "name": "Canva AI",
@@ -189,7 +204,8 @@
     "pricingDetail": "Free / $15/mo Pro",
     "trending": false,
     "new": false,
-    "dateAdded": "2026-03-08"
+    "dateAdded": "2026-03-08",
+    "image": null
   },
   {
     "name": "Gamma",
@@ -201,7 +217,8 @@
     "pricingDetail": "Free / $10/mo Plus",
     "trending": true,
     "new": false,
-    "dateAdded": "2026-03-08"
+    "dateAdded": "2026-03-08",
+    "image": null
   },
   {
     "name": "NotebookLM",
@@ -213,7 +230,8 @@
     "pricingDetail": "Free",
     "trending": true,
     "new": false,
-    "dateAdded": "2026-03-08"
+    "dateAdded": "2026-03-08",
+    "image": null
   },
   {
     "name": "Copy.ai",
@@ -225,7 +243,8 @@
     "pricingDetail": "Free / $49/mo Pro",
     "trending": false,
     "new": false,
-    "dateAdded": "2026-03-08"
+    "dateAdded": "2026-03-08",
+    "image": null
   },
   {
     "name": "n8n",
@@ -237,7 +256,8 @@
     "pricingDetail": "Free (self-host) / $20/mo Cloud",
     "trending": true,
     "new": false,
-    "dateAdded": "2026-03-08"
+    "dateAdded": "2026-03-08",
+    "image": null
   },
   {
     "name": "Make",
@@ -249,7 +269,8 @@
     "pricingDetail": "Free / $9/mo Core",
     "trending": false,
     "new": false,
-    "dateAdded": "2026-03-08"
+    "dateAdded": "2026-03-08",
+    "image": null
   },
   {
     "name": "Replit Agent",
@@ -261,7 +282,8 @@
     "pricingDetail": "Free / $25/mo Core",
     "trending": true,
     "new": false,
-    "dateAdded": "2026-03-08"
+    "dateAdded": "2026-03-08",
+    "image": null
   },
   {
     "name": "GitHub Copilot",
@@ -273,7 +295,8 @@
     "pricingDetail": "Free / $10/mo Individual",
     "trending": false,
     "new": false,
-    "dateAdded": "2026-03-08"
+    "dateAdded": "2026-03-08",
+    "image": null
   },
   {
     "name": "Ideogram",
@@ -285,6 +308,7 @@
     "pricingDetail": "Free / $8/mo Basic",
     "trending": true,
     "new": true,
-    "dateAdded": "2026-03-08"
+    "dateAdded": "2026-03-08",
+    "image": null
   }
 ]

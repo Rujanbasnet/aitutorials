@@ -1,0 +1,73 @@
+---
+import learningPaths from '@data/learning-paths.json';
+
+interface Props {
+  currentTutorialId: string;
+}
+
+const { currentTutorialId } = Astro.props;
+
+// Find which path(s) this tutorial belongs to
+const matchingPath = learningPaths.find(p => p.steps.includes(currentTutorialId));
+
+if (!matchingPath) return; // Don't render if not in any path
+
+const stepIndex = matchingPath.steps.indexOf(currentTutorialId);
+const totalSteps = matchingPath.steps.length;
+const prevStep = stepIndex > 0 ? matchingPath.steps[stepIndex - 1] : null;
+const nextStep = stepIndex < totalSteps - 1 ? matchingPath.steps[stepIndex + 1] : null;
+const progressPct = ((stepIndex + 1) / totalSteps) * 100;
+
+const gradientColors = matchingPath.id === 'ai-foundations'
+  ? 'var(--color-sage), var(--color-accent)'
+  : 'var(--color-accent), var(--color-clay)';
+---
+
+{matchingPath && (
+  <div class="mb-10 bg-[var(--color-bg-warm)] border border-[var(--color-border)] rounded-xl p-5">
+    <div class="flex items-center justify-between mb-3">
+      <a href={`/paths/${matchingPath.id}/`} class="text-xs font-semibold uppercase tracking-wider text-[var(--color-accent)] hover:underline">
+        {matchingPath.title}
+      </a>
+      <span class="text-xs text-[var(--color-text-muted)]">
+        Step {stepIndex + 1} of {totalSteps}
+      </span>
+    </div>
+
+    {/* Progress bar */}
+    <div class="w-full h-1.5 bg-[var(--color-border)] rounded-full overflow-hidden mb-4">
+      <div
+        class="h-full rounded-full"
+        style={`width: ${progressPct}%; background: linear-gradient(90deg, ${gradientColors});`}
+      ></div>
+    </div>
+
+    {/* Prev / Next */}
+    <div class="flex items-center justify-between gap-4">
+      {prevStep ? (
+        <a href={`/tutorials/${prevStep}/`} class="text-sm text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)] transition-colors inline-flex items-center gap-1">
+          <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" />
+          </svg>
+          Previous
+        </a>
+      ) : <span />}
+
+      {nextStep ? (
+        <a href={`/tutorials/${nextStep}/`} class="text-sm font-medium text-[var(--color-accent)] hover:text-[var(--color-accent-hover)] transition-colors inline-flex items-center gap-1">
+          Next
+          <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
+          </svg>
+        </a>
+      ) : (
+        <a href={`/paths/${matchingPath.id}/`} class="text-sm font-medium text-[var(--color-sage)] hover:underline inline-flex items-center gap-1">
+          Path complete!
+          <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+          </svg>
+        </a>
+      )}
+    </div>
+  </div>
+)}

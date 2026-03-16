@@ -22,7 +22,8 @@ const { Content } = await render(entry);
   image={entry.data.image}
   tags={entry.data.tags}
   body={entry.body || ''}
-  collection="nonCoder"
+  collection="non-coder"
+  category={entry.data.category}
 >
   <Content />
 </ContentLayout>

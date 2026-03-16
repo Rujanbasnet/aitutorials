@@ -1,0 +1,77 @@
+---
+title: "Create a Quiz About Yourself"
+description: "Build a fun, interactive quiz that your friends can take to see how well they know you. One prompt, instant shareable quiz."
+pubDate: 2026-03-16
+tags: ['beginner', 'fun', 'html']
+category: 'fun'
+difficulty: 'beginner'
+estimatedTime: '3 min'
+whatYoullBuild: 'An interactive personality quiz with scoring, animations, and shareable results'
+platforms: ['ChatGPT', 'Claude', 'Gemini']
+---
+
+## What you'll build
+
+A fun, interactive quiz that tests how well your friends know you. It has multiple-choice questions, a score counter, animated transitions, and a results screen with a personalised message. Send the link to friends and watch them try to get 100%.
+
+## The prompt
+
+Copy this block, **fill in your answers**, then paste into any AI chatbot:
+
+```text
+Create a single-file HTML page with an interactive "How Well Do You Know Me?" quiz. Here are my details:
+
+**My answers (these are the CORRECT answers to use):**
+1. What's my favourite food? → [YOUR ANSWER, e.g., "Sushi"]  (wrong options: [e.g., "Pizza", "Tacos", "Pasta"])
+2. What's my dream travel destination? → [YOUR ANSWER] (wrong options: [3 alternatives])
+3. What's my biggest pet peeve? → [YOUR ANSWER] (wrong options: [3 alternatives])
+4. What would I do with a million dollars? → [YOUR ANSWER] (wrong options: [3 alternatives])
+5. What's my hidden talent? → [YOUR ANSWER] (wrong options: [3 alternatives])
+6. What's my go-to karaoke song? → [YOUR ANSWER] (wrong options: [3 alternatives])
+7. What am I most likely to binge-watch? → [YOUR ANSWER] (wrong options: [3 alternatives])
+8. What's my morning drink? → [YOUR ANSWER] (wrong options: [3 alternatives])
+
+**Design requirements:**
+- One question at a time with smooth slide transitions
+- Progress bar at the top showing question X of 8
+- Colourful, playful design with a gradient background (purple to pink to orange)
+- Animated correct/wrong feedback (green flash for correct, red shake for wrong)
+- Final results screen showing score out of 8 with a fun message:
+  - 8/8: "Bestie status confirmed! 👑"
+  - 6-7: "Pretty close! You know me well 🎯"
+  - 4-5: "Not bad, but we need to hang out more 😄"
+  - 0-3: "Do you even know me?! 😂"
+- A "Share Results" button at the end
+- Mobile-friendly responsive design
+- All in a single HTML file, no external dependencies
+
+Output ONLY the complete HTML file.
+```
+
+## Where to paste it
+
+- **[ChatGPT](https://chat.openai.com)** — Free tier works. Gives you an interactive preview.
+- **[Claude](https://claude.ai)** — Free tier works. Renders as a playable artifact.
+- **[Gemini](https://gemini.google.com)** — Free tier works. Copy code and open in browser.
+
+## How to share it with friends
+
+1. Save the code as `quiz.html`
+2. Open it in your browser to make sure it works
+3. To share online: upload to a free hosting service like [Tiiny.host](https://tiiny.host) — just drag and drop the HTML file and get a shareable link
+
+Or just send the file directly via message and tell friends to open it in their browser.
+
+## What just happened
+
+You just built a complete interactive web application — with animations, state management, scoring logic, and a responsive design — from a single prompt. The AI handled the HTML structure, CSS animations, and JavaScript game logic all at once.
+
+A web developer would charge $200+ to build this. A quiz platform like Typeform charges $25/month. You just made it for free.
+
+## Make it your own
+
+- *"Add a timer — 15 seconds per question"*
+- *"Include a photo of me at the top"* (provide an image URL)
+- *"Make it 15 questions instead of 8"*
+- *"Add a leaderboard that saves scores to localStorage"*
+- *"Change the theme to dark mode with neon accents"*

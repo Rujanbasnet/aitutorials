@@ -59,6 +59,8 @@ const { tag, entries } = Astro.props;
             tags={entry.data.tags}
             difficulty={entry.data.difficulty}
             body={entry.body || ''}
+            category={entry.data.category || ''}
+            collection={entry._collection}
           />
         </div>
       ))}

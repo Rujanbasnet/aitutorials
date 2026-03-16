@@ -1,6 +1,7 @@
 ---
 import { formatDateShort } from '@utils/dates';
 import { getReadingTime } from '@utils/reading-time';
+import HeroImage from './HeroImage.astro';
 
 interface Props {
   title: string;
@@ -12,6 +13,8 @@ interface Props {
   image?: string;
   body?: string;
   featured?: boolean;
+  category?: string;
+  collection?: string;
 }
 
 const {
@@ -24,6 +27,8 @@ const {
   image,
   body = '',
   featured = false,
+  category = '',
+  collection = '',
 } = Astro.props;
 
 const readingTime = body ? getReadingTime(body) : '';
@@ -36,7 +41,7 @@ const difficultyClass: Record<string, string> = {
 ---
 
 <a href={href} class:list={['card-accent block overflow-hidden group', featured && 'md:col-span-2']}>
-  {image && (
+  {image ? (
     <div class="aspect-video overflow-hidden">
       <img
         src={image}
@@ -45,6 +50,8 @@ const difficultyClass: Record<string, string> = {
         loading="lazy"
       />
     </div>
+  ) : (
+    <HeroImage title={title} category={category} collection={collection} />
   )}
   <div class="p-5 sm:p-6">
     <div class="flex flex-wrap items-center gap-2 mb-3">

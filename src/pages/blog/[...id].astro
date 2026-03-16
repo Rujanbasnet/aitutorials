@@ -23,6 +23,7 @@ const { Content } = await render(entry);
   tags={entry.data.tags}
   body={entry.body || ''}
   collection="blog"
+  category={entry.data.category}
 >
   <Content />
 </ContentLayout>

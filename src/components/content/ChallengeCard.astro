@@ -1,0 +1,107 @@
+---
+import HeroImage from './HeroImage.astro';
+
+interface Props {
+  title: string;
+  description: string;
+  href: string;
+  estimatedTime: string;
+  difficulty: string;
+  category: string;
+  whatYoullBuild: string;
+  platforms: string[];
+}
+
+const { title, description, href, estimatedTime, difficulty, category, whatYoullBuild, platforms } = Astro.props;
+
+const difficultyClass: Record<string, string> = {
+  beginner: 'badge-beginner',
+  intermediate: 'badge-intermediate',
+};
+
+const categoryLabels: Record<string, string> = {
+  build: 'Build it',
+  create: 'Create it',
+  practical: 'Use it',
+  fun: 'Fun',
+};
+---
+
+<a href={href} class="challenge-card card-accent block overflow-hidden group">
+  <div class="challenge-hero relative">
+    <HeroImage title={title} category={category} collection="challenges" class="!aspect-[3/1]" />
+    <div class="challenge-shimmer"></div>
+  </div>
+  <div class="p-5 sm:p-6">
+    <div class="flex flex-wrap items-center gap-2 mb-3">
+      <span class:list={['text-xs font-semibold px-2.5 py-0.5 rounded-sm uppercase tracking-wide', difficultyClass[difficulty] || 'tag']}>
+        {difficulty}
+      </span>
+      <span class="tag">{categoryLabels[category] || category}</span>
+      <span class="text-xs text-[var(--color-text-muted)]">{estimatedTime}</span>
+    </div>
+
+    <h3 class="text-lg text-[var(--color-text-primary)] group-hover:text-[var(--color-accent)] transition-colors mb-2" style="font-family: var(--font-display)">
+      {title}
+    </h3>
+
+    <p class="text-sm text-[var(--color-text-secondary)] line-clamp-2 mb-4 leading-relaxed">
+      {description}
+    </p>
+
+    <div class="flex items-center justify-between">
+      <div class="flex items-center gap-1.5">
+        {platforms.slice(0, 3).map((p) => (
+          <span class="text-[0.6875rem] font-medium px-2 py-0.5 rounded-full bg-[var(--color-bg-warm)] text-[var(--color-text-muted)]">
+            {p}
+          </span>
+        ))}
+      </div>
+      <span class="challenge-cta text-sm font-medium text-[var(--color-accent)] inline-flex items-center gap-1">
+        Try it
+        <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
+        </svg>
+      </span>
+    </div>
+  </div>
+</a>
+
+<style>
+  .challenge-card {
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .challenge-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 40px -8px rgba(20, 20, 19, 0.12);
+  }
+
+  /* Shimmer sweep on hover */
+  .challenge-hero {
+    overflow: hidden;
+  }
+  .challenge-shimmer {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      105deg,
+      transparent 40%,
+      rgba(255, 255, 255, 0.2) 50%,
+      transparent 60%
+    );
+    transform: translateX(-100%);
+    transition: none;
+  }
+  .challenge-card:hover .challenge-shimmer {
+    transform: translateX(100%);
+    transition: transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  /* CTA arrow slide */
+  .challenge-cta {
+    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .challenge-card:hover .challenge-cta {
+    transform: translateX(4px);
+  }
+</style>

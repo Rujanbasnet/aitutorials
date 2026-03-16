@@ -1,0 +1,258 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import { getLearningPathsWithTime } from '@utils/collections';
+
+const paths = await getLearningPathsWithTime();
+const foundationsPath = paths.find(p => p.id === 'ai-foundations');
+const automationPath = paths.find(p => p.id === 'automation-builder');
+---
+
+<BaseLayout title="Start Here" description="New to AI? Start here. Pick your path and learn at your own pace with guided tutorials.">
+
+  <!-- Hero with robot image -->
+  <section class="relative overflow-hidden" style="background: var(--color-bg-dark);">
+    <img
+      src="/images/tutorials/robot-warehouse.jpg"
+      alt="An AI robot"
+      class="absolute inset-0 w-full h-full object-cover opacity-50"
+      loading="eager"
+    />
+    <div class="absolute inset-0 bg-gradient-to-b from-[rgba(20,20,19,0.5)] via-[rgba(20,20,19,0.2)] to-[rgba(20,20,19,0.7)]"></div>
+
+    <div class="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16 lg:py-24 text-center">
+      <p class="label mb-4" style="color: var(--color-accent-soft);">Welcome</p>
+      <h1 class="text-display mb-6" style="color: white;">
+        New to AI?<br />
+        <span style="color: var(--color-accent-soft);">Start here.</span>
+      </h1>
+      <p class="text-lg max-w-2xl mx-auto leading-relaxed" style="color: rgba(255,255,255,0.75);">
+        You don't need to be technical. You don't need to write code. Pick the path that fits what you want to do, and we'll walk you through it step by step.
+      </p>
+    </div>
+  </section>
+
+  <!-- Path Cards -->
+  <section class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 -mt-4 pb-16 lg:pb-24">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+      <!-- Path 1: AI Foundations -->
+      <a href="/paths/ai-foundations/" class="group block">
+        <div class="relative h-full bg-[var(--color-bg-card)] border-2 border-[var(--color-border)] rounded-2xl p-8 hover:border-[var(--color-sage)] hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
+          <div class="w-14 h-14 rounded-xl flex items-center justify-center mb-6" style="background: var(--color-sage-soft);">
+            <svg class="w-7 h-7" style="color: var(--color-sage);" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 21a9.004 9.004 0 008.716-6.747M12 21a9.004 9.004 0 01-8.716-6.747M12 21c2.485 0 4.5-4.03 4.5-9S14.485 3 12 3m0 18c-2.485 0-4.5-4.03-4.5-9S9.515 3 12 3m0 0a8.997 8.997 0 017.843 4.582M12 3a8.997 8.997 0 00-7.843 4.582m15.686 0A11.953 11.953 0 0112 10.5c-2.998 0-5.74-1.1-7.843-2.918m15.686 0A8.959 8.959 0 0121 12c0 .778-.099 1.533-.284 2.253m0 0A17.919 17.919 0 0112 16.5c-3.162 0-6.133-.815-8.716-2.247m0 0A9.015 9.015 0 013 12c0-1.605.42-3.113 1.157-4.418" />
+            </svg>
+          </div>
+
+          <span class="badge-beginner text-[0.6875rem] font-semibold px-2.5 py-0.5 rounded-sm uppercase tracking-wider mb-4 inline-block">
+            Beginner
+          </span>
+
+          <h2 class="text-xl text-[var(--color-text-primary)] mb-3 group-hover:text-[var(--color-sage)] transition-colors" style="font-family: var(--font-display);">
+            I'm completely new to AI
+          </h2>
+
+          <p class="text-sm text-[var(--color-text-secondary)] leading-relaxed mb-6">
+            Learn what AI actually is, how to talk to it effectively, and which tools are worth your time. No jargon, no prerequisites.
+          </p>
+
+          {foundationsPath && (
+            <p class="text-xs text-[var(--color-text-muted)]">
+              {foundationsPath.stepCount} tutorials &middot; {foundationsPath.totalTime}
+            </p>
+          )}
+
+          <div class="mt-4 text-sm font-medium text-[var(--color-sage)] group-hover:translate-x-1 transition-transform inline-flex items-center gap-1">
+            Start learning
+            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
+            </svg>
+          </div>
+        </div>
+      </a>
+
+      <!-- Path 2: Find the Right Tools -->
+      <a href="/tools/" class="group block">
+        <div class="relative h-full bg-[var(--color-bg-card)] border-2 border-[var(--color-border)] rounded-2xl p-8 hover:border-[var(--color-accent)] hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
+          <div class="w-14 h-14 rounded-xl flex items-center justify-center mb-6" style="background: var(--color-accent-soft);">
+            <svg class="w-7 h-7" style="color: var(--color-accent);" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M11.42 15.17l-5.384 3.183A1.5 1.5 0 014.5 17.03V6.97a1.5 1.5 0 011.536-1.323l5.384 3.183m0 0L16.5 12m-5.08 3.17L16.5 12m0 0l5.08-3.17M16.5 12l5.08 3.17" />
+            </svg>
+          </div>
+
+          <span class="text-[0.6875rem] font-semibold px-2.5 py-0.5 rounded-sm uppercase tracking-wider mb-4 inline-block bg-[var(--color-accent-soft)] text-[var(--color-accent)]">
+            Explore
+          </span>
+
+          <h2 class="text-xl text-[var(--color-text-primary)] mb-3 group-hover:text-[var(--color-accent)] transition-colors" style="font-family: var(--font-display);">
+            I want to find the right tools
+          </h2>
+
+          <p class="text-sm text-[var(--color-text-secondary)] leading-relaxed mb-6">
+            Browse our curated directory of 24+ AI tools with honest descriptions, pricing, and categories to find exactly what you need.
+          </p>
+
+          <p class="text-xs text-[var(--color-text-muted)]">
+            24 tools &middot; 9 categories
+          </p>
+
+          <div class="mt-4 text-sm font-medium text-[var(--color-accent)] group-hover:translate-x-1 transition-transform inline-flex items-center gap-1">
+            Browse tools
+            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
+            </svg>
+          </div>
+        </div>
+      </a>
+
+      <!-- Path 3: Automation -->
+      <a href="/paths/automation-builder/" class="group block">
+        <div class="relative h-full bg-[var(--color-bg-card)] border-2 border-[var(--color-border)] rounded-2xl p-8 hover:border-[var(--color-clay)] hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
+          <div class="w-14 h-14 rounded-xl flex items-center justify-center mb-6" style="background: var(--color-clay-soft);">
+            <svg class="w-7 h-7" style="color: var(--color-clay);" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75z" />
+            </svg>
+          </div>
+
+          <span class="badge-intermediate text-[0.6875rem] font-semibold px-2.5 py-0.5 rounded-sm uppercase tracking-wider mb-4 inline-block">
+            Intermediate
+          </span>
+
+          <h2 class="text-xl text-[var(--color-text-primary)] mb-3 group-hover:text-[var(--color-clay)] transition-colors" style="font-family: var(--font-display);">
+            I want to automate my work
+          </h2>
+
+          <p class="text-sm text-[var(--color-text-secondary)] leading-relaxed mb-6">
+            Learn to build AI workflows and agents that handle repetitive tasks for you. Save hours every week with practical automation.
+          </p>
+
+          {automationPath && (
+            <p class="text-xs text-[var(--color-text-muted)]">
+              {automationPath.stepCount} tutorials &middot; {automationPath.totalTime}
+            </p>
+          )}
+
+          <div class="mt-4 text-sm font-medium text-[var(--color-clay)] group-hover:translate-x-1 transition-transform inline-flex items-center gap-1">
+            Start building
+            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
+            </svg>
+          </div>
+        </div>
+      </a>
+
+      <!-- Path 4: Try It Yourself -->
+      <a href="/challenges/" class="group block">
+        <div class="relative h-full bg-[var(--color-bg-card)] border-2 border-[var(--color-border)] rounded-2xl p-8 hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
+          <div class="w-14 h-14 rounded-xl flex items-center justify-center mb-6" style="background: linear-gradient(135deg, var(--color-clay-soft), var(--color-accent-soft));">
+            <svg class="w-7 h-7" style="color: var(--color-clay);" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09zM18.259 8.715L18 9.75l-.259-1.035a3.375 3.375 0 00-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 002.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 002.455 2.456L21.75 6l-1.036.259a3.375 3.375 0 00-2.455 2.456zM16.894 20.567L16.5 21.75l-.394-1.183a2.25 2.25 0 00-1.423-1.423L13.5 18.75l1.183-.394a2.25 2.25 0 001.423-1.423l.394-1.183.394 1.183a2.25 2.25 0 001.423 1.423l1.183.394-1.183.394a2.25 2.25 0 00-1.423 1.423z" />
+            </svg>
+          </div>
+
+          <span class="text-[0.6875rem] font-semibold px-2.5 py-0.5 rounded-sm uppercase tracking-wider mb-4 inline-block" style="background: var(--color-clay-soft); color: var(--color-clay);">
+            Instant
+          </span>
+
+          <h2 class="text-xl text-[var(--color-text-primary)] mb-3 transition-colors" style="font-family: var(--font-display);">
+            I want to see AI magic right now
+          </h2>
+
+          <p class="text-sm text-[var(--color-text-secondary)] leading-relaxed mb-6">
+            Copy a prompt, paste it into any AI chatbot, and build something incredible in 2 minutes. Games, images, resumes, and more.
+          </p>
+
+          <p class="text-xs text-[var(--color-text-muted)]">
+            6 challenges &middot; 2-5 min each
+          </p>
+
+          <div class="mt-4 text-sm font-medium group-hover:translate-x-1 transition-transform inline-flex items-center gap-1" style="color: var(--color-clay);">
+            Try it now
+            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
+            </svg>
+          </div>
+        </div>
+      </a>
+
+    </div>
+  </section>
+
+  <!-- Newsletter / Lead Magnet -->
+  <section class="bg-[var(--color-bg-dark)] text-white">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16 lg:py-20 text-center">
+      <p class="text-xs font-semibold uppercase tracking-widest text-[var(--color-accent)] mb-4">Free Resource</p>
+      <h2 class="text-heading text-white mb-4" style="font-family: var(--font-display);">Get the AI Starter Kit</h2>
+      <p class="text-[rgba(255,255,255,0.7)] max-w-lg mx-auto mb-8 leading-relaxed">
+        Subscribe to our weekly newsletter and get a curated guide to the best AI tools, prompting tips, and tutorials delivered to your inbox.
+      </p>
+      <form
+        id="start-newsletter-form"
+        method="POST"
+        action="https://b4556b17.sibforms.com/serve/MUIFAHjyU7YMpzSHJctCG76TeifU-zeadE5xjY7m1BVB8OAp92-d_PQhCoOWQEOmk4MS7WNag_cREDOfr2gD_9admQ-lmt1YRRSin829IqgP-7m6OgZ0UjrDdasmFSz8flCQlk8y_YBI-lKiQQ9qqxWgkhUmBJsqzUenQVwYH8PQvtI1fDVLICJxRSqP5KofXY00WORK9nXSGAsqiQ=="
+        class="max-w-md mx-auto"
+      >
+        <div class="flex flex-col sm:flex-row gap-3">
+          <input
+            type="email"
+            name="EMAIL"
+            required
+            placeholder="you@example.com"
+            class="flex-1 px-4 py-3 rounded-full bg-[rgba(255,255,255,0.1)] border border-[rgba(255,255,255,0.15)] text-white placeholder:text-[rgba(255,255,255,0.4)] focus:outline-none focus:border-[var(--color-accent)] focus:ring-1 focus:ring-[var(--color-accent)] transition-all text-sm"
+          />
+          <button
+            type="submit"
+            class="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-full bg-[var(--color-accent)] text-white font-medium hover:bg-[var(--color-accent-hover)] transition-colors text-sm whitespace-nowrap"
+          >
+            Subscribe
+            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
+            </svg>
+          </button>
+        </div>
+        <div style="position: absolute; left: -5000px;" aria-hidden="true">
+          <input type="text" name="email_address_check" value="" tabindex="-1" autocomplete="off" />
+        </div>
+        <input type="hidden" name="locale" value="en" />
+        <p class="text-xs text-[rgba(255,255,255,0.4)] mt-3">Weekly. No spam. Unsubscribe anytime.</p>
+      </form>
+      <div id="start-newsletter-success" style="display:none;">
+        <p class="text-heading text-white mb-2" style="font-family: var(--font-display);">You're in!</p>
+        <p class="text-sm text-[rgba(255,255,255,0.7)]">Check your inbox to confirm your subscription.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Fallback -->
+  <section class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12 text-center">
+    <p class="text-[var(--color-text-muted)]">
+      Just browsing?
+      <a href="/tutorials/" class="text-[var(--color-accent)] hover:underline">Browse all tutorials</a>
+      or check the
+      <a href="/news/" class="text-[var(--color-accent)] hover:underline">latest AI news</a>.
+    </p>
+  </section>
+
+</BaseLayout>
+
+<script is:inline>
+  const startForm = document.getElementById('start-newsletter-form');
+  if (startForm) {
+    startForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const formData = new FormData(startForm);
+      const btn = startForm.querySelector('button[type="submit"]');
+      const originalHTML = btn.innerHTML;
+      btn.textContent = 'Subscribing...';
+      btn.disabled = true;
+      try {
+        await fetch(startForm.action, { method: 'POST', body: formData, mode: 'no-cors' });
+        startForm.style.display = 'none';
+        document.getElementById('start-newsletter-success').style.display = 'block';
+      } catch (err) {
+        btn.innerHTML = originalHTML;
+        btn.disabled = false;
+      }
+    });
+  }
+</script>

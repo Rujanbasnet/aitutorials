@@ -8,19 +8,19 @@ const categories = ['all', 'prompt-engineering', 'ai-tools', 'automation', 'codi
 ---
 
 <BaseLayout title="AI Tutorials" description="Step-by-step AI tutorials from beginner to advanced. Learn prompt engineering, AI tools, automation, and more.">
-  <!-- Header with background image -->
-  <section class="relative overflow-hidden bg-warm">
+  <!-- Header with robot image -->
+  <section class="relative overflow-hidden" style="background: var(--color-bg-dark);">
     <img
-      src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=1600&h=400&fit=crop&q=80"
-      alt=""
-      class="absolute inset-0 w-full h-full object-cover opacity-[0.06]"
+      src="/images/tutorials/robot-books.jpg"
+      alt="A robot studying AI books"
+      class="absolute inset-0 w-full h-full object-cover opacity-60"
       loading="eager"
-      aria-hidden="true"
     />
+    <div class="absolute inset-0 bg-gradient-to-r from-[rgba(20,20,19,0.7)] via-[rgba(20,20,19,0.3)] to-transparent"></div>
     <div class="relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16 lg:py-20">
-      <p class="label mb-3">Learn</p>
-      <h1 class="text-title mb-3">AI Tutorials</h1>
-      <p class="text-lg text-[var(--color-text-secondary)] max-w-xl">
+      <p class="label mb-3" style="color: var(--color-accent-soft);">Learn</p>
+      <h1 class="text-title mb-3" style="color: white;">AI Tutorials</h1>
+      <p class="text-lg max-w-xl" style="color: rgba(255,255,255,0.75);">
         Step-by-step guides to master AI tools, prompt engineering, and automation. From beginner to advanced.
       </p>
     </div>
@@ -57,6 +57,8 @@ const categories = ['all', 'prompt-engineering', 'ai-tools', 'automation', 'codi
               difficulty={tutorial.data.difficulty}
               image={tutorial.data.image}
               body={tutorial.body || ''}
+              category={tutorial.data.category}
+              collection="tutorials"
             />
           </div>
         ))}

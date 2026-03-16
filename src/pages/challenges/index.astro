@@ -1,0 +1,195 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import ChallengeCard from '@components/content/ChallengeCard.astro';
+import { getPublishedChallenges } from '@utils/collections';
+
+const challenges = await getPublishedChallenges();
+---
+
+<BaseLayout title="Try It Yourself" description="Copy a prompt, paste it into any AI chatbot, and watch magic happen. No coding required.">
+
+  <!-- Cinematic hero -->
+  <section class="challenges-hero relative overflow-hidden" style="background: var(--color-bg-dark);">
+    <img
+      src="/images/challenges/magic-hero.jpg"
+      alt="Woman wielding a fire staff"
+      class="absolute inset-0 w-full h-full object-cover opacity-60"
+      loading="eager"
+    />
+    <div class="absolute inset-0 bg-gradient-to-r from-[rgba(0,0,0,0.55)] via-[rgba(0,0,0,0.25)] to-transparent"></div>
+
+    <div class="relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-20 lg:py-28">
+      <p class="label mb-3" style="color: var(--color-accent-soft);">Try It Yourself</p>
+      <h1 class="text-title mb-3 hero-title" style="color: white;">Feel the magic.</h1>
+      <p class="text-lg max-w-xl hero-subtitle" style="color: rgba(255,255,255,0.8);">
+        Each challenge is a single prompt you copy and paste into an AI chatbot. No coding, no setup, no catch. Just paste and watch it build something incredible.
+      </p>
+
+      <div class="flex flex-wrap items-center gap-4 mt-8">
+        <div class="flex items-center gap-2 text-sm" style="color: rgba(255,255,255,0.6);">
+          <div class="w-2 h-2 rounded-full pulse-dot" style="background: var(--color-sage-soft);"></div>
+          Works on ChatGPT, Claude & Gemini
+        </div>
+        <div class="flex items-center gap-2 text-sm" style="color: rgba(255,255,255,0.6);">
+          <div class="w-2 h-2 rounded-full pulse-dot" style="background: var(--color-accent-soft); animation-delay: 0.5s;"></div>
+          No coding required
+        </div>
+        <div class="flex items-center gap-2 text-sm" style="color: rgba(255,255,255,0.6);">
+          <div class="w-2 h-2 rounded-full pulse-dot" style="background: var(--color-clay-soft); animation-delay: 1s;"></div>
+          2-5 minutes each
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- How it works — connected steps -->
+  <section class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12 steps-grid">
+      <div class="step-card text-center p-6 relative">
+        <div class="step-number w-12 h-12 rounded-xl mx-auto mb-4 flex items-center justify-center text-lg font-semibold" style="background: var(--color-accent-soft); color: var(--color-accent); font-family: var(--font-display);">
+          1
+        </div>
+        <h3 class="text-sm font-semibold text-[var(--color-text-primary)] mb-1">Copy the prompt</h3>
+        <p class="text-sm text-[var(--color-text-muted)]">Each challenge has a ready-to-use prompt. Just copy it.</p>
+        <div class="step-connector hidden md:block"></div>
+      </div>
+      <div class="step-card text-center p-6 relative">
+        <div class="step-number w-12 h-12 rounded-xl mx-auto mb-4 flex items-center justify-center text-lg font-semibold" style="background: var(--color-sage-soft); color: var(--color-sage); font-family: var(--font-display);">
+          2
+        </div>
+        <h3 class="text-sm font-semibold text-[var(--color-text-primary)] mb-1">Paste into any AI</h3>
+        <p class="text-sm text-[var(--color-text-muted)]">ChatGPT, Claude, Gemini — pick your favourite. They all work.</p>
+        <div class="step-connector hidden md:block"></div>
+      </div>
+      <div class="step-card text-center p-6">
+        <div class="step-number w-12 h-12 rounded-xl mx-auto mb-4 flex items-center justify-center text-lg font-semibold" style="background: var(--color-clay-soft); color: var(--color-clay); font-family: var(--font-display);">
+          3
+        </div>
+        <h3 class="text-sm font-semibold text-[var(--color-text-primary)] mb-1">Watch the magic</h3>
+        <p class="text-sm text-[var(--color-text-muted)]">The AI builds it for you. Play it, use it, share it.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Challenges grid -->
+  <section class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pb-16">
+    {challenges.length > 0 ? (
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 stagger">
+        {challenges.map((challenge) => (
+          <div class="fade-in">
+            <ChallengeCard
+              title={challenge.data.title}
+              description={challenge.data.description}
+              href={`/challenges/${challenge.id}/`}
+              estimatedTime={challenge.data.estimatedTime}
+              difficulty={challenge.data.difficulty}
+              category={challenge.data.category}
+              whatYoullBuild={challenge.data.whatYoullBuild}
+              platforms={challenge.data.platforms}
+            />
+          </div>
+        ))}
+      </div>
+    ) : (
+      <div class="card-warm p-16 text-center rounded-xl">
+        <h3 class="text-heading mb-2">Coming soon</h3>
+        <p class="text-[var(--color-text-secondary)]">Challenges are being created. Check back soon.</p>
+      </div>
+    )}
+  </section>
+
+  <!-- CTA -->
+  <section class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pb-16 text-center">
+    <div class="cta-card card-warm p-8 sm:p-10 rounded-xl relative overflow-hidden">
+      <div class="cta-glow"></div>
+      <h3 class="text-heading mb-3 relative">Want to go deeper?</h3>
+      <p class="text-[var(--color-text-secondary)] mb-6 max-w-md mx-auto relative">These challenges show you what AI can do. Our tutorials teach you how to master it.</p>
+      <div class="flex flex-col sm:flex-row items-center justify-center gap-3 relative">
+        <a href="/start/" class="inline-flex items-center px-6 py-3 rounded-full bg-[var(--color-text-primary)] text-white font-medium hover:bg-[var(--color-text-secondary)] transition-colors text-sm">
+          Start learning
+        </a>
+        <a href="/tutorials/" class="inline-flex items-center px-6 py-3 rounded-full border border-[var(--color-border)] text-[var(--color-text-secondary)] font-medium hover:border-[var(--color-border-strong)] transition-colors text-sm">
+          Browse tutorials
+        </a>
+      </div>
+    </div>
+  </section>
+
+</BaseLayout>
+
+<style>
+  /* ── Pulsing status dots ───────────────────────── */
+  .pulse-dot {
+    animation: pulse-ring 3s ease-in-out infinite;
+  }
+  @keyframes pulse-ring {
+    0%, 100% { box-shadow: 0 0 0 0 currentColor; opacity: 1; }
+    50%      { box-shadow: 0 0 0 4px transparent; opacity: 0.7; }
+  }
+
+  /* ── Hero text entrance ────────────────────────── */
+  .hero-title {
+    animation: slide-up 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+  .hero-subtitle {
+    animation: slide-up 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.15s both;
+  }
+  @keyframes slide-up {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ── Step connectors (dashed line between steps) ── */
+  .step-connector {
+    position: absolute;
+    top: 2rem;
+    right: -1.5rem;
+    width: 3rem;
+    height: 2px;
+    background: repeating-linear-gradient(
+      90deg,
+      var(--color-border-strong) 0,
+      var(--color-border-strong) 6px,
+      transparent 6px,
+      transparent 12px
+    );
+  }
+
+  /* Step card hover */
+  .step-card {
+    border-radius: 1rem;
+    transition: background 0.3s, transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .step-card:hover {
+    background: var(--color-bg-warm);
+    transform: translateY(-2px);
+  }
+  .step-number {
+    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .step-card:hover .step-number {
+    transform: scale(1.1);
+  }
+
+  /* ── CTA glow ──────────────────────────────────── */
+  .cta-glow {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at 50% 0%, var(--color-accent-soft) 0%, transparent 60%);
+    opacity: 0;
+    transition: opacity 0.5s;
+  }
+  .cta-card:hover .cta-glow {
+    opacity: 0.5;
+  }
+
+  /* Reduce motion for accessibility */
+  @media (prefers-reduced-motion: reduce) {
+    .hero-orb,
+    .pulse-dot,
+    .hero-title,
+    .hero-subtitle { animation: none; }
+    .step-card,
+    .step-number { transition: none; }
+  }
+</style>

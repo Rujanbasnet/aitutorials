@@ -1,0 +1,225 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import { getPublishedTutorials } from '@utils/collections';
+import learningPaths from '@data/learning-paths.json';
+
+export function getStaticPaths() {
+  return learningPaths.map((path) => ({
+    params: { id: path.id },
+    props: { path },
+  }));
+}
+
+const { path } = Astro.props;
+const allTutorials = await getPublishedTutorials();
+
+// Get ordered tutorials for this path
+const tutorials = path.steps
+  .map((stepId: string) => allTutorials.find((t) => t.id === stepId))
+  .filter(Boolean);
+
+// Compute total time
+let totalMinutes = 0;
+for (const t of tutorials) {
+  const mins = parseInt(t.data.estimatedTime, 10);
+  if (!isNaN(mins)) totalMinutes += mins;
+}
+
+const difficultyClass: Record<string, string> = {
+  beginner: 'badge-beginner',
+  intermediate: 'badge-intermediate',
+  advanced: 'badge-advanced',
+};
+
+const gradientColors = path.id === 'ai-foundations'
+  ? 'var(--color-sage), var(--color-accent)'
+  : 'var(--color-accent), var(--color-clay)';
+---
+
+<BaseLayout title={`${path.title} — Learning Path`} description={path.description}>
+
+  <!-- Hero -->
+  <section class="relative overflow-hidden bg-warm">
+    <div class="absolute inset-0 opacity-[0.03]" style="background-image: radial-gradient(circle at 1px 1px, var(--color-text-primary) 1px, transparent 0); background-size: 24px 24px;"></div>
+    <div class="relative max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-16 lg:py-20">
+      <a href="/paths/" class="text-sm text-[var(--color-text-muted)] hover:text-[var(--color-text-primary)] transition-colors mb-6 inline-block">
+        &larr; All Learning Paths
+      </a>
+
+      <span class:list={[
+        'text-xs font-semibold px-2.5 py-0.5 rounded-sm uppercase tracking-wider inline-block mb-4',
+        difficultyClass[path.difficulty] || 'tag',
+      ]}>
+        {path.difficulty}
+      </span>
+
+      <h1 class="text-title mb-4">{path.title}</h1>
+      <p class="text-lg text-[var(--color-text-secondary)] max-w-xl mb-6 leading-relaxed">
+        {path.description}
+      </p>
+
+      <div class="flex items-center gap-4 text-sm text-[var(--color-text-muted)]">
+        <span><strong class="text-[var(--color-text-primary)]">{tutorials.length}</strong> tutorials</span>
+        <span>&middot;</span>
+        <span><strong class="text-[var(--color-text-primary)]">{totalMinutes}</strong> min total</span>
+      </div>
+
+      <!-- Progress bar -->
+      <div class="mt-8">
+        <div class="flex items-center justify-between text-xs text-[var(--color-text-muted)] mb-2">
+          <span>Progress</span>
+          <span id="progress-text">0 of {tutorials.length} completed</span>
+        </div>
+        <div class="w-full h-2 bg-[var(--color-border)] rounded-full overflow-hidden">
+          <div
+            id="progress-bar"
+            class="h-full rounded-full transition-all duration-500 ease-out"
+            style={`width: 0%; background: linear-gradient(90deg, ${gradientColors});`}
+          ></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Steps -->
+  <section class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:py-16">
+    <ol class="space-y-4" id="steps-list">
+      {tutorials.map((tutorial, i) => (
+        <li class="step-item" data-step-id={tutorial.id}>
+          <a href={`/tutorials/${tutorial.id}/`} class="group block">
+            <div class="flex items-start gap-5 bg-[var(--color-bg-card)] border border-[var(--color-border)] rounded-xl p-5 sm:p-6 hover:border-[var(--color-border-strong)] hover:shadow-sm transition-all duration-300">
+              {/* Step number */}
+              <div class="shrink-0">
+                <div class="step-number w-10 h-10 rounded-full border-2 border-[var(--color-border)] flex items-center justify-center text-sm font-semibold text-[var(--color-text-muted)] transition-all">
+                  {i + 1}
+                </div>
+              </div>
+
+              {/* Content */}
+              <div class="flex-1 min-w-0">
+                <div class="flex flex-wrap items-center gap-2 mb-1">
+                  <span class:list={[
+                    'text-[0.6rem] font-bold uppercase tracking-wider px-1.5 py-0.5 rounded',
+                    difficultyClass[tutorial.data.difficulty] || 'tag',
+                  ]}>
+                    {tutorial.data.difficulty}
+                  </span>
+                  <span class="text-xs text-[var(--color-text-muted)]">{tutorial.data.estimatedTime}</span>
+                </div>
+                <h3 class="text-lg text-[var(--color-text-primary)] group-hover:text-[var(--color-accent)] transition-colors" style="font-family: var(--font-display);">
+                  {tutorial.data.title}
+                </h3>
+                <p class="text-sm text-[var(--color-text-secondary)] mt-1 line-clamp-2">
+                  {tutorial.data.description}
+                </p>
+              </div>
+
+              {/* Checkmark */}
+              <div class="shrink-0 self-center">
+                <button
+                  class="step-check w-8 h-8 rounded-full border-2 border-[var(--color-border)] flex items-center justify-center text-transparent hover:border-[var(--color-sage)] transition-all"
+                  data-step-id={tutorial.id}
+                  aria-label={`Mark "${tutorial.data.title}" as complete`}
+                  onclick="event.preventDefault(); event.stopPropagation();"
+                >
+                  <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+                  </svg>
+                </button>
+              </div>
+            </div>
+          </a>
+        </li>
+      ))}
+    </ol>
+
+    <!-- Next Steps -->
+    <div class="mt-12 card-warm rounded-xl p-8 text-center">
+      <h3 class="text-heading mb-3">What's next?</h3>
+      <p class="text-[var(--color-text-secondary)] mb-6 max-w-md mx-auto">
+        {path.id === 'ai-foundations'
+          ? 'Ready to level up? The Automation Builder path teaches you to put AI to work.'
+          : 'Mastered automation? Explore our tutorials for more advanced topics.'}
+      </p>
+      <a
+        href={path.id === 'ai-foundations' ? '/paths/automation-builder/' : '/tutorials/'}
+        class="inline-flex items-center gap-2 px-6 py-2.5 rounded-full bg-[var(--color-text-primary)] text-white text-sm font-medium hover:bg-[var(--color-text-secondary)] transition-colors"
+      >
+        {path.id === 'ai-foundations' ? 'Start Automation Builder' : 'Browse all tutorials'}
+        <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
+        </svg>
+      </a>
+    </div>
+  </section>
+
+</BaseLayout>
+
+<style>
+  .step-item.completed .step-number {
+    background: var(--color-sage);
+    border-color: var(--color-sage);
+    color: white;
+  }
+  .step-item.completed .step-check {
+    background: var(--color-sage);
+    border-color: var(--color-sage);
+    color: white;
+  }
+</style>
+
+<script is:inline define:vars={{ pathId: path.id, totalSteps: tutorials.length }}>
+  const STORAGE_KEY = `ait-path-${pathId}`;
+
+  function getCompleted() {
+    try {
+      const data = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
+      return data.completedSteps || [];
+    } catch { return []; }
+  }
+
+  function saveCompleted(steps) {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify({
+      completedSteps: steps,
+      lastVisited: new Date().toISOString(),
+    }));
+  }
+
+  function updateUI() {
+    const completed = getCompleted();
+    const items = document.querySelectorAll('.step-item');
+    items.forEach(item => {
+      const id = item.dataset.stepId;
+      if (completed.includes(id)) {
+        item.classList.add('completed');
+      } else {
+        item.classList.remove('completed');
+      }
+    });
+
+    // Update progress bar
+    const pct = totalSteps > 0 ? (completed.length / totalSteps) * 100 : 0;
+    const bar = document.getElementById('progress-bar');
+    const text = document.getElementById('progress-text');
+    if (bar) bar.style.width = pct + '%';
+    if (text) text.textContent = `${completed.length} of ${totalSteps} completed`;
+  }
+
+  // Handle check clicks
+  document.querySelectorAll('.step-check').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      const stepId = btn.dataset.stepId;
+      let completed = getCompleted();
+      if (completed.includes(stepId)) {
+        completed = completed.filter(id => id !== stepId);
+      } else {
+        completed.push(stepId);
+      }
+      saveCompleted(completed);
+      updateUI();
+    });
+  });
+
+  // Initial render
+  updateUI();
+</script>

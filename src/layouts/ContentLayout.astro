@@ -1,5 +1,7 @@
 ---
 import BaseLayout from './BaseLayout.astro';
+import HeroImage from '@components/content/HeroImage.astro';
+import PathProgress from '@components/content/PathProgress.astro';
 import { formatDate } from '@utils/dates';
 import { getReadingTime } from '@utils/reading-time';
 
@@ -14,6 +16,8 @@ interface Props {
   estimatedTime?: string;
   body: string;
   collection: string;
+  id?: string;
+  category?: string;
 }
 
 const {
@@ -27,6 +31,8 @@ const {
   estimatedTime,
   body,
   collection,
+  id = '',
+  category = '',
 } = Astro.props;
 
 const readingTime = getReadingTime(body);
@@ -126,9 +132,18 @@ const difficultyClass: Record<string, string> = {
       </div>
     </header>
 
-    {image && (
+    {/* Learning path navigation for tutorials */}
+    {collection === 'tutorials' && id && (
+      <PathProgress currentTutorialId={id} />
+    )}
+
+    {image ? (
       <div class="mb-12 rounded-xl overflow-hidden border border-[var(--color-border)]">
         <img src={image} alt={title} class="w-full h-auto" loading="lazy" />
+      </div>
+    ) : (
+      <div class="mb-12 rounded-xl overflow-hidden border border-[var(--color-border)]">
+        <HeroImage title={title} category={category} collection={collection} />
       </div>
     )}
 

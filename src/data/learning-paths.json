@@ -1,0 +1,31 @@
+[
+  {
+    "id": "ai-foundations",
+    "title": "AI Foundations",
+    "description": "Go from zero to confident with AI. Learn what it is, how to talk to it, and which tools actually matter.",
+    "difficulty": "beginner",
+    "icon": "compass",
+    "color": "var(--color-sage)",
+    "colorSoft": "var(--color-sage-soft)",
+    "steps": [
+      "getting-started-with-claude",
+      "mastering-system-prompts",
+      "prompt-engineering-fundamentals",
+      "ai-tools-comparison-2026"
+    ]
+  },
+  {
+    "id": "automation-builder",
+    "title": "Automation Builder",
+    "description": "Learn to automate repetitive work with AI. Build workflows and agents that save you hours every week.",
+    "difficulty": "intermediate",
+    "icon": "zap",
+    "color": "var(--color-accent)",
+    "colorSoft": "var(--color-accent-soft)",
+    "steps": [
+      "prompt-engineering-fundamentals",
+      "automate-workflows-with-ai",
+      "building-ai-agents-from-scratch"
+    ]
+  }
+]
