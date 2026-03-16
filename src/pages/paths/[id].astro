@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '@layouts/BaseLayout.astro';
+import HeroImage from '@components/content/HeroImage.astro';
 import { getPublishedTutorials } from '@utils/collections';
 import learningPaths from '@data/learning-paths.json';
 
@@ -31,6 +32,29 @@ const difficultyClass: Record<string, string> = {
   advanced: 'badge-advanced',
 };
 
+// Hero images per path
+const heroImages: Record<string, string> = {
+  'ai-foundations': '/images/tutorials/robot-books.webp',
+  'automation-builder': '/images/tutorials/robot-warehouse.webp',
+};
+const heroImage = heroImages[path.id] || '/images/tutorials/robot-books.webp';
+
+// "You'll learn" highlights per path
+const highlights: Record<string, string[]> = {
+  'ai-foundations': [
+    'What AI actually is (and isn\'t) — no jargon',
+    'How to talk to AI and get useful results',
+    'Which AI tools are worth your time in 2026',
+    'System prompts — the secret to better outputs',
+  ],
+  'automation-builder': [
+    'How to spot tasks worth automating',
+    'Building AI workflows that run on autopilot',
+    'Creating agents that think and act for you',
+    'Prompt engineering for reliable automation',
+  ],
+};
+
 const gradientColors = path.id === 'ai-foundations'
   ? 'var(--color-sage), var(--color-accent)'
   : 'var(--color-accent), var(--color-clay)';
@@ -38,39 +62,60 @@ const gradientColors = path.id === 'ai-foundations'
 
 <BaseLayout title={`${path.title} — Learning Path`} description={path.description}>
 
-  <!-- Hero -->
-  <section class="relative overflow-hidden bg-warm">
-    <div class="absolute inset-0 opacity-[0.03]" style="background-image: radial-gradient(circle at 1px 1px, var(--color-text-primary) 1px, transparent 0); background-size: 24px 24px;"></div>
+  <!-- Hero with image -->
+  <section class="path-hero relative overflow-hidden" style="background: var(--color-bg-dark);">
+    <img
+      src={heroImage}
+      alt={path.title}
+      class="absolute inset-0 w-full h-full object-cover opacity-40"
+      width="1126"
+      height="648"
+      loading="eager"
+    />
+    <div class="absolute inset-0 bg-gradient-to-t from-[rgba(20,20,19,0.85)] via-[rgba(20,20,19,0.4)] to-[rgba(20,20,19,0.3)]"></div>
+
     <div class="relative max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-16 lg:py-20">
-      <a href="/paths/" class="text-sm text-[var(--color-text-muted)] hover:text-[var(--color-text-primary)] transition-colors mb-6 inline-block">
-        &larr; All Learning Paths
+      <a href="/paths/" class="text-sm text-[rgba(255,255,255,0.5)] hover:text-white transition-colors mb-6 inline-flex items-center gap-1 hero-label">
+        <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" />
+        </svg>
+        All Learning Paths
       </a>
 
       <span class:list={[
-        'text-xs font-semibold px-2.5 py-0.5 rounded-sm uppercase tracking-wider inline-block mb-4',
+        'text-xs font-semibold px-2.5 py-0.5 rounded-sm uppercase tracking-wider inline-block mb-4 hero-label',
         difficultyClass[path.difficulty] || 'tag',
       ]}>
         {path.difficulty}
       </span>
 
-      <h1 class="text-title mb-4">{path.title}</h1>
-      <p class="text-lg text-[var(--color-text-secondary)] max-w-xl mb-6 leading-relaxed">
+      <h1 class="text-title mb-4 hero-title" style="color: white;">{path.title}</h1>
+      <p class="text-lg max-w-xl mb-6 leading-relaxed hero-subtitle" style="color: rgba(255,255,255,0.8);">
         {path.description}
       </p>
 
-      <div class="flex items-center gap-4 text-sm text-[var(--color-text-muted)]">
-        <span><strong class="text-[var(--color-text-primary)]">{tutorials.length}</strong> tutorials</span>
-        <span>&middot;</span>
-        <span><strong class="text-[var(--color-text-primary)]">{totalMinutes}</strong> min total</span>
+      <div class="flex flex-wrap items-center gap-4 text-sm" style="color: rgba(255,255,255,0.5);">
+        <div class="flex items-center gap-2">
+          <div class="w-2 h-2 rounded-full pulse-dot" style={`background: ${path.id === 'ai-foundations' ? 'var(--color-sage-soft)' : 'var(--color-accent-soft)'};`}></div>
+          <span><strong style="color: white;">{tutorials.length}</strong> tutorials</span>
+        </div>
+        <div class="flex items-center gap-2">
+          <div class="w-2 h-2 rounded-full pulse-dot" style="background: var(--color-accent-soft); animation-delay: 0.5s;"></div>
+          <span><strong style="color: white;">{totalMinutes}</strong> min total</span>
+        </div>
+        <div class="flex items-center gap-2">
+          <div class="w-2 h-2 rounded-full pulse-dot" style="background: var(--color-clay-soft); animation-delay: 1s;"></div>
+          <span>No coding required</span>
+        </div>
       </div>
 
       <!-- Progress bar -->
       <div class="mt-8">
-        <div class="flex items-center justify-between text-xs text-[var(--color-text-muted)] mb-2">
-          <span>Progress</span>
+        <div class="flex items-center justify-between text-xs mb-2" style="color: rgba(255,255,255,0.5);">
+          <span>Your progress</span>
           <span id="progress-text">0 of {tutorials.length} completed</span>
         </div>
-        <div class="w-full h-2 bg-[var(--color-border)] rounded-full overflow-hidden">
+        <div class="w-full h-2 rounded-full overflow-hidden" style="background: rgba(255,255,255,0.1);">
           <div
             id="progress-bar"
             class="h-full rounded-full transition-all duration-500 ease-out"
@@ -81,43 +126,76 @@ const gradientColors = path.id === 'ai-foundations'
     </div>
   </section>
 
-  <!-- Steps -->
-  <section class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:py-16">
-    <ol class="space-y-4" id="steps-list">
-      {tutorials.map((tutorial, i) => (
-        <li class="step-item" data-step-id={tutorial.id}>
-          <a href={`/tutorials/${tutorial.id}/`} class="group block">
-            <div class="flex items-start gap-5 bg-[var(--color-bg-card)] border border-[var(--color-border)] rounded-xl p-5 sm:p-6 hover:border-[var(--color-border-strong)] hover:shadow-sm transition-all duration-300">
-              {/* Step number */}
-              <div class="shrink-0">
-                <div class="step-number w-10 h-10 rounded-full border-2 border-[var(--color-border)] flex items-center justify-center text-sm font-semibold text-[var(--color-text-muted)] transition-all">
-                  {i + 1}
-                </div>
-              </div>
+  <!-- What you'll learn -->
+  {highlights[path.id] && (
+    <section class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-10 lg:py-12">
+      <div class="card-warm rounded-xl p-6 sm:p-8">
+        <h2 class="text-heading mb-4 flex items-center gap-2">
+          <svg class="w-5 h-5" style={`color: ${path.id === 'ai-foundations' ? 'var(--color-sage)' : 'var(--color-accent)'};`} fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M4.26 10.147a60.438 60.438 0 0 0-.491 6.347A48.62 48.62 0 0 1 12 20.904a48.62 48.62 0 0 1 8.232-4.41 60.46 60.46 0 0 0-.491-6.347m-15.482 0a50.636 50.636 0 0 0-2.658-.813A59.906 59.906 0 0 1 12 3.493a59.903 59.903 0 0 1 10.399 5.84c-.896.248-1.783.52-2.658.814m-15.482 0A50.717 50.717 0 0 1 12 13.489a50.702 50.702 0 0 1 7.74-3.342" />
+          </svg>
+          What you'll learn
+        </h2>
+        <ul class="space-y-3">
+          {highlights[path.id].map((item) => (
+            <li class="flex items-start gap-3 text-[var(--color-text-secondary)]">
+              <svg class="w-5 h-5 mt-0.5 shrink-0" style={`color: ${path.id === 'ai-foundations' ? 'var(--color-sage)' : 'var(--color-accent)'};`} fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+              <span>{item}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </section>
+  )}
 
-              {/* Content */}
-              <div class="flex-1 min-w-0">
-                <div class="flex flex-wrap items-center gap-2 mb-1">
+  <!-- Steps (timeline) -->
+  <section class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 pb-12 lg:pb-16">
+    <h2 class="text-heading mb-8 flex items-center gap-3">
+      <span class="text-sm font-semibold uppercase tracking-wider text-[var(--color-text-muted)]">Your journey</span>
+      <span class="flex-1 h-px bg-[var(--color-border)]"></span>
+    </h2>
+
+    <ol class="relative space-y-0" id="steps-list">
+      {/* Vertical timeline line */}
+      <div class="timeline-line absolute left-[1.65rem] top-6 bottom-6 w-0.5" aria-hidden="true"></div>
+
+      {tutorials.map((tutorial, i) => (
+        <li class="step-item relative fade-in" data-step-id={tutorial.id}>
+          <a href={`/tutorials/${tutorial.id}/`} class="group block pl-16 pb-8 last:pb-0">
+            {/* Step number on the timeline */}
+            <div class="absolute left-0 top-0">
+              <div class="step-number w-[3.3rem] h-[3.3rem] rounded-full border-2 border-[var(--color-border)] bg-[var(--color-bg)] flex items-center justify-center text-base font-semibold text-[var(--color-text-muted)] transition-all z-10 relative">
+                {i + 1}
+              </div>
+            </div>
+
+            {/* Card with image */}
+            <div class="step-card rounded-xl overflow-hidden border border-[var(--color-border)] bg-[var(--color-bg-card)] hover:border-[var(--color-border-strong)] hover:shadow-md transition-all duration-300">
+              {/* Tutorial thumbnail */}
+              <div class="relative">
+                <HeroImage
+                  title={tutorial.data.title}
+                  category={tutorial.data.category}
+                  collection="tutorials"
+                  class="!aspect-[4/1]"
+                />
+                {/* Step label overlay */}
+                <div class="absolute top-3 left-3 flex items-center gap-2">
                   <span class:list={[
-                    'text-[0.6rem] font-bold uppercase tracking-wider px-1.5 py-0.5 rounded',
+                    'text-[0.6rem] font-bold uppercase tracking-wider px-2 py-0.5 rounded backdrop-blur-sm',
                     difficultyClass[tutorial.data.difficulty] || 'tag',
                   ]}>
                     {tutorial.data.difficulty}
                   </span>
-                  <span class="text-xs text-[var(--color-text-muted)]">{tutorial.data.estimatedTime}</span>
+                  <span class="text-[0.65rem] font-medium px-2 py-0.5 rounded backdrop-blur-sm bg-[rgba(0,0,0,0.3)] text-white">
+                    {tutorial.data.estimatedTime}
+                  </span>
                 </div>
-                <h3 class="text-lg text-[var(--color-text-primary)] group-hover:text-[var(--color-accent)] transition-colors" style="font-family: var(--font-display);">
-                  {tutorial.data.title}
-                </h3>
-                <p class="text-sm text-[var(--color-text-secondary)] mt-1 line-clamp-2">
-                  {tutorial.data.description}
-                </p>
-              </div>
-
-              {/* Checkmark */}
-              <div class="shrink-0 self-center">
+                {/* Checkmark overlay */}
                 <button
-                  class="step-check w-8 h-8 rounded-full border-2 border-[var(--color-border)] flex items-center justify-center text-transparent hover:border-[var(--color-sage)] transition-all"
+                  class="step-check absolute top-3 right-3 w-8 h-8 rounded-full border-2 border-white/30 bg-black/20 backdrop-blur-sm flex items-center justify-center text-transparent hover:border-white/60 transition-all"
                   data-step-id={tutorial.id}
                   aria-label={`Mark "${tutorial.data.title}" as complete`}
                   onclick="event.preventDefault(); event.stopPropagation();"
@@ -127,6 +205,22 @@ const gradientColors = path.id === 'ai-foundations'
                   </svg>
                 </button>
               </div>
+
+              {/* Text content */}
+              <div class="p-5 sm:p-6">
+                <h3 class="text-lg text-[var(--color-text-primary)] group-hover:text-[var(--color-accent)] transition-colors mb-2" style="font-family: var(--font-display);">
+                  {tutorial.data.title}
+                </h3>
+                <p class="text-sm text-[var(--color-text-secondary)] line-clamp-2 leading-relaxed mb-3">
+                  {tutorial.data.description}
+                </p>
+                <span class="step-cta text-sm font-medium text-[var(--color-accent)] inline-flex items-center gap-1">
+                  {i === 0 ? 'Start here' : 'Read tutorial'}
+                  <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
+                  </svg>
+                </span>
+              </div>
             </div>
           </a>
         </li>
@@ -134,28 +228,94 @@ const gradientColors = path.id === 'ai-foundations'
     </ol>
 
     <!-- Next Steps -->
-    <div class="mt-12 card-warm rounded-xl p-8 text-center">
-      <h3 class="text-heading mb-3">What's next?</h3>
-      <p class="text-[var(--color-text-secondary)] mb-6 max-w-md mx-auto">
-        {path.id === 'ai-foundations'
-          ? 'Ready to level up? The Automation Builder path teaches you to put AI to work.'
-          : 'Mastered automation? Explore our tutorials for more advanced topics.'}
-      </p>
-      <a
-        href={path.id === 'ai-foundations' ? '/paths/automation-builder/' : '/tutorials/'}
-        class="inline-flex items-center gap-2 px-6 py-2.5 rounded-full bg-[var(--color-text-primary)] text-white text-sm font-medium hover:bg-[var(--color-text-secondary)] transition-colors"
-      >
-        {path.id === 'ai-foundations' ? 'Start Automation Builder' : 'Browse all tutorials'}
-        <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
-        </svg>
-      </a>
+    <div class="mt-8 next-cta card-warm rounded-xl p-8 sm:p-10 text-center relative overflow-hidden">
+      <div class="cta-glow"></div>
+      <div class="relative">
+        <div class="w-12 h-12 rounded-full mx-auto mb-4 flex items-center justify-center" style={`background: ${path.id === 'ai-foundations' ? 'var(--color-sage-soft)' : 'var(--color-accent-soft)'}; color: ${path.id === 'ai-foundations' ? 'var(--color-sage)' : 'var(--color-accent)'};`}>
+          <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M15.59 14.37a6 6 0 01-5.84 7.38v-4.8m5.84-2.58a14.98 14.98 0 006.16-12.12A14.98 14.98 0 009.631 8.41m5.96 5.96a14.926 14.926 0 01-5.841 2.58m-.119-8.54a6 6 0 00-7.381 5.84h4.8m2.581-5.84a14.927 14.927 0 00-2.58 5.84m2.699 2.7c-.103.021-.207.041-.311.06a15.09 15.09 0 01-2.448-2.448 14.9 14.9 0 01.06-.312m-2.24 2.39a4.493 4.493 0 00-1.757 4.306 4.493 4.493 0 004.306-1.758M16.5 9a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0z" />
+          </svg>
+        </div>
+        <h3 class="text-heading mb-3">What's next?</h3>
+        <p class="text-[var(--color-text-secondary)] mb-6 max-w-md mx-auto">
+          {path.id === 'ai-foundations'
+            ? 'Ready to level up? The Automation Builder path teaches you to put AI to work.'
+            : 'Mastered automation? Try building something hands-on with our challenges.'}
+        </p>
+        <div class="flex flex-col sm:flex-row items-center justify-center gap-3">
+          <a
+            href={path.id === 'ai-foundations' ? '/paths/automation-builder/' : '/challenges/'}
+            class="inline-flex items-center gap-2 px-6 py-2.5 rounded-full bg-[var(--color-text-primary)] text-white text-sm font-medium hover:bg-[var(--color-text-secondary)] transition-colors"
+          >
+            {path.id === 'ai-foundations' ? 'Start Automation Builder' : 'Try a challenge'}
+            <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
+            </svg>
+          </a>
+          <a
+            href="/tutorials/"
+            class="inline-flex items-center px-6 py-2.5 rounded-full border border-[var(--color-border)] text-[var(--color-text-secondary)] text-sm font-medium hover:border-[var(--color-border-strong)] transition-colors"
+          >
+            Browse all tutorials
+          </a>
+        </div>
+      </div>
     </div>
   </section>
 
 </BaseLayout>
 
 <style>
+  /* ── Hero animations ────────────────────────── */
+  .hero-label {
+    animation: slide-up 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+  .hero-title {
+    animation: slide-up 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.1s both;
+  }
+  .hero-subtitle {
+    animation: slide-up 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.2s both;
+  }
+  @keyframes slide-up {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ── Pulsing dots ───────────────────────────── */
+  .pulse-dot {
+    animation: pulse-ring 3s ease-in-out infinite;
+  }
+  @keyframes pulse-ring {
+    0%, 100% { box-shadow: 0 0 0 0 currentColor; opacity: 1; }
+    50%      { box-shadow: 0 0 0 4px transparent; opacity: 0.7; }
+  }
+
+  /* ── Timeline ───────────────────────────────── */
+  .timeline-line {
+    background: repeating-linear-gradient(
+      to bottom,
+      var(--color-border) 0,
+      var(--color-border) 8px,
+      transparent 8px,
+      transparent 16px
+    );
+  }
+
+  /* ── Step cards ─────────────────────────────── */
+  .step-card {
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .step-card:hover {
+    transform: translateY(-2px);
+  }
+  .step-cta {
+    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .step-card:hover .step-cta {
+    transform: translateX(4px);
+  }
+
+  /* ── Completed state ────────────────────────── */
   .step-item.completed .step-number {
     background: var(--color-sage);
     border-color: var(--color-sage);
@@ -165,6 +325,28 @@ const gradientColors = path.id === 'ai-foundations'
     background: var(--color-sage);
     border-color: var(--color-sage);
     color: white;
+  }
+
+  /* ── CTA glow ───────────────────────────────── */
+  .cta-glow {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at 50% 0%, var(--color-accent-soft) 0%, transparent 60%);
+    opacity: 0;
+    transition: opacity 0.5s;
+  }
+  .next-cta:hover .cta-glow {
+    opacity: 0.5;
+  }
+
+  /* ── Reduced motion ─────────────────────────── */
+  @media (prefers-reduced-motion: reduce) {
+    .hero-label,
+    .hero-title,
+    .hero-subtitle,
+    .pulse-dot { animation: none; }
+    .step-card,
+    .step-cta { transition: none; }
   }
 </style>
 

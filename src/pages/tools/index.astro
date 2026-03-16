@@ -3,70 +3,278 @@ import BaseLayout from '@layouts/BaseLayout.astro';
 import ToolCard from '@components/content/ToolCard.astro';
 import tools from '@data/tools.json';
 
-const categories = [...new Set(tools.map(t => t.category))].sort();
+// Use-case journeys — organized by what you want to accomplish
+const journeys = [
+  {
+    id: 'talk',
+    question: 'I want to talk to AI',
+    description: 'Your AI conversation partner for questions, brainstorming, writing help, and more.',
+    icon: 'chat',
+    color: 'var(--color-sage)',
+    colorSoft: 'var(--color-sage-soft)',
+    recommend: 'Claude',
+    recommendWhy: 'Best for thoughtful, nuanced conversations',
+    categories: ['Chatbots'],
+  },
+  {
+    id: 'research',
+    question: 'I want to research smarter',
+    description: 'AI tools that search the web, read documents, and cite their sources.',
+    icon: 'search',
+    color: 'var(--color-accent)',
+    colorSoft: 'var(--color-accent-soft)',
+    recommend: 'Perplexity',
+    recommendWhy: 'Like Google but gives you actual answers with sources',
+    categories: ['Research'],
+  },
+  {
+    id: 'images',
+    question: 'I want to create images',
+    description: 'Turn text descriptions into stunning artwork, photos, logos, and designs.',
+    icon: 'image',
+    color: 'var(--color-clay)',
+    colorSoft: 'var(--color-clay-soft)',
+    recommend: 'DALL-E 3',
+    recommendWhy: 'Included free with ChatGPT — easiest way to start',
+    categories: ['Image'],
+  },
+  {
+    id: 'media',
+    question: 'I want to make videos & audio',
+    description: 'Generate voiceovers, music, edit video — all powered by AI.',
+    icon: 'media',
+    color: 'var(--color-accent)',
+    colorSoft: 'var(--color-accent-soft)',
+    recommend: 'ElevenLabs',
+    recommendWhy: 'Eerily realistic voices from text — free tier is generous',
+    categories: ['Audio', 'Video'],
+  },
+  {
+    id: 'build',
+    question: 'I want to build apps & websites',
+    description: 'From code editors to full app builders — AI that writes code for you.',
+    icon: 'code',
+    color: 'var(--color-sage)',
+    colorSoft: 'var(--color-sage-soft)',
+    recommend: 'Bolt',
+    recommendWhy: 'Describe an app, get a working prototype in seconds',
+    categories: ['Coding'],
+  },
+  {
+    id: 'create',
+    question: 'I want to design & present',
+    description: 'Create presentations, graphics, and designs without being a designer.',
+    icon: 'design',
+    color: 'var(--color-clay)',
+    colorSoft: 'var(--color-clay-soft)',
+    recommend: 'Gamma',
+    recommendWhy: 'Makes beautiful slides from a single sentence',
+    categories: ['Productivity'],
+  },
+  {
+    id: 'write',
+    question: 'I want to write better',
+    description: 'Generate marketing copy, blog posts, emails, and social media content.',
+    icon: 'write',
+    color: 'var(--color-accent)',
+    colorSoft: 'var(--color-accent-soft)',
+    recommend: 'Copy.ai',
+    recommendWhy: 'Purpose-built for marketing and business writing',
+    categories: ['Writing'],
+  },
+  {
+    id: 'automate',
+    question: 'I want to automate tasks',
+    description: 'Connect your apps and build workflows that run on autopilot.',
+    icon: 'zap',
+    color: 'var(--color-sage)',
+    colorSoft: 'var(--color-sage-soft)',
+    recommend: 'Make',
+    recommendWhy: 'Visual builder — no coding needed, generous free tier',
+    categories: ['Automation'],
+  },
+];
+
+// Map tools to journeys
+const journeysWithTools = journeys.map(j => ({
+  ...j,
+  tools: tools.filter(t => j.categories.includes(t.category)),
+}));
+
 const trendingCount = tools.filter(t => t.trending).length;
 const newCount = tools.filter(t => t.new).length;
+
+// SVG icons for each journey
+const icons: Record<string, string> = {
+  chat: '<path stroke-linecap="round" stroke-linejoin="round" d="M8.625 12a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0H8.25m4.125 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0H12m4.125 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0h-.375M21 12c0 4.556-4.03 8.25-9 8.25a9.764 9.764 0 01-2.555-.337A5.972 5.972 0 015.41 20.97a5.969 5.969 0 01-.474-.065 4.48 4.48 0 00.978-2.025c.09-.457-.133-.901-.467-1.226C3.93 16.178 3 14.189 3 12c0-4.556 4.03-8.25 9-8.25s9 3.694 9 8.25z" />',
+  search: '<path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />',
+  image: '<path stroke-linecap="round" stroke-linejoin="round" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909M2.25 18V6a2.25 2.25 0 012.25-2.25h15A2.25 2.25 0 0121.75 6v12A2.25 2.25 0 0119.5 20.25H4.5A2.25 2.25 0 012.25 18z" />',
+  media: '<path stroke-linecap="round" stroke-linejoin="round" d="M5.25 5.653c0-.856.917-1.398 1.667-.986l11.54 6.347a1.125 1.125 0 010 1.972l-11.54 6.347a1.125 1.125 0 01-1.667-.986V5.653z" />',
+  code: '<path stroke-linecap="round" stroke-linejoin="round" d="M17.25 6.75L22.5 12l-5.25 5.25m-10.5 0L1.5 12l5.25-5.25m7.5-3l-4.5 16.5" />',
+  design: '<path stroke-linecap="round" stroke-linejoin="round" d="M9.53 16.122a3 3 0 00-5.78 1.128 2.25 2.25 0 01-2.4 2.245 4.5 4.5 0 008.4-2.245c0-.399-.078-.78-.22-1.128zm0 0a15.998 15.998 0 003.388-1.62m-5.043-.025a15.994 15.994 0 011.622-3.395m3.42 3.42a15.995 15.995 0 004.764-4.648l3.876-5.814a1.151 1.151 0 00-1.597-1.597L14.146 6.32a15.996 15.996 0 00-4.649 4.763m3.42 3.42a6.776 6.776 0 00-3.42-3.42" />',
+  write: '<path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10" />',
+  zap: '<path stroke-linecap="round" stroke-linejoin="round" d="M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75z" />',
+};
+
+// Starter kit — the 3 tools every beginner should know
+const starterKit = [
+  { name: 'ChatGPT', why: 'Your first AI conversation', tool: tools.find(t => t.name === 'ChatGPT')! },
+  { name: 'Perplexity', why: 'AI-powered search', tool: tools.find(t => t.name === 'Perplexity')! },
+  { name: 'Canva AI', why: 'Design anything visually', tool: tools.find(t => t.name === 'Canva AI')! },
+];
 ---
 
 <BaseLayout
-  title="AI Tools & Apps Directory"
-  description="Discover the best AI tools, apps, and websites for every use case. Curated directory with pricing, categories, and honest descriptions."
+  title="Find Your AI Tool"
+  description="Not sure which AI tool to use? Tell us what you want to do and we'll point you to the right one."
 >
+
   <!-- Hero -->
   <section class="relative overflow-hidden" style="background: var(--color-bg-dark);">
     <img
-      src="/images/tools/hardware-lab.jpg"
+      src="/images/tools/hardware-lab.webp"
       alt="AI compute hardware and monitoring dashboards"
-      class="absolute inset-0 w-full h-full object-cover opacity-60"
+      class="absolute inset-0 w-full h-full object-cover opacity-50"
+      width="1200"
+      height="655"
       loading="eager"
     />
-    <div class="absolute inset-0 bg-gradient-to-r from-[rgba(20,20,19,0.7)] via-[rgba(20,20,19,0.3)] to-transparent"></div>
-    <div class="relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16 lg:py-20">
-      <p class="label mb-3" style="color: var(--color-accent-soft);">Directory</p>
-      <h1 class="text-title mb-3" style="color: white;">AI Tools & Apps</h1>
-      <p class="text-lg max-w-xl mb-6" style="color: rgba(255,255,255,0.75);">
-        Curated collection of the best AI tools, apps, and platforms. Updated regularly with new and trending picks.
+    <div class="absolute inset-0 bg-gradient-to-t from-[rgba(20,20,19,0.85)] via-[rgba(20,20,19,0.4)] to-[rgba(20,20,19,0.3)]"></div>
+
+    <div class="relative max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-16 lg:py-24 text-center">
+      <a href="/start/" class="text-sm text-[rgba(255,255,255,0.5)] hover:text-white transition-colors mb-6 inline-flex items-center gap-1 hero-label">
+        <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" />
+        </svg>
+        Start Here
+      </a>
+      <h1 class="text-display mb-4 hero-title" style="color: white;">
+        What do you want<br />
+        <span style="color: var(--color-accent-soft);">AI to do for you?</span>
+      </h1>
+      <p class="text-lg max-w-xl mx-auto leading-relaxed hero-subtitle" style="color: rgba(255,255,255,0.75);">
+        Pick what you're trying to accomplish and we'll show you the best tools. No research needed.
       </p>
-      <div class="flex gap-4 text-sm" style="color: rgba(255,255,255,0.6);">
-        <span><strong style="color: white;">{tools.length}</strong> tools</span>
-        <span><strong style="color: var(--color-accent-soft);">{trendingCount}</strong> trending</span>
-        <span><strong style="color: var(--color-sage-soft);">{newCount}</strong> new</span>
+
+      <div class="flex flex-wrap justify-center items-center gap-4 mt-8 text-sm" style="color: rgba(255,255,255,0.5);">
+        <div class="flex items-center gap-2">
+          <div class="w-2 h-2 rounded-full pulse-dot" style="background: var(--color-sage-soft);"></div>
+          <span><strong style="color: white;">{tools.length}</strong> tools curated</span>
+        </div>
+        <div class="flex items-center gap-2">
+          <div class="w-2 h-2 rounded-full pulse-dot" style="background: var(--color-accent-soft); animation-delay: 0.5s;"></div>
+          <span><strong style="color: white;">{trendingCount}</strong> trending</span>
+        </div>
+        <div class="flex items-center gap-2">
+          <div class="w-2 h-2 rounded-full pulse-dot" style="background: var(--color-clay-soft); animation-delay: 1s;"></div>
+          <span>All tested by us</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Quick Jump — "What do you want to do?" buttons -->
+  <section class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 -mt-6 relative z-10">
+    <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+      {journeysWithTools.map((j) => (
+        <a
+          href={`#${j.id}`}
+          class="quick-jump group flex flex-col items-center gap-2 p-4 rounded-xl border border-[var(--color-border)] bg-[var(--color-bg-card)] hover:border-[var(--color-border-strong)] hover:shadow-md transition-all duration-300"
+        >
+          <div class="w-10 h-10 rounded-lg flex items-center justify-center transition-transform group-hover:scale-110" style={`background: ${j.colorSoft};`}>
+            <svg class="w-5 h-5" style={`color: ${j.color};`} fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5" set:html={icons[j.icon]} />
+          </div>
+          <span class="text-xs font-medium text-[var(--color-text-secondary)] text-center leading-tight group-hover:text-[var(--color-text-primary)] transition-colors">
+            {j.question.replace('I want to ', '')}
+          </span>
+        </a>
+      ))}
+    </div>
+  </section>
+
+  <!-- Starter Kit -->
+  <section class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:py-16">
+    <div class="starter-kit card-warm rounded-2xl p-6 sm:p-8 relative overflow-hidden">
+      <div class="starter-glow"></div>
+      <div class="relative">
+        <div class="flex items-center gap-3 mb-2">
+          <span class="text-xs font-bold uppercase tracking-wider px-2.5 py-1 rounded-sm bg-[var(--color-sage-soft)] text-[var(--color-sage)]">
+            Recommended
+          </span>
+          <span class="text-xs text-[var(--color-text-muted)]">Perfect for beginners</span>
+        </div>
+        <h2 class="text-heading mb-2">Not sure where to start?</h2>
+        <p class="text-sm text-[var(--color-text-secondary)] mb-6 max-w-lg">
+          These 3 tools cover 80% of what most people need. Start here, then explore the rest when you're ready.
+        </p>
+
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+          {starterKit.map((item, i) => (
+            <a
+              href={item.tool.url}
+              target="_blank"
+              rel="noopener nofollow"
+              class="group/starter flex items-start gap-3 p-4 rounded-xl border border-[var(--color-border)] bg-[var(--color-bg)] hover:border-[var(--color-border-strong)] hover:shadow-sm transition-all"
+            >
+              <div class="w-10 h-10 rounded-lg flex items-center justify-center shrink-0 text-lg font-semibold" style={`background: var(--color-${i === 0 ? 'sage' : i === 1 ? 'accent' : 'clay'}-soft); color: var(--color-${i === 0 ? 'sage' : i === 1 ? 'accent' : 'clay'}); font-family: var(--font-display);`}>
+                {i + 1}
+              </div>
+              <div class="min-w-0">
+                <h3 class="text-sm font-semibold text-[var(--color-text-primary)] group-hover/starter:text-[var(--color-accent)] transition-colors">
+                  {item.name}
+                </h3>
+                <p class="text-xs text-[var(--color-text-muted)] mt-0.5">{item.why}</p>
+                <p class="text-[0.65rem] mt-1" style={`color: var(--color-${i === 0 ? 'sage' : i === 1 ? 'accent' : 'clay'});`}>
+                  {item.tool.pricingDetail}
+                </p>
+              </div>
+            </a>
+          ))}
+        </div>
       </div>
     </div>
   </section>
 
   <!-- Affiliate Disclosure -->
-  <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-8">
+  <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
     <p class="text-xs text-[var(--color-text-muted)] italic">
       Some links on this page may be affiliate links. We only recommend tools we genuinely find useful.
     </p>
   </div>
 
-  <!-- Filter Bar -->
-  <section class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-6 pb-2">
-    <div class="flex flex-wrap gap-2" id="filter-bar">
-      <button
-        class="filter-btn filter-active px-3 py-1.5 text-sm font-medium rounded-full border border-[var(--color-border)] transition-all"
-        data-category="all"
-      >
-        All
-      </button>
-      {categories.map((cat) => (
-        <button
-          class="filter-btn px-3 py-1.5 text-sm font-medium rounded-full border border-[var(--color-border)] text-[var(--color-text-secondary)] hover:border-[var(--color-text-primary)] hover:text-[var(--color-text-primary)] transition-all"
-          data-category={cat}
-        >
-          {cat}
-        </button>
-      ))}
-    </div>
-  </section>
+  <!-- Journey Sections -->
+  {journeysWithTools.map((j, idx) => (
+    <section id={j.id} class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-10 lg:py-12 journey-section">
+      {/* Section header */}
+      <div class="flex items-start gap-4 mb-6">
+        <div class="w-12 h-12 rounded-xl flex items-center justify-center shrink-0" style={`background: ${j.colorSoft};`}>
+          <svg class="w-6 h-6" style={`color: ${j.color};`} fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5" set:html={icons[j.icon]} />
+        </div>
+        <div>
+          <h2 class="text-xl text-[var(--color-text-primary)] mb-1" style="font-family: var(--font-display);">
+            {j.question}
+          </h2>
+          <p class="text-sm text-[var(--color-text-secondary)]">{j.description}</p>
+        </div>
+      </div>
 
-  <!-- Tools Grid -->
-  <section class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 stagger" id="tools-grid">
-      {tools.map((tool) => (
-        <div class="fade-in tool-card" data-category={tool.category}>
+      {/* "Start with" recommendation */}
+      <div class="recommend-card flex items-center gap-3 mb-6 p-3 rounded-lg border border-dashed" style={`border-color: ${j.color}40;`}>
+        <div class="w-6 h-6 rounded-full flex items-center justify-center shrink-0" style={`background: ${j.colorSoft};`}>
+          <svg class="w-3.5 h-3.5" style={`color: ${j.color};`} fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M11.48 3.499a.562.562 0 011.04 0l2.125 5.111a.563.563 0 00.475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 00-.182.557l1.285 5.385a.562.562 0 01-.84.61l-4.725-2.885a.562.562 0 00-.586 0L6.982 20.54a.562.562 0 01-.84-.61l1.285-5.386a.562.562 0 00-.182-.557l-4.204-3.602a.562.562 0 01.321-.988l5.518-.442a.563.563 0 00.475-.345L11.48 3.5z" />
+          </svg>
+        </div>
+        <div class="text-sm">
+          <span class="text-[var(--color-text-muted)]">Start with</span>
+          <span class="font-semibold text-[var(--color-text-primary)] ml-1">{j.recommend}</span>
+          <span class="text-[var(--color-text-muted)] ml-1">— {j.recommendWhy}</span>
+        </div>
+      </div>
+
+      {/* Tool cards */}
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+        {j.tools.map((tool) => (
           <ToolCard
             name={tool.name}
             description={tool.description}
@@ -79,74 +287,133 @@ const newCount = tools.filter(t => t.new).length;
             new={tool.new}
             image={tool.image}
           />
-        </div>
-      ))}
-    </div>
+        ))}
+      </div>
 
-    <!-- Empty state -->
-    <div id="no-results" class="hidden py-16 text-center">
-      <p class="text-lg text-[var(--color-text-muted)]" style="font-family: var(--font-display);">No tools in this category yet.</p>
-      <p class="text-sm text-[var(--color-text-muted)] mt-2">Check back soon — we add new tools regularly.</p>
-    </div>
-  </section>
+      {/* Divider between sections (not after last) */}
+      {idx < journeysWithTools.length - 1 && (
+        <div class="mt-10 flex items-center gap-4">
+          <div class="flex-1 h-px bg-[var(--color-border)]"></div>
+          <svg class="w-4 h-4 text-[var(--color-text-muted)]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 13.5L12 21m0 0l-7.5-7.5M12 21V3" />
+          </svg>
+          <div class="flex-1 h-px bg-[var(--color-border)]"></div>
+        </div>
+      )}
+    </section>
+  ))}
 
   <!-- CTA -->
-  <section class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pb-16">
-    <div class="bg-warm rounded-xl p-8 sm:p-12 text-center">
-      <h2 class="text-heading mb-3">Know a great AI tool?</h2>
-      <p class="text-[var(--color-text-secondary)] mb-6 max-w-md mx-auto">
-        We're always looking for new tools to add. Send us a suggestion and we'll review it.
-      </p>
-      <a
-        href="/newsletter/"
-        class="inline-flex items-center gap-2 px-6 py-2.5 rounded-full bg-[var(--color-text-primary)] text-white text-sm font-medium hover:bg-[var(--color-text-secondary)] transition-colors"
-      >
-        Subscribe for updates
-        <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
-        </svg>
-      </a>
+  <section class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8 pb-16">
+    <div class="cta-card card-warm rounded-xl p-8 sm:p-10 text-center relative overflow-hidden">
+      <div class="cta-glow"></div>
+      <div class="relative">
+        <h3 class="text-heading mb-3">Ready to learn how to use them?</h3>
+        <p class="text-[var(--color-text-secondary)] mb-6 max-w-md mx-auto">
+          Tools are just the beginning. Our tutorials teach you how to get real results from AI.
+        </p>
+        <div class="flex flex-col sm:flex-row items-center justify-center gap-3">
+          <a href="/paths/ai-foundations/" class="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-[var(--color-text-primary)] text-white text-sm font-medium hover:bg-[var(--color-text-secondary)] transition-colors">
+            Start the AI Foundations path
+            <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
+            </svg>
+          </a>
+          <a href="/challenges/" class="inline-flex items-center px-6 py-3 rounded-full border border-[var(--color-border)] text-[var(--color-text-secondary)] text-sm font-medium hover:border-[var(--color-border-strong)] transition-colors">
+            Or try a challenge first
+          </a>
+        </div>
+      </div>
     </div>
   </section>
+
 </BaseLayout>
 
 <style>
-  .line-clamp-3 {
-    display: -webkit-box;
-    -webkit-line-clamp: 3;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
+  /* ── Hero animations ────────────────────────── */
+  .hero-label {
+    animation: slide-up 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+  .hero-title {
+    animation: slide-up 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.1s both;
+  }
+  .hero-subtitle {
+    animation: slide-up 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.2s both;
+  }
+  @keyframes slide-up {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ── Pulsing dots ───────────────────────────── */
+  .pulse-dot {
+    animation: pulse-ring 3s ease-in-out infinite;
+  }
+  @keyframes pulse-ring {
+    0%, 100% { box-shadow: 0 0 0 0 currentColor; opacity: 1; }
+    50%      { box-shadow: 0 0 0 4px transparent; opacity: 0.7; }
+  }
+
+  /* ── Quick jump cards ───────────────────────── */
+  .quick-jump {
+    backdrop-filter: blur(8px);
+  }
+  .quick-jump:hover {
+    transform: translateY(-2px);
+  }
+
+  /* ── Starter kit glow ───────────────────────── */
+  .starter-glow {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at 30% 0%, var(--color-sage-soft) 0%, transparent 50%);
+    opacity: 0.4;
+  }
+
+  /* ── Journey sections smooth scroll ─────────── */
+  .journey-section {
+    scroll-margin-top: 2rem;
+  }
+
+  /* ── Recommend card ─────────────────────────── */
+  .recommend-card {
+    background: var(--color-bg-warm);
+  }
+
+  /* ── CTA glow ───────────────────────────────── */
+  .cta-glow {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at 50% 0%, var(--color-accent-soft) 0%, transparent 60%);
+    opacity: 0;
+    transition: opacity 0.5s;
+  }
+  .cta-card:hover .cta-glow {
+    opacity: 0.5;
+  }
+
+  /* ── Reduced motion ─────────────────────────── */
+  @media (prefers-reduced-motion: reduce) {
+    .hero-label,
+    .hero-title,
+    .hero-subtitle,
+    .pulse-dot { animation: none; }
+    .quick-jump { transition: none; }
   }
 </style>
 
 <script is:inline>
-  const filterBtns = document.querySelectorAll('.filter-btn');
-  const toolCards = document.querySelectorAll('.tool-card');
-  const noResults = document.getElementById('no-results');
-
-  filterBtns.forEach(btn => {
-    btn.addEventListener('click', () => {
-      // Update active state
-      filterBtns.forEach(b => {
-        b.classList.remove('filter-active');
-        b.classList.add('text-[var(--color-text-secondary)]');
-      });
-      btn.classList.add('filter-active');
-      btn.classList.remove('text-[var(--color-text-secondary)]');
-
-      const category = btn.dataset.category;
-      let visibleCount = 0;
-
-      toolCards.forEach(card => {
-        if (category === 'all' || card.dataset.category === category) {
-          card.style.display = '';
-          visibleCount++;
-        } else {
-          card.style.display = 'none';
+  // Smooth scroll for quick jump links
+  document.querySelectorAll('.quick-jump').forEach(link => {
+    link.addEventListener('click', (e) => {
+      const href = link.getAttribute('href');
+      if (href && href.startsWith('#')) {
+        e.preventDefault();
+        const target = document.querySelector(href);
+        if (target) {
+          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
-      });
-
-      noResults.classList.toggle('hidden', visibleCount > 0);
+      }
     });
   });
 </script>

@@ -12,6 +12,34 @@ export async function getStaticPaths() {
 
 const { entry } = Astro.props;
 const { Content } = await render(entry);
+
+// Compute prev/next and related articles
+const allEntries = (await getCollection('resources', ({ data }) => !data.draft))
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+
+const currentIndex = allEntries.findIndex((e) => e.id === entry.id);
+const prevEntry = currentIndex < allEntries.length - 1 ? allEntries[currentIndex + 1] : null;
+const nextEntry = currentIndex > 0 ? allEntries[currentIndex - 1] : null;
+
+const prevArticle = prevEntry ? { title: prevEntry.data.title, href: `/resources/${prevEntry.id}/` } : null;
+const nextArticle = nextEntry ? { title: nextEntry.data.title, href: `/resources/${nextEntry.id}/` } : null;
+
+const others = allEntries.filter((e) => e.id !== entry.id);
+const sameType = others.filter((e) => e.data.resourceType === entry.data.resourceType);
+const differentType = others.filter((e) => e.data.resourceType !== entry.data.resourceType);
+const relatedRaw = [...sameType, ...differentType].slice(0, 3);
+
+const relatedArticles = relatedRaw.map((e) => ({
+  title: e.data.title,
+  description: e.data.description,
+  href: `/resources/${e.id}/`,
+  pubDate: e.data.pubDate,
+  tags: e.data.tags,
+  image: e.data.image,
+  body: e.body || '',
+  category: e.data.resourceType,
+  collection: 'resources',
+}));
 ---
 
 <ContentLayout
@@ -24,6 +52,9 @@ const { Content } = await render(entry);
   body={entry.body || ''}
   collection="resources"
   category={entry.data.resourceType}
+  prevArticle={prevArticle}
+  nextArticle={nextArticle}
+  relatedArticles={relatedArticles}
 >
   <Content />
 </ContentLayout>

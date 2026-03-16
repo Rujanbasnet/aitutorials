@@ -1,28 +1,48 @@
 ---
 import BaseLayout from '@layouts/BaseLayout.astro';
 import PostCard from '@components/content/PostCard.astro';
+import FeaturedPost from '@components/content/FeaturedPost.astro';
 import { getPublishedTutorials } from '@utils/collections';
 
 const tutorials = await getPublishedTutorials();
+const featured = tutorials[0];
+const rest = tutorials.slice(1);
 const categories = ['all', 'prompt-engineering', 'ai-tools', 'automation', 'coding-with-ai', 'ai-agents', 'machine-learning'];
 ---
 
 <BaseLayout title="AI Tutorials" description="Step-by-step AI tutorials from beginner to advanced. Learn prompt engineering, AI tools, automation, and more.">
-  <!-- Header with robot image -->
-  <section class="relative overflow-hidden" style="background: var(--color-bg-dark);">
+
+  <!-- Cinematic hero -->
+  <section class="tut-hero relative overflow-hidden" style="background: var(--color-bg-dark);">
     <img
-      src="/images/tutorials/robot-books.jpg"
+      src="/images/tutorials/robot-books.webp"
       alt="A robot studying AI books"
       class="absolute inset-0 w-full h-full object-cover opacity-60"
       loading="eager"
     />
     <div class="absolute inset-0 bg-gradient-to-r from-[rgba(20,20,19,0.7)] via-[rgba(20,20,19,0.3)] to-transparent"></div>
-    <div class="relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16 lg:py-20">
-      <p class="label mb-3" style="color: var(--color-accent-soft);">Learn</p>
-      <h1 class="text-title mb-3" style="color: white;">AI Tutorials</h1>
-      <p class="text-lg max-w-xl" style="color: rgba(255,255,255,0.75);">
+
+    <div class="relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-20 lg:py-28">
+      <p class="label mb-3 hero-label" style="color: var(--color-accent-soft);">Learn</p>
+      <h1 class="text-title mb-3 hero-title" style="color: white;">AI Tutorials</h1>
+      <p class="text-lg max-w-xl hero-subtitle" style="color: rgba(255,255,255,0.8);">
         Step-by-step guides to master AI tools, prompt engineering, and automation. From beginner to advanced.
       </p>
+
+      <div class="flex flex-wrap items-center gap-4 mt-8">
+        <div class="flex items-center gap-2 text-sm" style="color: rgba(255,255,255,0.6);">
+          <div class="w-2 h-2 rounded-full pulse-dot" style="background: var(--color-sage-soft);"></div>
+          {tutorials.length} tutorials
+        </div>
+        <div class="flex items-center gap-2 text-sm" style="color: rgba(255,255,255,0.6);">
+          <div class="w-2 h-2 rounded-full pulse-dot" style="background: var(--color-accent-soft); animation-delay: 0.5s;"></div>
+          Beginner to advanced
+        </div>
+        <div class="flex items-center gap-2 text-sm" style="color: rgba(255,255,255,0.6);">
+          <div class="w-2 h-2 rounded-full pulse-dot" style="background: var(--color-clay-soft); animation-delay: 1s;"></div>
+          Updated regularly
+        </div>
+      </div>
     </div>
   </section>
 
@@ -32,7 +52,7 @@ const categories = ['all', 'prompt-engineering', 'ai-tools', 'automation', 'codi
       {categories.map((cat) => (
         <button
           class:list={[
-            'px-4 py-2 rounded-full text-sm font-medium border transition-all capitalize',
+            'filter-btn px-4 py-2 rounded-full text-sm font-medium border transition-all capitalize',
             cat === 'all'
               ? 'filter-active'
               : 'border-[var(--color-border)] text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)] hover:border-[var(--color-border-strong)]',
@@ -45,23 +65,43 @@ const categories = ['all', 'prompt-engineering', 'ai-tools', 'automation', 'codi
     </div>
 
     {tutorials.length > 0 ? (
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 stagger" id="tutorial-grid">
-        {tutorials.map((tutorial) => (
-          <div class="fade-in" data-category={tutorial.data.category}>
-            <PostCard
-              title={tutorial.data.title}
-              description={tutorial.data.description}
-              href={`/tutorials/${tutorial.id}/`}
-              pubDate={tutorial.data.pubDate}
-              tags={tutorial.data.tags}
-              difficulty={tutorial.data.difficulty}
-              image={tutorial.data.image}
-              body={tutorial.body || ''}
-              category={tutorial.data.category}
+      <div id="tutorial-grid">
+        <!-- Featured latest tutorial -->
+        {featured && (
+          <div class="mb-8 fade-in" data-category={featured.data.category}>
+            <FeaturedPost
+              title={featured.data.title}
+              description={featured.data.description}
+              href={`/tutorials/${featured.id}/`}
+              pubDate={featured.data.pubDate}
+              tags={featured.data.tags}
+              image={featured.data.image}
+              body={featured.body || ''}
+              category={featured.data.category}
               collection="tutorials"
             />
           </div>
-        ))}
+        )}
+
+        <!-- Rest of tutorials -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 stagger">
+          {rest.map((tutorial) => (
+            <div class="fade-in" data-category={tutorial.data.category}>
+              <PostCard
+                title={tutorial.data.title}
+                description={tutorial.data.description}
+                href={`/tutorials/${tutorial.id}/`}
+                pubDate={tutorial.data.pubDate}
+                tags={tutorial.data.tags}
+                difficulty={tutorial.data.difficulty}
+                image={tutorial.data.image}
+                body={tutorial.body || ''}
+                category={tutorial.data.category}
+                collection="tutorials"
+              />
+            </div>
+          ))}
+        </div>
       </div>
     ) : (
       <div class="card-warm p-16 text-center rounded-xl">
@@ -71,9 +111,26 @@ const categories = ['all', 'prompt-engineering', 'ai-tools', 'automation', 'codi
     )}
   </section>
 
+  <!-- CTA -->
+  <section class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pb-16 text-center">
+    <div class="cta-card card-warm p-8 sm:p-10 rounded-xl relative overflow-hidden">
+      <div class="cta-glow"></div>
+      <h3 class="text-heading mb-3 relative">Not sure where to start?</h3>
+      <p class="text-[var(--color-text-secondary)] mb-6 max-w-md mx-auto relative">Pick a learning path based on your experience level and goals. We'll guide you through it step by step.</p>
+      <div class="flex flex-col sm:flex-row items-center justify-center gap-3 relative">
+        <a href="/start/" class="inline-flex items-center px-6 py-3 rounded-full bg-[var(--color-text-primary)] text-white font-medium hover:bg-[var(--color-text-secondary)] transition-colors text-sm">
+          Start here
+        </a>
+        <a href="/challenges/" class="inline-flex items-center px-6 py-3 rounded-full border border-[var(--color-border)] text-[var(--color-text-secondary)] font-medium hover:border-[var(--color-border-strong)] transition-colors text-sm">
+          Try a challenge
+        </a>
+      </div>
+    </div>
+  </section>
+
   <script>
     const buttons = document.querySelectorAll<HTMLButtonElement>('#filter-bar [data-filter]');
-    const cards = document.querySelectorAll<HTMLElement>('#tutorial-grid [data-category]');
+    const allCards = document.querySelectorAll<HTMLElement>('#tutorial-grid [data-category]');
 
     buttons.forEach((btn) => {
       btn.addEventListener('click', () => {
@@ -81,7 +138,7 @@ const categories = ['all', 'prompt-engineering', 'ai-tools', 'automation', 'codi
         btn.classList.add('filter-active');
 
         const filter = btn.dataset.filter;
-        cards.forEach((card) => {
+        allCards.forEach((card) => {
           if (filter === 'all' || card.dataset.category === filter) {
             card.style.display = '';
           } else {
@@ -91,4 +148,55 @@ const categories = ['all', 'prompt-engineering', 'ai-tools', 'automation', 'codi
       });
     });
   </script>
+
 </BaseLayout>
+
+<style>
+  .pulse-dot {
+    animation: pulse-ring 3s ease-in-out infinite;
+  }
+  @keyframes pulse-ring {
+    0%, 100% { box-shadow: 0 0 0 0 currentColor; opacity: 1; }
+    50%      { box-shadow: 0 0 0 4px transparent; opacity: 0.7; }
+  }
+
+  .hero-label {
+    animation: slide-up 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+  .hero-title {
+    animation: slide-up 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.1s both;
+  }
+  .hero-subtitle {
+    animation: slide-up 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.2s both;
+  }
+  @keyframes slide-up {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .filter-btn {
+    transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .filter-btn:hover {
+    transform: translateY(-1px);
+  }
+
+  .cta-glow {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at 50% 0%, var(--color-accent-soft) 0%, transparent 60%);
+    opacity: 0;
+    transition: opacity 0.5s;
+  }
+  .cta-card:hover .cta-glow {
+    opacity: 0.5;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .pulse-dot,
+    .hero-label,
+    .hero-title,
+    .hero-subtitle { animation: none; }
+    .filter-btn { transition: none; }
+  }
+</style>

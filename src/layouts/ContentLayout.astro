@@ -2,8 +2,27 @@
 import BaseLayout from './BaseLayout.astro';
 import HeroImage from '@components/content/HeroImage.astro';
 import PathProgress from '@components/content/PathProgress.astro';
+import PostCard from '@components/content/PostCard.astro';
 import { formatDate } from '@utils/dates';
 import { getReadingTime } from '@utils/reading-time';
+
+interface NavArticle {
+  title: string;
+  href: string;
+}
+
+interface RelatedArticle {
+  title: string;
+  description: string;
+  href: string;
+  pubDate: Date;
+  tags?: string[];
+  difficulty?: string;
+  image?: string;
+  body?: string;
+  category?: string;
+  collection?: string;
+}
 
 interface Props {
   title: string;
@@ -18,6 +37,9 @@ interface Props {
   collection: string;
   id?: string;
   category?: string;
+  prevArticle?: NavArticle | null;
+  nextArticle?: NavArticle | null;
+  relatedArticles?: RelatedArticle[];
 }
 
 const {
@@ -33,6 +55,9 @@ const {
   collection,
   id = '',
   category = '',
+  prevArticle = null,
+  nextArticle = null,
+  relatedArticles = [],
 } = Astro.props;
 
 const readingTime = getReadingTime(body);
@@ -42,9 +67,25 @@ const difficultyClass: Record<string, string> = {
   intermediate: 'badge-intermediate',
   advanced: 'badge-advanced',
 };
+
+const collectionLabels: Record<string, string> = {
+  tutorials: 'Tutorials',
+  news: 'News',
+  blog: 'Blog',
+  'non-coder': 'Non-Coder',
+  resources: 'Resources',
+  challenges: 'Challenges',
+};
+
+const collectionLabel = collectionLabels[collection] || collection.charAt(0).toUpperCase() + collection.slice(1);
 ---
 
 <BaseLayout title={title} description={description} image={image} type="article" pubDate={pubDate} author={author}>
+  <!-- Reading progress bar -->
+  <div id="reading-progress" class="reading-progress" aria-hidden="true">
+    <div id="reading-progress-bar" class="reading-progress-bar"></div>
+  </div>
+
   <script type="application/ld+json" set:html={JSON.stringify({
     "@context": "https://schema.org",
     "@type": "Article",
@@ -69,7 +110,7 @@ const difficultyClass: Record<string, string> = {
       {
         "@type": "ListItem",
         "position": 2,
-        "name": collection.charAt(0).toUpperCase() + collection.slice(1),
+        "name": collectionLabel,
         "item": `https://aitutorials.com.au/${collection}/`
       },
       {
@@ -80,12 +121,22 @@ const difficultyClass: Record<string, string> = {
     ]
   })} />
 
-  <article class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:py-16">
+  <article id="article-content" class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:py-16">
     <!-- Breadcrumb -->
-    <nav class="mb-8 text-sm text-[var(--color-text-muted)]">
-      <a href="/" class="hover:text-[var(--color-text-primary)] transition-colors">Home</a>
-      <span class="mx-2 opacity-40">/</span>
-      <a href={`/${collection}/`} class="hover:text-[var(--color-text-primary)] transition-colors capitalize">{collection}</a>
+    <nav class="mb-8 text-sm text-[var(--color-text-muted)]" aria-label="Breadcrumb">
+      <ol class="flex flex-wrap items-center gap-0">
+        <li class="flex items-center">
+          <a href="/" class="hover:text-[var(--color-text-primary)] transition-colors">Home</a>
+          <span class="mx-2 opacity-40">/</span>
+        </li>
+        <li class="flex items-center">
+          <a href={`/${collection}/`} class="hover:text-[var(--color-text-primary)] transition-colors">{collectionLabel}</a>
+          <span class="mx-2 opacity-40">/</span>
+        </li>
+        <li class="text-[var(--color-text-secondary)] truncate max-w-[200px] sm:max-w-[300px]" aria-current="page">
+          {title}
+        </li>
+      </ol>
     </nav>
 
     <!-- Header -->
@@ -152,8 +203,92 @@ const difficultyClass: Record<string, string> = {
       <slot />
     </div>
 
+    <!-- Prev / Next navigation -->
+    {(prevArticle || nextArticle) && (
+      <nav class="mt-16 pt-8 border-t border-[var(--color-border)]" aria-label="Article navigation">
+        <div class="flex flex-col sm:flex-row justify-between gap-4">
+          {prevArticle ? (
+            <a
+              href={prevArticle.href}
+              class="group flex items-start gap-3 p-4 rounded-xl border border-[var(--color-border)] hover:border-[var(--color-border-strong)] hover:bg-[var(--color-bg-warm)] transition-all flex-1 min-w-0"
+            >
+              <svg class="w-5 h-5 mt-0.5 shrink-0 text-[var(--color-text-muted)] group-hover:text-[var(--color-accent)] transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" />
+              </svg>
+              <div class="min-w-0">
+                <span class="text-xs text-[var(--color-text-muted)] uppercase tracking-wider font-medium">Previous</span>
+                <p class="text-sm text-[var(--color-text-primary)] group-hover:text-[var(--color-accent)] transition-colors truncate mt-1" style="font-family: var(--font-display);">
+                  {prevArticle.title}
+                </p>
+              </div>
+            </a>
+          ) : <div class="flex-1" />}
+
+          {nextArticle ? (
+            <a
+              href={nextArticle.href}
+              class="group flex items-start gap-3 p-4 rounded-xl border border-[var(--color-border)] hover:border-[var(--color-border-strong)] hover:bg-[var(--color-bg-warm)] transition-all flex-1 min-w-0 sm:text-right sm:flex-row-reverse"
+            >
+              <svg class="w-5 h-5 mt-0.5 shrink-0 text-[var(--color-text-muted)] group-hover:text-[var(--color-accent)] transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
+              </svg>
+              <div class="min-w-0">
+                <span class="text-xs text-[var(--color-text-muted)] uppercase tracking-wider font-medium">Next</span>
+                <p class="text-sm text-[var(--color-text-primary)] group-hover:text-[var(--color-accent)] transition-colors truncate mt-1" style="font-family: var(--font-display);">
+                  {nextArticle.title}
+                </p>
+              </div>
+            </a>
+          ) : <div class="flex-1" />}
+        </div>
+      </nav>
+    )}
+
+    <!-- Keep learning CTA -->
+    <div class="mt-16">
+      <div class="cta-card card-warm p-8 sm:p-10 text-center rounded-xl relative overflow-hidden">
+        <div class="cta-glow"></div>
+        <h3 class="text-heading mb-3 relative">Want to keep learning?</h3>
+        <p class="text-[var(--color-text-secondary)] mb-6 max-w-md mx-auto relative">Explore our guided learning paths or try building something with AI right now.</p>
+        <div class="flex flex-col sm:flex-row items-center justify-center gap-3 relative">
+          <a href="/start/" class="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-[var(--color-text-primary)] text-white font-medium hover:bg-[var(--color-text-secondary)] transition-colors text-sm">
+            Learning paths
+            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
+            </svg>
+          </a>
+          <a href="/challenges/" class="inline-flex items-center px-6 py-3 rounded-full border border-[var(--color-border)] text-[var(--color-text-secondary)] font-medium hover:border-[var(--color-border-strong)] transition-colors text-sm">
+            Try a challenge
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Related articles -->
+    {relatedArticles.length > 0 && (
+      <div class="mt-16 pt-10 border-t border-[var(--color-border)]">
+        <h3 class="text-heading mb-6">More from {collectionLabel}</h3>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+          {relatedArticles.map((article) => (
+            <PostCard
+              title={article.title}
+              description={article.description}
+              href={article.href}
+              pubDate={article.pubDate}
+              tags={article.tags}
+              difficulty={article.difficulty}
+              image={article.image}
+              body={article.body}
+              category={article.category}
+              collection={article.collection}
+            />
+          ))}
+        </div>
+      </div>
+    )}
+
     <!-- Newsletter CTA -->
-    <div class="mt-20 pt-10 border-t border-[var(--color-border)]">
+    <div class="mt-16 pt-10 border-t border-[var(--color-border)]">
       <div class="card-warm p-8 sm:p-10 text-center rounded-xl">
         <h3 class="text-heading mb-3">Enjoyed this article?</h3>
         <p class="text-[var(--color-text-secondary)] mb-6 max-w-md mx-auto">Subscribe for more AI insights delivered to your inbox every week.</p>
@@ -195,6 +330,7 @@ const difficultyClass: Record<string, string> = {
     </div>
 
     <script is:inline>
+      // Newsletter form handler
       const artForm = document.getElementById('article-newsletter-form');
       if (artForm) {
         artForm.addEventListener('submit', async (e) => {
@@ -214,6 +350,85 @@ const difficultyClass: Record<string, string> = {
           }
         });
       }
+
+      // Reading progress bar
+      (function() {
+        var bar = document.getElementById('reading-progress-bar');
+        var article = document.getElementById('article-content');
+        if (!bar || !article) return;
+
+        var prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        if (prefersReduced) {
+          document.getElementById('reading-progress').style.display = 'none';
+          return;
+        }
+
+        var ticking = false;
+        function updateProgress() {
+          var rect = article.getBoundingClientRect();
+          var articleTop = rect.top + window.scrollY;
+          var articleHeight = rect.height;
+          var scrolled = window.scrollY - articleTop;
+          var viewportHeight = window.innerHeight;
+          var progress = Math.min(Math.max(scrolled / (articleHeight - viewportHeight), 0), 1);
+          bar.style.transform = 'scaleX(' + progress + ')';
+          ticking = false;
+        }
+
+        window.addEventListener('scroll', function() {
+          if (!ticking) {
+            requestAnimationFrame(updateProgress);
+            ticking = true;
+          }
+        }, { passive: true });
+
+        updateProgress();
+      })();
     </script>
   </article>
 </BaseLayout>
+
+<style>
+  /* Reading progress bar */
+  .reading-progress {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    z-index: 10000;
+    background: transparent;
+    pointer-events: none;
+  }
+
+  .reading-progress-bar {
+    height: 100%;
+    width: 100%;
+    background: var(--color-accent);
+    transform-origin: left;
+    transform: scaleX(0);
+    transition: transform 0.1s linear;
+    will-change: transform;
+  }
+
+  /* CTA glow (matches challenges page pattern) */
+  .cta-glow {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at 50% 0%, var(--color-accent-soft) 0%, transparent 60%);
+    opacity: 0;
+    transition: opacity 0.5s;
+  }
+  .cta-card:hover .cta-glow {
+    opacity: 0.5;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .reading-progress-bar {
+      transition: none;
+    }
+    .cta-glow {
+      transition: none;
+    }
+  }
+</style>
