@@ -9,25 +9,20 @@ const automationPath = paths.find(p => p.id === 'automation-builder');
 
 <BaseLayout title="Start Here" description="New to AI? Start here. Pick your path and learn at your own pace with guided tutorials.">
 
-  <!-- Hero with robot image -->
-  <section class="relative overflow-hidden" style="background: var(--color-bg-dark);">
-    <img
-      src="/images/tutorials/robot-warehouse.webp"
-      alt="An AI robot"
-      class="absolute inset-0 w-full h-full object-cover opacity-50"
-      width="1126"
-      height="648"
-      loading="eager"
-    />
-    <div class="absolute inset-0 bg-gradient-to-b from-[rgba(20,20,19,0.5)] via-[rgba(20,20,19,0.2)] to-[rgba(20,20,19,0.7)]"></div>
+  <!-- Hero — warm editorial -->
+  <section class="start-hero">
+    <div class="start-hero__bg" aria-hidden="true">
+      <div class="start-hero__texture"></div>
+      <div class="start-hero__gradient"></div>
+    </div>
 
-    <div class="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16 lg:py-24 text-center">
-      <p class="label mb-4" style="color: var(--color-accent-soft);">Welcome</p>
-      <h1 class="text-display mb-6" style="color: white;">
+    <div class="start-hero__inner">
+      <span class="start-hero__tag">Welcome</span>
+      <h1 class="start-hero__title">
         New to AI?<br />
-        <span style="color: var(--color-accent-soft);">Start here.</span>
+        <span class="start-hero__accent">Start here.</span>
       </h1>
-      <p class="text-lg max-w-2xl mx-auto leading-relaxed" style="color: rgba(255,255,255,0.75);">
+      <p class="start-hero__sub">
         You don't need to be technical. You don't need to write code. Pick the path that fits what you want to do, and we'll walk you through it step by step.
       </p>
     </div>
@@ -236,6 +231,83 @@ const automationPath = paths.find(p => p.id === 'automation-builder');
   </section>
 
 </BaseLayout>
+
+<style>
+  .start-hero {
+    position: relative;
+    overflow: hidden;
+    background: #F8F5F0;
+    text-align: center;
+  }
+  .start-hero__bg {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+  }
+  .start-hero__texture {
+    position: absolute;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    opacity: 0.03;
+  }
+  .start-hero__gradient {
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 60% 50% at 50% 80%, var(--color-accent-soft) 0%, transparent 50%),
+      radial-gradient(ellipse 40% 40% at 20% 30%, var(--color-sage-soft) 0%, transparent 50%);
+    opacity: 0.6;
+  }
+  .start-hero__inner {
+    position: relative;
+    max-width: 48rem;
+    margin: 0 auto;
+    padding: 4rem clamp(20px, 5vw, 48px) 5rem;
+  }
+  .start-hero__tag {
+    display: inline-block;
+    font-size: 0.6875rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--color-accent-hover);
+    background: var(--color-accent-soft);
+    padding: 4px 14px;
+    border-radius: 100px;
+    margin-bottom: 20px;
+    animation: start-fade 0.7s ease 0.1s both;
+  }
+  .start-hero__title {
+    font-family: var(--font-display);
+    font-size: clamp(2.75rem, 2rem + 3.5vw, 5rem);
+    line-height: 1;
+    letter-spacing: -0.04em;
+    color: var(--color-text-primary);
+    margin-bottom: 20px;
+    animation: start-fade 0.7s ease 0.2s both;
+  }
+  .start-hero__accent {
+    color: var(--color-accent);
+    font-style: italic;
+  }
+  .start-hero__sub {
+    font-size: clamp(0.9375rem, 0.85rem + 0.4vw, 1.0625rem);
+    line-height: 1.75;
+    color: var(--color-text-secondary);
+    max-width: 36rem;
+    margin: 0 auto;
+    animation: start-fade 0.7s ease 0.3s both;
+  }
+  @keyframes start-fade {
+    from { opacity: 0; transform: translateY(16px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .start-hero__tag,
+    .start-hero__title,
+    .start-hero__sub { animation: none; opacity: 1; }
+  }
+</style>
 
 <script is:inline>
   const startForm = document.getElementById('start-newsletter-form');

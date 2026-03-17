@@ -8,7 +8,7 @@ interface Props {
 
 const { title, category = '', collection = '', class: className = '' } = Astro.props;
 
-// Multiple deterministic hashes from title — each visual property gets its own seed
+// Deterministic hash for consistent visuals per title
 function hashCode(str: string, seed: number = 0): number {
   let hash = seed;
   for (let i = 0; i < str.length; i++) {
@@ -18,110 +18,189 @@ function hashCode(str: string, seed: number = 0): number {
   return Math.abs(hash);
 }
 
-const h1 = hashCode(title, 0);    // palette
-const h2 = hashCode(title, 17);   // gradient variant
-const h3 = hashCode(title, 31);   // pattern type
-const h4 = hashCode(title, 53);   // shape
-const h5 = hashCode(title, 97);   // angle
-const angle = (h5 % 12) * 30;
+const h1 = hashCode(title, 0);
+const h2 = hashCode(title, 17);
 
-// ── Color palettes ────────────────────────────────────────────
-// Each palette: [from, to, patternColor, textColor]
-type Palette = [string, string, string, string];
+// Warm editorial palettes — only tones from the site's paper aesthetic
+type Palette = { bg: string; accent: string; text: string; border: string };
 
 const palettes: Palette[] = [
-  ['#2D6A4F', '#40916C', 'rgba(255,255,255,0.12)', 'white'],        // forest
-  ['#264653', '#2A9D8F', 'rgba(255,255,255,0.12)', 'white'],        // teal depths
-  ['#7F5539', '#DDB892', 'rgba(255,255,255,0.10)', 'white'],        // amber earth
-  ['#5A189A', '#9D4EDD', 'rgba(255,255,255,0.10)', 'white'],        // violet
-  ['#1B4332', '#95D5B2', 'rgba(255,255,255,0.08)', 'white'],        // emerald mist
-  ['#6D597A', '#B56576', 'rgba(255,255,255,0.10)', 'white'],        // mauve rose
-  ['#003049', '#669BBC', 'rgba(255,255,255,0.10)', 'white'],        // deep navy
-  ['#774936', '#C38E70', 'rgba(255,255,255,0.10)', 'white'],        // terracotta
-  ['#2B2D42', '#8D99AE', 'rgba(255,255,255,0.10)', 'white'],        // gunmetal
-  ['#606C38', '#FEFAE0', 'rgba(0,0,0,0.06)', 'var(--color-text-primary)'],  // olive dawn
-  ['#3A0CA3', '#4CC9F0', 'rgba(255,255,255,0.10)', 'white'],        // electric blue
-  ['#9B2226', '#CA6702', 'rgba(255,255,255,0.08)', 'white'],        // crimson sunset
+  { bg: '#F5F1EB', accent: 'var(--color-accent)',  text: 'var(--color-text-primary)', border: 'var(--color-accent)' },
+  { bg: '#F0F5F1', accent: 'var(--color-sage)',    text: 'var(--color-text-primary)', border: 'var(--color-sage)' },
+  { bg: '#F5F0EB', accent: 'var(--color-clay)',    text: 'var(--color-text-primary)', border: 'var(--color-clay)' },
+  { bg: '#EDEDEB', accent: 'var(--color-text-secondary)', text: 'var(--color-text-primary)', border: 'var(--color-border-strong)' },
+  { bg: '#FEF3C7', accent: 'var(--color-accent-hover)', text: 'var(--color-text-primary)', border: 'var(--color-accent)' },
+  { bg: '#D8F3DC', accent: 'var(--color-sage)',    text: 'var(--color-text-primary)', border: 'var(--color-sage)' },
+  { bg: '#FDE8D0', accent: 'var(--color-clay)',    text: 'var(--color-text-primary)', border: 'var(--color-clay)' },
 ];
 
-// Collection influences which subset of palettes to prefer
+// Collection influences palette selection
 const collectionOffset: Record<string, number> = {
-  tutorials: 0,
-  news: 3,
-  blog: 5,
-  'non-coder': 8,
-  nonCoder: 8,
-  challenges: 0,  // challenges use full range
-  tools: 2,
-  resources: 6,
-  products: 4,
+  tutorials: 0, news: 1, blog: 2, 'non-coder': 3,
+  challenges: 4, tools: 5, resources: 6, products: 0,
 };
 
 const offset = collectionOffset[collection] ?? 0;
-const paletteIdx = (offset + h1) % palettes.length;
+const palette = palettes[(offset + h1) % palettes.length];
 
-const [colorFrom, colorTo, patternColor, textColor] = palettes[paletteIdx];
-
-// ── Gradient styles ───────────────────────────────────────────
-const gradientVariants = [
-  `linear-gradient(${angle}deg, ${colorFrom} 0%, ${colorTo} 100%)`,
-  `linear-gradient(${angle}deg, ${colorFrom} 0%, ${colorTo} 60%, ${colorFrom} 100%)`,
-  `radial-gradient(ellipse at ${20 + (h2 % 60)}% ${20 + (h2 % 60)}%, ${colorTo} 0%, ${colorFrom} 100%)`,
-  `linear-gradient(${angle}deg, ${colorFrom} 0%, ${colorTo} 50%, ${colorFrom}CC 100%)`,
+// Decorative element variations
+const decoVariants = [
+  'deco-corner',
+  'deco-line',
+  'deco-bracket',
+  'deco-dots',
+  'deco-rule',
 ];
-const gradient = gradientVariants[h2 % gradientVariants.length];
+const decoClass = decoVariants[h2 % decoVariants.length];
 
-// ── SVG patterns ──────────────────────────────────────────────
-const patternTypes = ['dots', 'diagonal', 'circles', 'hexagon', 'waves'] as const;
-const patternType = patternTypes[h3 % patternTypes.length];
-
-const patternId = `p-${h1}-${h3}`;
-const patterns: Record<string, string> = {
-  dots: `<pattern id="${patternId}" width="20" height="20" patternUnits="userSpaceOnUse"><circle cx="10" cy="10" r="2" fill="${patternColor}"/></pattern>`,
-  diagonal: `<pattern id="${patternId}" width="14" height="14" patternUnits="userSpaceOnUse" patternTransform="rotate(${45 + (h3 % 2) * 45})"><line x1="0" y1="0" x2="0" y2="14" stroke="${patternColor}" stroke-width="1.5"/></pattern>`,
-  circles: `<pattern id="${patternId}" width="36" height="36" patternUnits="userSpaceOnUse"><circle cx="18" cy="18" r="10" fill="none" stroke="${patternColor}" stroke-width="1.2"/></pattern>`,
-  hexagon: `<pattern id="${patternId}" width="28" height="48" patternUnits="userSpaceOnUse"><path d="M14 0L28 8v16L14 32 0 24V8z" fill="none" stroke="${patternColor}" stroke-width="0.8"/><path d="M14 32L28 40v8M14 32L0 40v8" fill="none" stroke="${patternColor}" stroke-width="0.8"/></pattern>`,
-  waves: `<pattern id="${patternId}" width="40" height="20" patternUnits="userSpaceOnUse"><path d="M0 10 Q10 0 20 10 Q30 20 40 10" fill="none" stroke="${patternColor}" stroke-width="1.2"/></pattern>`,
-};
-
-const patternSvg = patterns[patternType];
-
-// ── Decorative SVG shape (unique per card) ────────────────────
-const shapeVariants = [
-  // Large circle, top-right
-  `<circle cx="85%" cy="20%" r="80" fill="${patternColor}" opacity="0.5"/>`,
-  // Diamond, center-right
-  `<rect x="70%" y="15%" width="60" height="60" rx="4" transform="rotate(45, 80%, 35%)" fill="${patternColor}" opacity="0.4"/>`,
-  // Two overlapping circles
-  `<circle cx="78%" cy="30%" r="50" fill="${patternColor}" opacity="0.3"/><circle cx="88%" cy="25%" r="35" fill="${patternColor}" opacity="0.4"/>`,
-  // Triangle
-  `<polygon points="75%,10% 95%,50% 55%,50%" fill="${patternColor}" opacity="0.3"/>`,
-  // Stacked lines
-  `<line x1="70%" y1="20%" x2="95%" y2="20%" stroke="${patternColor}" stroke-width="3" opacity="0.5"/><line x1="72%" y1="35%" x2="90%" y2="35%" stroke="${patternColor}" stroke-width="3" opacity="0.4"/><line x1="74%" y1="50%" x2="92%" y2="50%" stroke="${patternColor}" stroke-width="3" opacity="0.3"/>`,
-];
-const shape = shapeVariants[h4 % shapeVariants.length];
+// Category label
+const label = category || collection;
 ---
 
 <div
-  class:list={['hero-image relative overflow-hidden', className]}
-  style={`background: ${gradient};`}
+  class:list={['hero-img', decoClass, className]}
+  style={`--hi-bg: ${palette.bg}; --hi-accent: ${palette.accent}; --hi-text: ${palette.text}; --hi-border: ${palette.border};`}
   role="img"
   aria-label={title}
 >
-  <svg class="absolute inset-0 w-full h-full" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
-    <defs set:html={patternSvg} />
-    <rect width="100%" height="100%" fill={`url(#${patternId})`} />
-    <Fragment set:html={shape} />
-  </svg>
-  <div class="absolute bottom-3 left-4 right-4">
-    <span class="text-xs font-semibold uppercase tracking-widest opacity-70" style={`color: ${textColor};`}>
-      {category || collection}
-    </span>
+  <!-- Paper texture -->
+  <div class="hero-img__texture" aria-hidden="true"></div>
+
+  <!-- Title as headline -->
+  <div class="hero-img__content">
+    {label && (
+      <span class="hero-img__label">{label}</span>
+    )}
+    <h4 class="hero-img__title">{title}</h4>
   </div>
 </div>
 
 <style>
-  .hero-image {
+  .hero-img {
+    position: relative;
     aspect-ratio: 16 / 9;
+    background: var(--hi-bg);
+    overflow: hidden;
+    display: flex;
+    align-items: flex-end;
+  }
+
+  .hero-img__texture {
+    position: absolute;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.7' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    opacity: 0.04;
+    pointer-events: none;
+  }
+
+  /* Content block — title + category */
+  .hero-img__content {
+    position: relative;
+    z-index: 1;
+    padding: 20px 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    width: 100%;
+  }
+
+  .hero-img__label {
+    font-family: var(--font-body);
+    font-size: 0.5625rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--hi-accent);
+    opacity: 0.8;
+  }
+
+  .hero-img__title {
+    font-family: var(--font-display);
+    font-size: clamp(1.125rem, 1rem + 0.5vw, 1.5rem);
+    font-style: italic;
+    line-height: 1.2;
+    letter-spacing: -0.02em;
+    color: var(--hi-text);
+    opacity: 0.55;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  /* ── Decorative variants ─────────────────── */
+
+  /* Corner bracket marks */
+  .deco-corner::before,
+  .deco-corner::after {
+    content: '';
+    position: absolute;
+    width: 24px;
+    height: 24px;
+    border-color: var(--hi-border);
+    border-style: solid;
+    opacity: 0.2;
+  }
+  .deco-corner::before {
+    top: 16px; left: 16px;
+    border-width: 2px 0 0 2px;
+  }
+  .deco-corner::after {
+    bottom: 16px; right: 16px;
+    border-width: 0 2px 2px 0;
+  }
+
+  /* Horizontal accent line */
+  .deco-line::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 20px;
+    right: 20px;
+    height: 1px;
+    background: var(--hi-border);
+    opacity: 0.15;
+  }
+
+  /* Typographic brackets */
+  .deco-bracket::before,
+  .deco-bracket::after {
+    font-family: var(--font-display);
+    font-size: 3rem;
+    color: var(--hi-accent);
+    opacity: 0.1;
+    position: absolute;
+    line-height: 1;
+  }
+  .deco-bracket::before {
+    content: '[';
+    top: 12px; left: 16px;
+  }
+  .deco-bracket::after {
+    content: ']';
+    bottom: 12px; right: 16px;
+  }
+
+  /* Dot grid */
+  .deco-dots::before {
+    content: '';
+    position: absolute;
+    inset: 20px;
+    background-image: radial-gradient(circle, var(--hi-border) 1px, transparent 1px);
+    background-size: 16px 16px;
+    opacity: 0.12;
+  }
+
+  /* Editorial rule */
+  .deco-rule::before {
+    content: '';
+    position: absolute;
+    bottom: 40px;
+    left: 20px;
+    width: 48px;
+    height: 2px;
+    background: var(--hi-accent);
+    opacity: 0.3;
+    border-radius: 1px;
   }
 </style>

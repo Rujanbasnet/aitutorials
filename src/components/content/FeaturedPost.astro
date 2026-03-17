@@ -38,7 +38,7 @@ const readingTime = body ? getReadingTime(body) : '';
     </div>
     <div class="p-6 sm:p-8 lg:p-10 flex flex-col justify-center">
       <div class="flex flex-wrap items-center gap-2 mb-4">
-        <span class="text-[0.6875rem] font-semibold px-2.5 py-0.5 rounded-sm uppercase tracking-wider" style="background: var(--color-accent-soft); color: var(--color-accent-hover);">Latest</span>
+        <span class="text-[0.625rem] font-bold px-2.5 py-0.5 uppercase tracking-wider border-[1.5px] border-[var(--color-accent)] text-[var(--color-accent-hover)] rounded">Latest</span>
         {tags.slice(0, 2).map((tag) => (
           <span class="tag">{tag}</span>
         ))}

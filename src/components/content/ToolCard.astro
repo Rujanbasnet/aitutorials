@@ -57,19 +57,17 @@ const isAffiliate = !!affiliateUrl;
             {name}
           </h3>
           {isNew && (
-            <span class="inline-flex items-center px-1.5 py-0.5 text-[0.6rem] font-bold uppercase tracking-wider rounded bg-[var(--color-sage-soft)] text-[var(--color-sage)]">
+            <span class="inline-flex items-center px-1.5 py-0.5 text-[0.6rem] font-bold uppercase tracking-wider rounded border border-[var(--color-sage)] text-[var(--color-sage)]">
               New
             </span>
           )}
           {trending && (
-            <span class="inline-flex items-center px-1.5 py-0.5 text-[0.6rem] font-bold uppercase tracking-wider rounded bg-[var(--color-accent-soft)] text-[var(--color-accent-hover)]">
+            <span class="inline-flex items-center px-1.5 py-0.5 text-[0.6rem] font-bold uppercase tracking-wider rounded border border-[var(--color-accent)] text-[var(--color-accent-hover)]">
               Trending
             </span>
           )}
         </div>
-        <span class="inline-flex items-center px-2 py-0.5 text-[0.625rem] font-semibold uppercase tracking-wider rounded-sm bg-[var(--color-bg-warm)] text-[var(--color-text-muted)]">
-          {category}
-        </span>
+        <span class="tag">{category}</span>
       </div>
     </div>
 
@@ -99,11 +97,11 @@ const isAffiliate = !!affiliateUrl;
         href={linkUrl}
         target="_blank"
         rel={isAffiliate ? "noopener nofollow sponsored" : "noopener nofollow"}
-        class="inline-flex items-center gap-1 px-3 py-1.5 text-xs font-medium rounded-full border border-[var(--color-border)] text-[var(--color-text-secondary)] hover:bg-[var(--color-text-primary)] hover:text-white hover:border-[var(--color-text-primary)] transition-all"
+        class="inline-flex items-center gap-1.5 px-3.5 py-1.5 text-xs font-semibold rounded-lg bg-[var(--color-text-primary)] text-white hover:bg-[var(--color-accent)] hover:shadow-[0_4px_12px_rgba(217,119,6,0.25)] transition-all"
       >
         Visit
         <svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 6H5.25A2.25 2.25 0 003 8.25v10.5A2.25 2.25 0 005.25 21h10.5A2.25 2.25 0 0018 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25" />
+          <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 19.5l15-15m0 0H8.25m11.25 0v11.25" />
         </svg>
       </a>
     </div>

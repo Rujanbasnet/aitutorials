@@ -1,0 +1,204 @@
+---
+interface Props {
+  tag: string;
+  title: string;
+  description: string;
+  stats?: { label: string; color?: string }[];
+  backLink?: { label: string; href: string };
+  image?: string;
+  imageAlt?: string;
+  gradient?: 'sage' | 'amber' | 'clay' | 'mixed';
+}
+
+const {
+  tag,
+  title,
+  description,
+  stats = [],
+  backLink,
+  image,
+  imageAlt = '',
+  gradient = 'mixed',
+} = Astro.props;
+
+const gradientMap: Record<string, string> = {
+  sage: 'radial-gradient(ellipse 60% 50% at 20% 80%, var(--color-sage-soft) 0%, transparent 50%), radial-gradient(ellipse 40% 40% at 80% 20%, var(--color-accent-soft) 0%, transparent 50%)',
+  amber: 'radial-gradient(ellipse 60% 50% at 50% 80%, var(--color-accent-soft) 0%, transparent 50%), radial-gradient(ellipse 40% 40% at 20% 20%, var(--color-clay-soft) 0%, transparent 50%)',
+  clay: 'radial-gradient(ellipse 60% 50% at 80% 80%, var(--color-clay-soft) 0%, transparent 50%), radial-gradient(ellipse 40% 40% at 20% 30%, var(--color-sage-soft) 0%, transparent 50%)',
+  mixed: 'radial-gradient(ellipse 50% 40% at 30% 70%, var(--color-sage-soft) 0%, transparent 50%), radial-gradient(ellipse 40% 40% at 70% 20%, var(--color-accent-soft) 0%, transparent 50%), radial-gradient(ellipse 30% 30% at 50% 50%, var(--color-clay-soft) 0%, transparent 40%)',
+};
+---
+
+<section class="page-hero">
+  <div class="page-hero__bg" aria-hidden="true">
+    <div class="page-hero__texture"></div>
+    <div class="page-hero__gradient" style={`background: ${gradientMap[gradient]};`}></div>
+  </div>
+
+  <div class={`page-hero__inner ${image ? 'page-hero__inner--split' : ''}`}>
+    <div class="page-hero__content">
+      {backLink && (
+        <a href={backLink.href} class="page-hero__back">
+          <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" />
+          </svg>
+          {backLink.label}
+        </a>
+      )}
+      <span class="page-hero__tag">{tag}</span>
+      <h1 class="page-hero__title">{title}</h1>
+      <p class="page-hero__sub">{description}</p>
+
+      {stats.length > 0 && (
+        <div class="page-hero__stats">
+          {stats.map((stat, i) => (
+            <>
+              {i > 0 && <span class="page-hero__dot"></span>}
+              <div class="flex items-center gap-2">
+                {stat.color && <div class="w-2 h-2 rounded-full" style={`background: ${stat.color};`}></div>}
+                <span>{stat.label}</span>
+              </div>
+            </>
+          ))}
+        </div>
+      )}
+    </div>
+
+    {image && (
+      <div class="page-hero__visual">
+        <div class="page-hero__img-card">
+          <img src={image} alt={imageAlt} class="page-hero__img" loading="eager" />
+        </div>
+      </div>
+    )}
+  </div>
+</section>
+
+<style>
+  .page-hero {
+    position: relative;
+    overflow: hidden;
+    background: #F8F5F0;
+  }
+  .page-hero__bg {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+  }
+  .page-hero__texture {
+    position: absolute;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    opacity: 0.03;
+  }
+  .page-hero__gradient {
+    position: absolute;
+    inset: 0;
+    opacity: 0.55;
+  }
+
+  .page-hero__inner {
+    position: relative;
+    max-width: 72rem;
+    margin: 0 auto;
+    padding: 4rem clamp(20px, 5vw, 48px) 5rem;
+  }
+  .page-hero__inner--split {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    align-items: center;
+  }
+  @media (min-width: 768px) {
+    .page-hero__inner--split {
+      grid-template-columns: 1.2fr 0.8fr;
+    }
+  }
+
+  .page-hero__back {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.8125rem;
+    color: var(--color-text-muted);
+    margin-bottom: 20px;
+    transition: color 0.2s;
+  }
+  .page-hero__back:hover { color: var(--color-accent); }
+
+  .page-hero__tag {
+    display: inline-block;
+    font-size: 0.6875rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--color-accent-hover);
+    background: var(--color-accent-soft);
+    padding: 4px 14px;
+    border-radius: 100px;
+    margin-bottom: 16px;
+  }
+  .page-hero__title {
+    font-family: var(--font-display);
+    font-size: clamp(2.5rem, 2rem + 3vw, 4.5rem);
+    line-height: 1;
+    letter-spacing: -0.04em;
+    color: var(--color-text-primary);
+    margin-bottom: 16px;
+  }
+  .page-hero__sub {
+    font-size: clamp(0.9375rem, 0.85rem + 0.4vw, 1.0625rem);
+    line-height: 1.7;
+    color: var(--color-text-secondary);
+    max-width: 460px;
+  }
+  .page-hero__stats {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 12px;
+    margin-top: 24px;
+    font-size: 0.8125rem;
+    color: var(--color-text-muted);
+  }
+  .page-hero__stats strong {
+    color: var(--color-text-primary);
+  }
+  .page-hero__dot {
+    width: 3px; height: 3px;
+    border-radius: 50%;
+    background: var(--color-border-strong);
+  }
+
+  /* Optional image card */
+  .page-hero__visual {
+    display: none;
+  }
+  @media (min-width: 768px) {
+    .page-hero__visual { display: block; }
+  }
+  .page-hero__img-card {
+    border-radius: 20px;
+    overflow: hidden;
+    border: 1px solid var(--color-border);
+    box-shadow:
+      0 16px 48px -12px rgba(120,53,15,0.1),
+      0 4px 12px -4px rgba(20,20,19,0.06);
+    transform: rotate(2deg);
+    transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .page-hero__img-card:hover {
+    transform: rotate(0deg) scale(1.02);
+  }
+  .page-hero__img {
+    width: 100%;
+    height: auto;
+    display: block;
+    aspect-ratio: 4/3;
+    object-fit: cover;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .page-hero__img-card { transition: none; }
+  }
+</style>

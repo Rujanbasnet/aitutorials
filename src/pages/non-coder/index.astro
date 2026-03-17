@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '@layouts/BaseLayout.astro';
+import PageHero from '@components/global/PageHero.astro';
 import PostCard from '@components/content/PostCard.astro';
 import FeaturedPost from '@components/content/FeaturedPost.astro';
 import { getPublishedNonCoder } from '@utils/collections';
@@ -11,43 +12,21 @@ const rest = posts.slice(1);
 
 <BaseLayout title="Non-Coder" description="AI explained for everyone. Plain-language guides for people who use AI tools but don't write code.">
 
-  <!-- Cinematic hero with tall overlap -->
-  <section class="noncoder-hero relative overflow-hidden min-h-[60vh] lg:min-h-[70vh]" style="background: var(--color-bg-dark);">
-    <img
-      src="/images/non-coder/scholar.webp"
-      alt="A scholar writing with a quill pen"
-      class="absolute inset-0 w-full h-full object-cover opacity-60"
-      style="object-position: center 20%;"
-      loading="eager"
-    />
-    <div class="absolute inset-0 bg-gradient-to-b from-[rgba(20,20,19,0.5)] via-transparent to-[rgba(20,20,19,0.7)]"></div>
+  <PageHero
+    tag="For Everyone"
+    title="Non-Coder"
+    description="AI explained for everyone. No jargon, no prerequisites, just clear answers to the stuff that actually matters."
+    gradient="sage"
+    image="/images/non-coder/scholar.webp"
+    imageAlt="A scholar writing with a quill pen"
+    stats={[
+      { label: `${posts.length} guides`, color: 'var(--color-sage)' },
+      { label: 'Zero code required', color: 'var(--color-accent)' },
+      { label: 'Plain language', color: 'var(--color-clay)' },
+    ]}
+  />
 
-    <div class="relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 lg:pt-28 pb-44 lg:pb-56">
-      <p class="label mb-3 hero-label" style="color: var(--color-accent-soft);">For Everyone</p>
-      <h1 class="text-title mb-3 hero-title" style="color: white;">Non-Coder</h1>
-      <p class="text-lg max-w-xl hero-subtitle" style="color: rgba(255,255,255,0.8);">
-        AI explained for everyone. No jargon, no prerequisites, just clear answers to the stuff that actually matters.
-      </p>
-
-      <div class="flex flex-wrap items-center gap-4 mt-8">
-        <div class="flex items-center gap-2 text-sm" style="color: rgba(255,255,255,0.6);">
-          <div class="w-2 h-2 rounded-full pulse-dot" style="background: var(--color-sage-soft);"></div>
-          {posts.length} guides
-        </div>
-        <div class="flex items-center gap-2 text-sm" style="color: rgba(255,255,255,0.6);">
-          <div class="w-2 h-2 rounded-full pulse-dot" style="background: var(--color-accent-soft); animation-delay: 0.5s;"></div>
-          Zero code required
-        </div>
-        <div class="flex items-center gap-2 text-sm" style="color: rgba(255,255,255,0.6);">
-          <div class="w-2 h-2 rounded-full pulse-dot" style="background: var(--color-clay-soft); animation-delay: 1s;"></div>
-          Plain language
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Content overlapping hero -->
-  <section class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12 -mt-32 relative z-10">
+  <section class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
     {posts.length > 0 ? (
       <>
         <!-- Featured latest guide -->

@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '@layouts/BaseLayout.astro';
 import ChallengeCard from '@components/content/ChallengeCard.astro';
+import PageHero from '@components/global/PageHero.astro';
 import HeroImage from '@components/content/HeroImage.astro';
 import { getPublishedChallenges } from '@utils/collections';
 
@@ -25,47 +26,20 @@ const progressionLabels = [
 
 <BaseLayout title="Try It Yourself" description="Copy a prompt, paste it into any AI chatbot, and watch magic happen. No coding required.">
 
-  <!-- Cinematic hero -->
-  <section class="challenges-hero relative overflow-hidden" style="background: var(--color-bg-dark);">
-    <img
-      src="/images/challenges/magic-hero.webp"
-      alt="Woman wielding a fire staff"
-      class="absolute inset-0 w-full h-full object-cover opacity-60"
-      width="1126"
-      height="648"
-      loading="eager"
-    />
-    <div class="absolute inset-0 bg-gradient-to-r from-[rgba(0,0,0,0.55)] via-[rgba(0,0,0,0.25)] to-transparent"></div>
-
-    <div class="relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-20 lg:py-28">
-      <a href="/start/" class="text-sm text-[rgba(255,255,255,0.5)] hover:text-white transition-colors mb-6 inline-flex items-center gap-1 hero-label">
-        <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" />
-        </svg>
-        Start Here
-      </a>
-      <p class="label mb-3" style="color: var(--color-accent-soft);">Try It Yourself</p>
-      <h1 class="text-title mb-3 hero-title" style="color: white;">Feel the magic.</h1>
-      <p class="text-lg max-w-xl hero-subtitle" style="color: rgba(255,255,255,0.8);">
-        Each challenge is a single prompt you copy and paste into an AI chatbot. No coding, no setup, no catch. Just paste and watch it build something incredible.
-      </p>
-
-      <div class="flex flex-wrap items-center gap-4 mt-8">
-        <div class="flex items-center gap-2 text-sm" style="color: rgba(255,255,255,0.6);">
-          <div class="w-2 h-2 rounded-full pulse-dot" style="background: var(--color-sage-soft);"></div>
-          Works on ChatGPT, Claude & Gemini
-        </div>
-        <div class="flex items-center gap-2 text-sm" style="color: rgba(255,255,255,0.6);">
-          <div class="w-2 h-2 rounded-full pulse-dot" style="background: var(--color-accent-soft); animation-delay: 0.5s;"></div>
-          No coding required
-        </div>
-        <div class="flex items-center gap-2 text-sm" style="color: rgba(255,255,255,0.6);">
-          <div class="w-2 h-2 rounded-full pulse-dot" style="background: var(--color-clay-soft); animation-delay: 1s;"></div>
-          2-5 minutes each
-        </div>
-      </div>
-    </div>
-  </section>
+  <PageHero
+    tag="Try It Yourself"
+    title="Feel the magic."
+    description="Each challenge is a single prompt you copy and paste into an AI chatbot. No coding, no setup, no catch. Just paste and watch it build something incredible."
+    gradient="amber"
+    backLink={{ label: 'Start Here', href: '/start/' }}
+    image="/images/challenges/magic-hero.webp"
+    imageAlt="Woman wielding a fire staff"
+    stats={[
+      { label: 'Works on ChatGPT, Claude & Gemini', color: 'var(--color-sage)' },
+      { label: 'No coding required', color: 'var(--color-accent)' },
+      { label: '2-5 minutes each', color: 'var(--color-clay)' },
+    ]}
+  />
 
   <!-- How it works — connected steps -->
   <section class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">

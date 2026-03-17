@@ -10,211 +10,266 @@ const blog = await getPublishedBlog();
 const learningPaths = await getLearningPathsWithTime();
 
 const featured = tutorials[0];
-const latestTutorials = tutorials.slice(0, 6);
-const latestNews = news.slice(0, 4);
-const latestBlog = blog.slice(0, 4);
+const latestTutorials = tutorials.slice(1, 5);
+const latestNews = news.slice(0, 3);
+const latestBlog = blog.slice(0, 3);
 
-const topics = [
-  { name: 'Prompt Engineering', icon: '\u2728', color: 'var(--color-accent)', bg: 'var(--color-accent-soft)', count: tutorials.filter(t => t.data.category === 'prompt-engineering').length },
-  { name: 'AI Tools', icon: '\u2692\uFE0F', color: 'var(--color-sage)', bg: 'var(--color-sage-soft)', count: tutorials.filter(t => t.data.category === 'ai-tools').length },
-  { name: 'Automation', icon: '\u26A1', color: 'var(--color-clay)', bg: 'var(--color-clay-soft)', count: tutorials.filter(t => t.data.category === 'automation').length },
-  { name: 'AI Agents', icon: '\uD83E\uDD16', color: '#6366F1', bg: '#EEF2FF', count: tutorials.filter(t => t.data.category === 'ai-agents').length },
-  { name: 'Coding with AI', icon: '\uD83D\uDCBB', color: '#0891B2', bg: '#ECFEFF', count: tutorials.filter(t => t.data.category === 'coding-with-ai').length },
-  { name: 'Machine Learning', icon: '\uD83E\uDDE0', color: '#C026D3', bg: '#FDF4FF', count: tutorials.filter(t => t.data.category === 'machine-learning').length },
-];
+const foundationsPath = learningPaths.find(p => p.id === 'ai-foundations');
+const automationPath = learningPaths.find(p => p.id === 'automation-builder');
 ---
 
 <BaseLayout title="AI Tutorials" description="Learn AI, build with AI, ship faster. Tutorials, news, and tools for the AI era.">
 
-  <!-- ══════ HERO — Full-bleed split layout ══════ -->
-  <section class="hp-hero">
+  <!-- ══════ HERO — Warm editorial with 3D floating card ══════ -->
+  <section class="hp-hero" id="hero">
     <div class="hp-hero__bg" aria-hidden="true">
-      <div class="hp-hero__mesh"></div>
-      <div class="hp-hero__orb hp-hero__orb--1"></div>
-      <div class="hp-hero__orb hp-hero__orb--2"></div>
-      <div class="hp-hero__orb hp-hero__orb--3"></div>
-      <div class="hp-hero__grid-lines"></div>
+      <div class="hp-hero__texture"></div>
+      <div class="hp-hero__gradient"></div>
+      <div class="hp-hero__orb hp-hero__orb--1" id="orb1"></div>
+      <div class="hp-hero__orb hp-hero__orb--2" id="orb2"></div>
+      <div class="hp-hero__orb hp-hero__orb--3" id="orb3"></div>
+      <div class="hp-hero__border-line"></div>
     </div>
 
     <div class="hp-hero__inner">
-      <!-- Left: headline -->
-      <div class="hp-hero__left">
+      <!-- Left: Copy -->
+      <div class="hp-hero__copy">
         <div class="hp-hero__eyebrow">
-          <span class="hp-hero__eyebrow-line"></span>
-          <span>AI Knowledge Engine</span>
+          <span class="hp-hero__eyebrow-dot"></span>
+          <span>Free AI Learning Platform</span>
         </div>
+
         <h1 class="hp-hero__h1">
-          <span class="hp-hero__word" style="--i:0">Learn</span>
-          <span class="hp-hero__word hp-hero__word--accent" style="--i:1">to build</span>
-          <span class="hp-hero__word" style="--i:2">with AI</span>
+          <span class="hp-hero__line" style="--i:0">AI doesn't have</span>
+          <span class="hp-hero__line" style="--i:1">to be <em class="hp-hero__keyword">complicated.</em></span>
         </h1>
+
         <p class="hp-hero__sub">
-          Practical tutorials, honest tool reviews, and curated resources.<br class="hidden sm:block" />
-          No hype -- just what works.
+          Practical tutorials that break down AI tools, prompts, and workflows into steps anyone can follow. No coding. No jargon. Just results.
         </p>
-        <div class="hp-hero__ctas">
-          <a href="/start/" class="hp-btn hp-btn--primary">
-            Start here
+
+        <div class="hp-hero__actions">
+          <a href="/start/" class="hp-btn hp-btn--glow">
+            Start learning
             <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" /></svg>
           </a>
-          <a href="/tutorials/" class="hp-btn hp-btn--ghost">Browse tutorials &rarr;</a>
+          <a href="/tutorials/" class="hp-btn hp-btn--outline">Browse tutorials</a>
         </div>
-        <p class="hp-hero__new-to-ai">
-          <a href="/start/" style="color: var(--color-accent); font-size: 0.875rem; text-decoration: underline; text-underline-offset: 3px;">
-            New to AI? We'll guide you step by step &rarr;
-          </a>
-        </p>
+
+        <div class="hp-hero__stats">
+          <div class="hp-hero__stat">
+            <span class="hp-hero__stat-num">{tutorials.length}+</span>
+            <span class="hp-hero__stat-label">Tutorials</span>
+          </div>
+          <div class="hp-hero__stat-sep"></div>
+          <div class="hp-hero__stat">
+            <span class="hp-hero__stat-num">{news.length}+</span>
+            <span class="hp-hero__stat-label">News Articles</span>
+          </div>
+          <div class="hp-hero__stat-sep"></div>
+          <div class="hp-hero__stat">
+            <span class="hp-hero__stat-num">Free</span>
+            <span class="hp-hero__stat-label">Always</span>
+          </div>
+        </div>
       </div>
 
-      <!-- Right: live preview cards -->
-      <div class="hp-hero__right">
-        <div class="hp-hero__cards">
-          {latestTutorials.slice(0, 3).map((t, i) => (
-            <a href={`/tutorials/${t.id}/`} class="hp-hero__card" style={`--delay: ${i * 0.12}s`}>
-              <span class:list={[
-                'hp-hero__card-badge',
-                t.data.difficulty === 'beginner' ? 'badge-beginner' :
-                t.data.difficulty === 'intermediate' ? 'badge-intermediate' : 'badge-advanced',
-              ]}>
-                {t.data.difficulty}
+      <!-- Right: Stacked editorial cards -->
+      <div class="hp-hero__visual" id="hero-visual">
+        <div class="hp-hero__stack" id="hero-card">
+          <div class="hp-hero__card-shine" id="card-shine"></div>
+
+          <!-- Back card (deepest) -->
+          <div class="hp-stack__card hp-stack__card--3">
+            <span class="hp-stack__label">Tutorial</span>
+            <span class="hp-stack__tag badge-beginner">Beginner</span>
+          </div>
+
+          <!-- Middle card -->
+          <div class="hp-stack__card hp-stack__card--2">
+            <span class="hp-stack__label">News</span>
+            <h4 class="hp-stack__title">{news[0]?.data.title || 'Latest AI News'}</h4>
+            <span class="hp-stack__meta">{formatDateShort(news[0]?.data.pubDate || new Date())}</span>
+          </div>
+
+          <!-- Front card (top) -->
+          <div class="hp-stack__card hp-stack__card--1">
+            <div class="hp-stack__accent-bar"></div>
+            <span class="hp-stack__label">Latest Tutorial</span>
+            <h4 class="hp-stack__title hp-stack__title--lg">{featured?.data.title || 'Getting Started with AI'}</h4>
+            <p class="hp-stack__desc">{featured?.data.description?.slice(0, 100) || 'Learn the fundamentals'}...</p>
+            <div class="hp-stack__foot">
+              <span class="hp-stack__meta">{getReadingTime(featured?.body || '')}</span>
+              <span class="hp-stack__arrow">
+                <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 19.5l15-15m0 0H8.25m11.25 0v11.25" /></svg>
               </span>
-              <h3 class="hp-hero__card-title">{t.data.title}</h3>
-              <span class="hp-hero__card-meta">{getReadingTime(t.body || '')}</span>
-            </a>
-          ))}
+            </div>
+          </div>
+
+          <!-- Floating topic pills -->
+          <div class="hp-hero__float hp-hero__float--1" id="float1">
+            Prompt Engineering
+          </div>
+          <div class="hp-hero__float hp-hero__float--2" id="float2">
+            Automation
+          </div>
+          <div class="hp-hero__float hp-hero__float--3" id="float3">
+            AI Tools
+          </div>
         </div>
       </div>
     </div>
 
-    <!-- Scroll cue -->
+    <!-- Scroll indicator -->
     <div class="hp-hero__scroll" aria-hidden="true">
-      <span>Scroll</span>
-      <div class="hp-hero__scroll-bar"><div class="hp-hero__scroll-dot"></div></div>
+      <div class="hp-hero__scroll-line">
+        <div class="hp-hero__scroll-dot"></div>
+      </div>
     </div>
   </section>
 
-  <!-- ══════ MARQUEE TICKER ══════ -->
-  <div class="hp-ticker" aria-hidden="true">
-    <div class="hp-ticker__track">
-      {[...Array(3)].map(() => (
-        <div class="hp-ticker__set">
-          <span>{tutorials.length} Tutorials</span>
-          <span class="hp-ticker__sep">/</span>
-          <span>{news.length} News</span>
-          <span class="hp-ticker__sep">/</span>
-          <span>{blog.length} Blog Posts</span>
-          <span class="hp-ticker__sep">/</span>
-          <span>Always Free</span>
-          <span class="hp-ticker__sep">/</span>
-          <span>Updated Weekly</span>
-          <span class="hp-ticker__sep">/</span>
-        </div>
-      ))}
-    </div>
+  <!-- Editorial divider -->
+  <div class="hp-divider" aria-hidden="true">
+    <span class="hp-divider__line"></span>
+    <span class="hp-divider__diamond"></span>
+    <span class="hp-divider__line"></span>
   </div>
 
-  <!-- ══════ TOPICS — Interactive grid ══════ -->
-  <section class="hp-topics fade-in">
+  <!-- ══════ PICK YOUR PATH — 3D tilt cards ══════ -->
+  <section class="hp-paths" id="paths-section">
     <div class="hp-container">
-      <div class="hp-section-head">
-        <span class="hp-section-num">01</span>
-        <h2 class="hp-section-title">Explore Topics</h2>
+      <div class="hp-section-header">
+        <span class="hp-section-tag">Where to start</span>
+        <h2 class="hp-section-title">Pick your path</h2>
+        <p class="hp-section-sub">Choose what fits you. Every path is free, self-paced, and designed for people who don't code.</p>
       </div>
-      <div class="hp-topics__grid">
-        {topics.filter(t => t.count > 0).map((topic) => (
-          <a href={`/tutorials/?cat=${topic.name.toLowerCase().replace(/\s+/g, '-')}`} class="hp-topic" style={`--topic-color: ${topic.color}; --topic-bg: ${topic.bg}`}>
-            <span class="hp-topic__icon">{topic.icon}</span>
-            <span class="hp-topic__name">{topic.name}</span>
-            <span class="hp-topic__count">{topic.count} {topic.count === 1 ? 'guide' : 'guides'}</span>
-            <span class="hp-topic__arrow">
-              <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 19.5l15-15m0 0H8.25m11.25 0v11.25" /></svg>
-            </span>
-          </a>
-        ))}
-      </div>
-    </div>
-  </section>
 
-  <!-- ══════ LEARNING PATHS — Guided journeys ══════ -->
-  <section class="fade-in" style="padding: 3rem 0 1rem;">
-    <div class="hp-container">
-      <div class="hp-section-head hp-section-head--between">
-        <div>
-          <h2 class="hp-section-title">Learning Paths</h2>
-          <p style="color: var(--color-text-secondary); font-size: 0.9375rem; margin-top: 0.25rem;">Guided step-by-step journeys to build your AI skills</p>
-        </div>
-        <a href="/paths/" class="hp-view-all">View all &rarr;</a>
-      </div>
-      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.25rem; margin-top: 1.5rem;">
-        {learningPaths.map((path) => (
-          <a href={`/paths/${path.id}/`} class="group" style="display: block; text-decoration: none;">
-            <div style={`background: var(--color-bg-card); border: 2px solid var(--color-border); border-radius: 1rem; padding: 1.5rem; transition: all 0.3s; position: relative; overflow: hidden;`} class="hover:shadow-md hover:-translate-y-0.5 hover:border-[var(--color-border-strong)]">
-              <div style={`width: 100%; height: 6px; border-radius: 3px; margin-bottom: 1.25rem; background: linear-gradient(90deg, ${path.id === 'ai-foundations' ? 'var(--color-sage), var(--color-accent)' : 'var(--color-accent), var(--color-clay)'});`}></div>
-              <span class:list={[
-                'text-xs font-semibold px-2.5 py-0.5 rounded-sm uppercase tracking-wider inline-block mb-3',
-                path.difficulty === 'beginner' ? 'badge-beginner' : 'badge-intermediate',
-              ]}>
-                {path.difficulty}
-              </span>
-              <h3 style="font-family: var(--font-display); font-size: 1.25rem; color: var(--color-text-primary); margin-bottom: 0.5rem;" class="group-hover:text-[var(--color-accent)] transition-colors">
-                {path.title}
-              </h3>
-              <p style="font-size: 0.875rem; color: var(--color-text-secondary); line-height: 1.6; margin-bottom: 1rem;">
-                {path.description}
-              </p>
-              <p style="font-size: 0.75rem; color: var(--color-text-muted);">
-                {path.stepCount} tutorials &middot; {path.totalTime}
-              </p>
+      <div class="hp-paths__grid">
+        <!-- Path 1: New to AI -->
+        <a href="/paths/ai-foundations/" class="hp-path-card" data-tilt data-color="sage">
+          <div class="hp-path-card__inner">
+            <div class="hp-path-card__shine"></div>
+            <div class="hp-path-card__icon" style="--icon-bg: var(--color-sage-soft); --icon-color: var(--color-sage);">
+              <svg width="28" height="28" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 21a9.004 9.004 0 008.716-6.747M12 21a9.004 9.004 0 01-8.716-6.747M12 21c2.485 0 4.5-4.03 4.5-9S14.485 3 12 3m0 18c-2.485 0-4.5-4.03-4.5-9S9.515 3 12 3m0 0a8.997 8.997 0 017.843 4.582M12 3a8.997 8.997 0 00-7.843 4.582m15.686 0A11.953 11.953 0 0112 10.5c-2.998 0-5.74-1.1-7.843-2.918m15.686 0A8.959 8.959 0 0121 12c0 .778-.099 1.533-.284 2.253m0 0A17.919 17.919 0 0112 16.5c-3.162 0-6.133-.815-8.716-2.247m0 0A9.015 9.015 0 013 12c0-1.605.42-3.113 1.157-4.418" />
+              </svg>
             </div>
-          </a>
-        ))}
+            <span class="badge-beginner hp-path-card__badge">Beginner</span>
+            <h3 class="hp-path-card__title">I'm completely new to AI</h3>
+            <p class="hp-path-card__desc">Learn what AI actually is, how to talk to it effectively, and which tools are worth your time.</p>
+            {foundationsPath && (
+              <span class="hp-path-card__meta">{foundationsPath.stepCount} tutorials &middot; {foundationsPath.totalTime}</span>
+            )}
+            <span class="hp-path-card__cta" style="--cta-color: var(--color-sage);">
+              Start learning
+              <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" /></svg>
+            </span>
+          </div>
+        </a>
+
+        <!-- Path 2: Find Tools -->
+        <a href="/tools/" class="hp-path-card" data-tilt data-color="amber">
+          <div class="hp-path-card__inner">
+            <div class="hp-path-card__shine"></div>
+            <div class="hp-path-card__icon" style="--icon-bg: var(--color-accent-soft); --icon-color: var(--color-accent);">
+              <svg width="28" height="28" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
+              </svg>
+            </div>
+            <span class="hp-path-card__badge" style="background: var(--color-accent-soft); color: var(--color-accent);">Explore</span>
+            <h3 class="hp-path-card__title">I want to find the right tools</h3>
+            <p class="hp-path-card__desc">Browse 24+ curated AI tools with honest descriptions, pricing, and categories.</p>
+            <span class="hp-path-card__meta">24 tools &middot; 9 categories</span>
+            <span class="hp-path-card__cta" style="--cta-color: var(--color-accent);">
+              Browse tools
+              <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" /></svg>
+            </span>
+          </div>
+        </a>
+
+        <!-- Path 3: Automate -->
+        <a href="/paths/automation-builder/" class="hp-path-card" data-tilt data-color="clay">
+          <div class="hp-path-card__inner">
+            <div class="hp-path-card__shine"></div>
+            <div class="hp-path-card__icon" style="--icon-bg: var(--color-clay-soft); --icon-color: var(--color-clay);">
+              <svg width="28" height="28" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75z" />
+              </svg>
+            </div>
+            <span class="badge-intermediate hp-path-card__badge">Intermediate</span>
+            <h3 class="hp-path-card__title">I want to automate my work</h3>
+            <p class="hp-path-card__desc">Build AI workflows that handle repetitive tasks. Save hours every week with practical automation.</p>
+            {automationPath && (
+              <span class="hp-path-card__meta">{automationPath.stepCount} tutorials &middot; {automationPath.totalTime}</span>
+            )}
+            <span class="hp-path-card__cta" style="--cta-color: var(--color-clay);">
+              Start building
+              <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" /></svg>
+            </span>
+          </div>
+        </a>
+
+        <!-- Path 4: Try It Now -->
+        <a href="/challenges/" class="hp-path-card" data-tilt data-color="multi">
+          <div class="hp-path-card__inner">
+            <div class="hp-path-card__shine"></div>
+            <div class="hp-path-card__icon" style="--icon-bg: linear-gradient(135deg, var(--color-accent-soft), var(--color-sage-soft)); --icon-color: var(--color-accent);">
+              <svg width="28" height="28" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M15.59 14.37a6 6 0 01-5.84 7.38v-4.8m5.84-2.58a14.98 14.98 0 006.16-12.12A14.98 14.98 0 009.631 8.41m5.96 5.96a14.926 14.926 0 01-5.841 2.58m-.119-8.54a6 6 0 00-7.381 5.84h4.8m2.581-5.84a14.927 14.927 0 00-2.58 5.84m2.699 2.7c-.103.021-.207.041-.311.06a15.09 15.09 0 01-2.448-2.448 14.9 14.9 0 01.06-.312m-2.24 2.39a4.493 4.493 0 00-1.757 4.306 4.493 4.493 0 004.306-1.758M16.5 9a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0z" />
+              </svg>
+            </div>
+            <span class="hp-path-card__badge" style="background: var(--color-clay-soft); color: var(--color-clay);">Instant</span>
+            <h3 class="hp-path-card__title">Show me AI magic right now</h3>
+            <p class="hp-path-card__desc">Copy a prompt, paste it into ChatGPT or Claude, build something incredible in 2 minutes.</p>
+            <span class="hp-path-card__meta">6 challenges &middot; 2-5 min each</span>
+            <span class="hp-path-card__cta" style="--cta-color: var(--color-accent);">
+              Try it now
+              <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" /></svg>
+            </span>
+          </div>
+        </a>
       </div>
     </div>
   </section>
 
-  <!-- ══════ TRY IT YOURSELF — Quick CTA ══════ -->
-  <section class="fade-in" style="padding: 0 0 2rem;">
-    <div class="hp-container">
-      <a href="/challenges/" class="group" style="display: block; text-decoration: none;">
-        <div style="background: linear-gradient(135deg, var(--color-accent-soft) 0%, var(--color-sage-soft) 50%, var(--color-clay-soft) 100%); border: 2px solid var(--color-border); border-radius: 1rem; padding: 1.5rem 2rem; transition: all 0.3s; display: flex; align-items: center; justify-content: space-between; gap: 1rem; flex-wrap: wrap;" class="hover:shadow-md hover:-translate-y-0.5 hover:border-[var(--color-accent)]">
-          <div>
-            <p style="font-family: var(--font-display); font-size: 1.125rem; color: var(--color-text-primary); margin-bottom: 0.25rem;">Try It Yourself</p>
-            <p style="font-size: 0.875rem; color: var(--color-text-secondary);">Copy a prompt, paste into any AI, build something incredible in 2 minutes. No coding needed.</p>
-          </div>
-          <span style="color: var(--color-accent); font-size: 0.875rem; font-weight: 500; white-space: nowrap;" class="group-hover:translate-x-1 transition-transform inline-flex items-center gap-1">
-            6 challenges
-            <svg style="width: 1rem; height: 1rem;" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" /></svg>
-          </span>
-        </div>
-      </a>
-    </div>
-  </section>
-
-  <!-- ══════ FEATURED ARTICLE — Cinematic card ══════ -->
+  <!-- ══════ FEATURED + LATEST ══════ -->
   {featured && (
-    <section class="hp-featured fade-in">
+    <section class="hp-content">
       <div class="hp-container">
-        <a href={`/tutorials/${featured.id}/`} class="hp-featured__card group">
-          <div class="hp-featured__img-wrap">
+        <div class="hp-section-header hp-section-header--row">
+          <div>
+            <span class="hp-section-tag">Latest content</span>
+            <h2 class="hp-section-title">Fresh tutorials</h2>
+          </div>
+          <a href="/tutorials/" class="hp-link-arrow">
+            View all
+            <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" /></svg>
+          </a>
+        </div>
+
+        <!-- Featured article — large card with parallax image -->
+        <a href={`/tutorials/${featured.id}/`} class="hp-feat" id="feat-card" data-tilt-subtle>
+          <div class="hp-feat__img-wrap">
             <img
-              src="https://images.unsplash.com/photo-1620712943543-bcc4688e7485?w=900&h=600&fit=crop&q=80"
+              src="/images/tutorials/robot-books.webp"
               alt={featured.data.title}
-              class="hp-featured__img"
+              class="hp-feat__img"
+              id="feat-img"
               loading="eager"
             />
-            <div class="hp-featured__img-overlay"></div>
-            <div class="hp-featured__img-label">
-              <span class="hp-featured__badge">Featured</span>
+            <div class="hp-feat__img-overlay"></div>
+            <div class="hp-feat__badge-wrap">
+              <span class="hp-feat__badge">Featured</span>
             </div>
           </div>
-          <div class="hp-featured__body">
-            <div class="hp-featured__meta">
+          <div class="hp-feat__body">
+            <div class="hp-feat__meta">
               <time datetime={featured.data.pubDate.toISOString()}>{formatDateShort(featured.data.pubDate)}</time>
-              <span class="hp-featured__dot"></span>
+              <span class="hp-feat__meta-dot"></span>
               <span>{getReadingTime(featured.body || '')}</span>
               {featured.data.difficulty && (
                 <>
-                  <span class="hp-featured__dot"></span>
+                  <span class="hp-feat__meta-dot"></span>
                   <span class:list={[
                     'text-xs font-semibold px-2 py-0.5 rounded-sm uppercase tracking-wide',
                     featured.data.difficulty === 'beginner' ? 'badge-beginner' :
@@ -225,36 +280,21 @@ const topics = [
                 </>
               )}
             </div>
-            <h2 class="hp-featured__title">{featured.data.title}</h2>
-            <p class="hp-featured__desc">{featured.data.description}</p>
-            <div class="hp-featured__cta">
-              <span>Read article</span>
+            <h3 class="hp-feat__title">{featured.data.title}</h3>
+            <p class="hp-feat__desc">{featured.data.description}</p>
+            <span class="hp-feat__cta">
+              Read article
               <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" /></svg>
-            </div>
+            </span>
           </div>
         </a>
-      </div>
-    </section>
-  )}
 
-  <!-- ══════ TUTORIALS — Horizontal scroll ══════ -->
-  {latestTutorials.length > 0 && (
-    <section class="hp-tuts fade-in">
-      <div class="hp-container">
-        <div class="hp-section-head hp-section-head--between">
-          <div>
-            <span class="hp-section-num">02</span>
-            <h2 class="hp-section-title">Latest Tutorials</h2>
-          </div>
-          <a href="/tutorials/" class="hp-view-all">View all <span>&rarr;</span></a>
-        </div>
-      </div>
-      <div class="hp-tuts__scroll">
-        <div class="hp-tuts__track">
-          {latestTutorials.map((t) => (
-            <a href={`/tutorials/${t.id}/`} class="hp-tut-card group">
-              <div class="hp-tut-card__top">
-                <div class="hp-tut-card__badges">
+        <!-- Latest tutorials grid -->
+        {latestTutorials.length > 0 && (
+          <div class="hp-tuts-grid">
+            {latestTutorials.map((t, i) => (
+              <a href={`/tutorials/${t.id}/`} class="hp-tut" data-tilt-subtle style={`--stagger: ${i * 0.08}s`}>
+                <div class="hp-tut__top">
                   {t.data.difficulty && (
                     <span class:list={[
                       'text-xs font-semibold px-2 py-0.5 rounded-sm uppercase tracking-wide',
@@ -264,121 +304,105 @@ const topics = [
                       {t.data.difficulty}
                     </span>
                   )}
-                  {t.data.tags.slice(0, 1).map((tag) => (
-                    <span class="tag">{tag}</span>
-                  ))}
+                  <span class="hp-tut__time">{getReadingTime(t.body || '')}</span>
                 </div>
-                <span class="hp-tut-card__time">{getReadingTime(t.body || '')}</span>
-              </div>
-              <h3 class="hp-tut-card__title">{t.data.title}</h3>
-              <p class="hp-tut-card__desc">{t.data.description}</p>
-              <div class="hp-tut-card__foot">
-                <time datetime={t.data.pubDate.toISOString()}>{formatDateShort(t.data.pubDate)}</time>
-                <span class="hp-tut-card__arrow">
-                  <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" /></svg>
-                </span>
-              </div>
-            </a>
-          ))}
-        </div>
-      </div>
-    </section>
-  )}
-
-  <!-- ══════ NEWS — Newspaper split ══════ -->
-  {latestNews.length > 0 && (
-    <section class="hp-news fade-in">
-      <div class="hp-container">
-        <div class="hp-section-head hp-section-head--between">
-          <div>
-            <span class="hp-section-num">03</span>
-            <h2 class="hp-section-title">AI News</h2>
-          </div>
-          <a href="/news/" class="hp-view-all">View all <span>&rarr;</span></a>
-        </div>
-        <div class="hp-news__grid">
-          <!-- Lead story -->
-          <a href={`/news/${latestNews[0].id}/`} class="hp-news__lead group">
-            <div class="hp-news__lead-inner">
-              <span class="hp-news__lead-tag">Latest</span>
-              <h3 class="hp-news__lead-title">{latestNews[0].data.title}</h3>
-              <p class="hp-news__lead-desc">{latestNews[0].data.description}</p>
-              <div class="hp-news__lead-foot">
-                <time datetime={latestNews[0].data.pubDate.toISOString()}>{formatDateShort(latestNews[0].data.pubDate)}</time>
-                <span class="hp-news__lead-cta">Read &rarr;</span>
-              </div>
-            </div>
-          </a>
-          <!-- Side stories -->
-          <div class="hp-news__side">
-            {latestNews.slice(1).map((n, i) => (
-              <a href={`/news/${n.id}/`} class="hp-news__item group">
-                <span class="hp-news__item-num">{String(i + 2).padStart(2, '0')}</span>
-                <div class="hp-news__item-body">
-                  <h4 class="hp-news__item-title">{n.data.title}</h4>
-                  <time class="hp-news__item-date" datetime={n.data.pubDate.toISOString()}>{formatDateShort(n.data.pubDate)}</time>
+                <h3 class="hp-tut__title">{t.data.title}</h3>
+                <p class="hp-tut__desc">{t.data.description}</p>
+                <div class="hp-tut__foot">
+                  <time datetime={t.data.pubDate.toISOString()}>{formatDateShort(t.data.pubDate)}</time>
+                  <span class="hp-tut__arrow">
+                    <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 19.5l15-15m0 0H8.25m11.25 0v11.25" /></svg>
+                  </span>
                 </div>
               </a>
             ))}
           </div>
-        </div>
+        )}
       </div>
     </section>
   )}
 
-  <!-- ══════ BLOG — Bento grid ══════ -->
-  {latestBlog.length > 0 && (
-    <section class="hp-blog fade-in">
-      <div class="hp-container">
-        <div class="hp-section-head hp-section-head--between">
-          <div>
-            <span class="hp-section-num">04</span>
-            <h2 class="hp-section-title">From the Blog</h2>
+  <!-- Editorial divider -->
+  <div class="hp-divider" aria-hidden="true">
+    <span class="hp-divider__line"></span>
+    <span class="hp-divider__diamond"></span>
+    <span class="hp-divider__line"></span>
+  </div>
+
+  <!-- ══════ NEWS + BLOG combined ══════ -->
+  <section class="hp-feed">
+    <div class="hp-container">
+      <div class="hp-feed__cols">
+        <!-- News column -->
+        {latestNews.length > 0 && (
+          <div class="hp-feed__col">
+            <div class="hp-section-header hp-section-header--row hp-section-header--sm">
+              <h2 class="hp-section-title hp-section-title--sm">AI News</h2>
+              <a href="/news/" class="hp-link-arrow hp-link-arrow--sm">All news <svg width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" /></svg></a>
+            </div>
+            <div class="hp-feed__list">
+              {latestNews.map((n, i) => (
+                <a href={`/news/${n.id}/`} class="hp-feed__item">
+                  <span class="hp-feed__num">{String(i + 1).padStart(2, '0')}</span>
+                  <div class="hp-feed__item-body">
+                    <h4 class="hp-feed__item-title">{n.data.title}</h4>
+                    <time class="hp-feed__item-date" datetime={n.data.pubDate.toISOString()}>{formatDateShort(n.data.pubDate)}</time>
+                  </div>
+                </a>
+              ))}
+            </div>
           </div>
-          <a href="/blog/" class="hp-view-all">View all <span>&rarr;</span></a>
-        </div>
-        <div class="hp-blog__bento">
-          {latestBlog.map((b, i) => (
-            <a href={`/blog/${b.id}/`} class:list={['hp-blog__card group', i === 0 && 'hp-blog__card--lead']}>
-              <div class="hp-blog__card-inner">
-                <div class="hp-blog__card-tags">
-                  {b.data.tags.slice(0, 2).map((tag) => (
-                    <span class="tag">{tag}</span>
-                  ))}
-                </div>
-                <h3 class="hp-blog__card-title">{b.data.title}</h3>
-                <p class="hp-blog__card-desc">{b.data.description}</p>
-                <div class="hp-blog__card-foot">
-                  <time datetime={b.data.pubDate.toISOString()}>{formatDateShort(b.data.pubDate)}</time>
-                  <span>{getReadingTime(b.body || '')}</span>
-                </div>
-              </div>
-            </a>
-          ))}
-        </div>
-      </div>
-    </section>
-  )}
+        )}
 
-  <!-- ══════ NEWSLETTER CTA — Full bleed dark ══════ -->
-  <section class="hp-cta fade-in">
+        <!-- Blog column -->
+        {latestBlog.length > 0 && (
+          <div class="hp-feed__col">
+            <div class="hp-section-header hp-section-header--row hp-section-header--sm">
+              <h2 class="hp-section-title hp-section-title--sm">From the Blog</h2>
+              <a href="/blog/" class="hp-link-arrow hp-link-arrow--sm">All posts <svg width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" /></svg></a>
+            </div>
+            <div class="hp-feed__list">
+              {latestBlog.map((b, i) => (
+                <a href={`/blog/${b.id}/`} class="hp-feed__item">
+                  <span class="hp-feed__num">{String(i + 1).padStart(2, '0')}</span>
+                  <div class="hp-feed__item-body">
+                    <h4 class="hp-feed__item-title">{b.data.title}</h4>
+                    <div class="hp-feed__item-tags">
+                      {b.data.tags.slice(0, 2).map((tag) => (
+                        <span class="tag">{tag}</span>
+                      ))}
+                    </div>
+                  </div>
+                </a>
+              ))}
+            </div>
+          </div>
+        )}
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════ NEWSLETTER CTA — Dramatic dark section ══════ -->
+  <section class="hp-cta">
     <div class="hp-cta__bg" aria-hidden="true">
-      <div class="hp-cta__pattern"></div>
+      <div class="hp-cta__dots"></div>
+      <div class="hp-cta__orb hp-cta__orb--1"></div>
+      <div class="hp-cta__orb hp-cta__orb--2"></div>
     </div>
     <div class="hp-container hp-cta__inner">
-      <div class="hp-cta__content">
-        <span class="hp-cta__label">Newsletter</span>
-        <h2 class="hp-cta__heading">Stay sharp<br />on AI</h2>
+      <div class="hp-cta__left">
+        <span class="hp-cta__tag">Newsletter</span>
+        <h2 class="hp-cta__heading">Stay sharp<br/>on AI</h2>
+        <p class="hp-cta__text">Weekly curated tutorials, tool reviews, and industry insights. No spam, unsubscribe anytime.</p>
       </div>
       <div class="hp-cta__right">
-        <p class="hp-cta__text">Weekly curated tutorials, tool reviews, and industry insights. No spam, unsubscribe anytime.</p>
         <form
           id="hp-newsletter-form"
           method="POST"
           action="https://b4556b17.sibforms.com/serve/MUIFAHjyU7YMpzSHJctCG76TeifU-zeadE5xjY7m1BVB8OAp92-d_PQhCoOWQEOmk4MS7WNag_cREDOfr2gD_9admQ-lmt1YRRSin829IqgP-7m6OgZ0UjrDdasmFSz8flCQlk8y_YBI-lKiQQ9qqxWgkhUmBJsqzUenQVwYH8PQvtI1fDVLICJxRSqP5KofXY00WORK9nXSGAsqiQ=="
           class="hp-cta__form"
         >
-          <div class="hp-cta__input-wrap">
+          <div class="hp-cta__input-group">
             <input
               type="email"
               name="EMAIL"
@@ -386,7 +410,7 @@ const topics = [
               placeholder="Your email address"
               class="hp-cta__input"
             />
-            <button type="submit" class="hp-btn hp-btn--amber hp-cta__btn">
+            <button type="submit" class="hp-btn hp-btn--glow hp-cta__submit">
               Subscribe
               <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" /></svg>
             </button>
@@ -395,15 +419,18 @@ const topics = [
             <input type="text" name="email_address_check" value="" tabindex="-1" autocomplete="off" />
           </div>
           <input type="hidden" name="locale" value="en" />
+          <p class="hp-cta__fine">Join 100+ subscribers. One email per week.</p>
         </form>
-        <div id="hp-newsletter-success" class="hidden">
-          <p class="hp-cta__success">You're subscribed! Check your inbox.</p>
+        <div id="hp-newsletter-success" class="hp-cta__success" style="display:none;">
+          <p>You're in! Check your inbox to confirm.</p>
         </div>
       </div>
     </div>
   </section>
 
+  <!-- ══════ SCRIPTS ══════ -->
   <script is:inline>
+    // ── Newsletter form handler ──
     const hpForm = document.getElementById('hp-newsletter-form');
     if (hpForm) {
       hpForm.addEventListener('submit', async (e) => {
@@ -415,12 +442,145 @@ const topics = [
         btn.disabled = true;
         try {
           await fetch(hpForm.action, { method: 'POST', body: formData, mode: 'no-cors' });
-          hpForm.classList.add('hidden');
-          document.getElementById('hp-newsletter-success').classList.remove('hidden');
+          hpForm.style.display = 'none';
+          document.getElementById('hp-newsletter-success').style.display = 'block';
         } catch (err) {
           btn.innerHTML = originalHTML;
           btn.disabled = false;
         }
+      });
+    }
+
+    // ── 3D Tilt Effect for cards ──
+    const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    if (!prefersReduced) {
+      // Hero card 3D tilt
+      const heroVisual = document.getElementById('hero-visual');
+      const heroCard = document.getElementById('hero-card');
+      const cardShine = document.getElementById('card-shine');
+      const float1 = document.getElementById('float1');
+      const float2 = document.getElementById('float2');
+      const float3 = document.getElementById('float3');
+
+      if (heroVisual && heroCard) {
+        heroVisual.addEventListener('mousemove', (e) => {
+          const rect = heroVisual.getBoundingClientRect();
+          const x = (e.clientX - rect.left) / rect.width - 0.5;
+          const y = (e.clientY - rect.top) / rect.height - 0.5;
+
+          heroCard.style.transform =
+            `perspective(1200px) rotateY(${x * 14}deg) rotateX(${-y * 14}deg) scale3d(1.01, 1.01, 1.01)`;
+
+          if (cardShine) {
+            cardShine.style.background =
+              `radial-gradient(600px circle at ${e.clientX - rect.left}px ${e.clientY - rect.top}px, rgba(217,119,6,0.12), transparent 40%)`;
+          }
+
+          // Parallax floaters
+          if (float1) float1.style.transform = `translate(${x * -30}px, ${y * -20}px)`;
+          if (float2) float2.style.transform = `translate(${x * 20}px, ${y * -30}px)`;
+          if (float3) float3.style.transform = `translate(${x * -15}px, ${y * 25}px)`;
+        });
+
+        heroVisual.addEventListener('mouseleave', () => {
+          heroCard.style.transform = 'perspective(1200px) rotateY(0) rotateX(0) scale3d(1, 1, 1)';
+          if (cardShine) cardShine.style.background = 'transparent';
+          if (float1) float1.style.transform = 'translate(0, 0)';
+          if (float2) float2.style.transform = 'translate(0, 0)';
+          if (float3) float3.style.transform = 'translate(0, 0)';
+        });
+      }
+
+      // Path cards 3D tilt
+      document.querySelectorAll('[data-tilt]').forEach((card) => {
+        card.addEventListener('mousemove', (e) => {
+          const rect = card.getBoundingClientRect();
+          const x = (e.clientX - rect.left) / rect.width - 0.5;
+          const y = (e.clientY - rect.top) / rect.height - 0.5;
+
+          card.querySelector('.hp-path-card__inner').style.transform =
+            `perspective(800px) rotateY(${x * 12}deg) rotateX(${-y * 12}deg)`;
+
+          const shine = card.querySelector('.hp-path-card__shine');
+          if (shine) {
+            shine.style.background =
+              `radial-gradient(400px circle at ${e.clientX - rect.left}px ${e.clientY - rect.top}px, rgba(255,255,255,0.15), transparent 40%)`;
+          }
+        });
+
+        card.addEventListener('mouseleave', () => {
+          card.querySelector('.hp-path-card__inner').style.transform =
+            'perspective(800px) rotateY(0deg) rotateX(0deg)';
+          const shine = card.querySelector('.hp-path-card__shine');
+          if (shine) shine.style.background = 'transparent';
+        });
+      });
+
+      // Subtle tilt for content cards
+      document.querySelectorAll('[data-tilt-subtle]').forEach((card) => {
+        card.addEventListener('mousemove', (e) => {
+          const rect = card.getBoundingClientRect();
+          const x = (e.clientX - rect.left) / rect.width - 0.5;
+          const y = (e.clientY - rect.top) / rect.height - 0.5;
+          card.style.transform =
+            `perspective(1000px) rotateY(${x * 5}deg) rotateX(${-y * 5}deg)`;
+        });
+        card.addEventListener('mouseleave', () => {
+          card.style.transform = 'perspective(1000px) rotateY(0) rotateX(0)';
+        });
+      });
+
+      // Hero orbs follow mouse (subtly)
+      const hero = document.getElementById('hero');
+      const orb1 = document.getElementById('orb1');
+      const orb2 = document.getElementById('orb2');
+
+      if (hero && orb1 && orb2) {
+        hero.addEventListener('mousemove', (e) => {
+          const x = e.clientX / window.innerWidth;
+          const y = e.clientY / window.innerHeight;
+          orb1.style.transform = `translate(${x * 40}px, ${y * 30}px)`;
+          orb2.style.transform = `translate(${x * -30}px, ${y * -20}px)`;
+        });
+      }
+
+      // Scroll parallax for featured image
+      const featImg = document.getElementById('feat-img');
+      if (featImg) {
+        let ticking = false;
+        window.addEventListener('scroll', () => {
+          if (!ticking) {
+            requestAnimationFrame(() => {
+              const rect = featImg.getBoundingClientRect();
+              const viewH = window.innerHeight;
+              if (rect.top < viewH && rect.bottom > 0) {
+                const progress = (viewH - rect.top) / (viewH + rect.height);
+                featImg.style.transform = `scale(1.1) translateY(${(progress - 0.5) * -40}px)`;
+              }
+              ticking = false;
+            });
+            ticking = true;
+          }
+        }, { passive: true });
+      }
+
+      // Scroll-triggered section reveals
+      const revealObserver = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('hp-visible');
+              revealObserver.unobserve(entry.target);
+            }
+          });
+        },
+        { threshold: 0.08, rootMargin: '0px 0px -40px 0px' }
+      );
+
+      document.querySelectorAll('.hp-paths, .hp-content, .hp-feed, .hp-cta').forEach((el) => {
+        el.classList.add('hp-reveal');
+        revealObserver.observe(el);
       });
     }
   </script>
@@ -428,16 +588,71 @@ const topics = [
 
 <style>
   /* ════════════════════════════════════════════
-     LAYOUT TOKENS
+     LAYOUT
      ════════════════════════════════════════════ */
   .hp-container {
     max-width: 1280px;
     margin: 0 auto;
-    padding: 0 clamp(16px, 4vw, 48px);
+    padding: 0 clamp(20px, 5vw, 48px);
   }
 
   /* ════════════════════════════════════════════
-     HERO
+     SECTION HEADERS
+     ════════════════════════════════════════════ */
+  .hp-section-header {
+    margin-bottom: 48px;
+  }
+  .hp-section-header--row {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 16px;
+  }
+  .hp-section-header--sm {
+    margin-bottom: 24px;
+  }
+  .hp-section-tag {
+    display: inline-block;
+    font-family: var(--font-body);
+    font-size: 0.6875rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--color-accent);
+    margin-bottom: 12px;
+  }
+  .hp-section-title {
+    font-family: var(--font-display);
+    font-size: clamp(2.25rem, 1.5rem + 2.5vw, 3.5rem);
+    line-height: 1.05;
+    letter-spacing: -0.035em;
+    color: var(--color-text-primary);
+  }
+  .hp-section-title--sm {
+    font-size: clamp(1.25rem, 1rem + 1vw, 1.75rem);
+  }
+  .hp-section-sub {
+    font-size: 1rem;
+    line-height: 1.7;
+    color: var(--color-text-secondary);
+    max-width: 520px;
+    margin-top: 12px;
+  }
+  .hp-link-arrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.8125rem;
+    font-weight: 600;
+    color: var(--color-text-muted);
+    transition: color 0.2s, gap 0.2s;
+    flex-shrink: 0;
+  }
+  .hp-link-arrow:hover { color: var(--color-accent); gap: 10px; }
+  .hp-link-arrow--sm { font-size: 0.75rem; }
+
+  /* ════════════════════════════════════════════
+     HERO — Warm editorial
      ════════════════════════════════════════════ */
   .hp-hero {
     position: relative;
@@ -445,236 +660,456 @@ const topics = [
     display: flex;
     align-items: center;
     overflow: hidden;
+    background: #F8F5F0;
   }
+
   .hp-hero__bg {
     position: absolute;
     inset: 0;
+    pointer-events: none;
   }
-  .hp-hero__mesh {
+  .hp-hero__texture {
+    position: absolute;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    opacity: 0.035;
+  }
+  .hp-hero__gradient {
     position: absolute;
     inset: 0;
     background:
-      radial-gradient(ellipse 70% 50% at 20% 50%, var(--color-accent-soft) 0%, transparent 70%),
-      radial-gradient(ellipse 50% 60% at 80% 30%, var(--color-sage-soft) 0%, transparent 60%),
-      radial-gradient(ellipse 40% 40% at 60% 80%, var(--color-clay-soft) 0%, transparent 50%);
-    opacity: 0.6;
-  }
-  .hp-hero__grid-lines {
-    position: absolute;
-    inset: 0;
-    background-image:
-      linear-gradient(var(--color-border) 1px, transparent 1px),
-      linear-gradient(90deg, var(--color-border) 1px, transparent 1px);
-    background-size: 80px 80px;
-    opacity: 0.25;
-    mask-image: radial-gradient(ellipse 60% 60% at 50% 50%, black 20%, transparent 70%);
-    -webkit-mask-image: radial-gradient(ellipse 60% 60% at 50% 50%, black 20%, transparent 70%);
+      radial-gradient(ellipse 70% 50% at 15% 50%, rgba(217,119,6,0.1) 0%, transparent 60%),
+      radial-gradient(ellipse 60% 60% at 85% 30%, rgba(45,106,79,0.07) 0%, transparent 50%),
+      radial-gradient(ellipse 50% 40% at 50% 100%, rgba(120,53,15,0.06) 0%, transparent 40%);
   }
   .hp-hero__orb {
     position: absolute;
     border-radius: 50%;
-    filter: blur(120px);
-    pointer-events: none;
+    filter: blur(140px);
+    will-change: transform;
+    transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
   }
   .hp-hero__orb--1 {
-    width: 600px; height: 600px;
-    top: -200px; right: -100px;
-    background: var(--color-accent);
-    opacity: 0.07;
-    animation: orb-drift 20s ease-in-out infinite;
+    width: 500px; height: 500px;
+    top: -150px; right: 5%;
+    background: var(--color-accent-soft);
+    opacity: 0.7;
   }
   .hp-hero__orb--2 {
     width: 400px; height: 400px;
-    bottom: -100px; left: 10%;
-    background: var(--color-sage);
-    opacity: 0.06;
-    animation: orb-drift 28s ease-in-out infinite reverse;
+    bottom: -100px; left: 5%;
+    background: var(--color-sage-soft);
+    opacity: 0.5;
   }
   .hp-hero__orb--3 {
     width: 300px; height: 300px;
-    top: 30%; left: 50%;
-    background: var(--color-clay);
-    opacity: 0.04;
-    animation: orb-drift 22s ease-in-out infinite 5s;
+    top: 40%; left: 40%;
+    background: var(--color-clay-soft);
+    opacity: 0.4;
+    animation: orb-pulse 8s ease-in-out infinite;
   }
-  @keyframes orb-drift {
-    0%, 100% { transform: translate(0, 0) scale(1); }
-    33% { transform: translate(40px, -30px) scale(1.08); }
-    66% { transform: translate(-20px, 20px) scale(0.95); }
+  .hp-hero__border-line {
+    position: absolute;
+    width: 100%;
+    height: 1px;
+    bottom: 0;
+    left: 0;
+    background: var(--color-border);
+  }
+  @keyframes orb-pulse {
+    0%, 100% { opacity: 0.4; transform: scale(1); }
+    50% { opacity: 0.6; transform: scale(1.15); }
   }
 
+  /* Hero inner */
   .hp-hero__inner {
     position: relative;
     max-width: 1280px;
     margin: 0 auto;
-    padding: 0 clamp(16px, 4vw, 48px);
+    padding: 120px clamp(20px, 5vw, 48px) 80px;
     display: grid;
     grid-template-columns: 1fr;
     gap: 48px;
     width: 100%;
-    padding-top: 100px;
-    padding-bottom: 80px;
   }
   @media (min-width: 1024px) {
     .hp-hero__inner {
       grid-template-columns: 1fr 1fr;
       align-items: center;
-      gap: 64px;
+      gap: 80px;
       padding-top: 0;
       padding-bottom: 0;
     }
   }
 
+  /* Hero copy */
   .hp-hero__eyebrow {
-    display: flex;
+    display: inline-flex;
     align-items: center;
-    gap: 12px;
-    margin-bottom: 28px;
+    gap: 10px;
     font-size: 0.6875rem;
-    font-weight: 600;
+    font-weight: 700;
     letter-spacing: 0.14em;
     text-transform: uppercase;
-    color: var(--color-accent);
+    color: var(--color-accent-hover);
+    margin-bottom: 32px;
+    padding: 6px 16px 6px 12px;
+    background: var(--color-accent-soft);
+    border: 1px solid rgba(217,119,6,0.15);
+    border-radius: 100px;
+    animation: fade-up 0.7s ease 0.1s both;
   }
-  .hp-hero__eyebrow-line {
-    width: 32px; height: 1.5px;
+  .hp-hero__eyebrow-dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
     background: var(--color-accent);
+    animation: dot-pulse 2s ease-in-out infinite;
+  }
+  @keyframes dot-pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.3; }
   }
 
   .hp-hero__h1 {
     font-family: var(--font-display);
-    font-size: clamp(3.5rem, 2.5rem + 5vw, 7rem);
-    line-height: 0.95;
+    font-size: clamp(2.75rem, 2rem + 4vw, 5.5rem);
+    line-height: 1;
     letter-spacing: -0.04em;
     color: var(--color-text-primary);
-    margin-bottom: 28px;
+    margin-bottom: 24px;
   }
-  .hp-hero__word {
+  .hp-hero__line {
     display: block;
     opacity: 0;
-    animation: hero-word 0.9s cubic-bezier(0.16, 1, 0.3, 1) calc(var(--i) * 0.15s + 0.1s) forwards;
+    animation: hero-reveal 0.8s cubic-bezier(0.16, 1, 0.3, 1) calc(var(--i) * 0.12s + 0.2s) forwards;
   }
-  .hp-hero__word--accent {
+  .hp-hero__line em {
     color: var(--color-accent);
     font-style: italic;
   }
-  @keyframes hero-word {
-    from { opacity: 0; transform: translateY(40px) skewY(2deg); filter: blur(6px); }
-    to { opacity: 1; transform: translateY(0) skewY(0); filter: blur(0); }
+  /* Signature hand-drawn underline */
+  .hp-hero__keyword {
+    position: relative;
+    display: inline-block;
+  }
+  .hp-hero__keyword::after {
+    content: '';
+    position: absolute;
+    left: -4%;
+    right: -4%;
+    bottom: -4px;
+    height: 12px;
+    background: url("data:image/svg+xml,%3Csvg width='200' height='12' viewBox='0 0 200 12' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M2 8C20 3 40 2 60 5C80 8 100 10 120 6C140 2 160 3 180 7C185 8 190 8 198 6' stroke='%23D97706' stroke-width='3' stroke-linecap='round'/%3E%3C/svg%3E") no-repeat center;
+    background-size: 100% 100%;
+    opacity: 0;
+    animation: underline-draw 0.6s ease 1s forwards;
+  }
+  @keyframes underline-draw {
+    from { opacity: 0; transform: scaleX(0); transform-origin: left; }
+    to { opacity: 0.7; transform: scaleX(1); transform-origin: left; }
+  }
+  @keyframes hero-reveal {
+    from { opacity: 0; transform: translateY(32px); filter: blur(4px); }
+    to { opacity: 1; transform: translateY(0); filter: blur(0); }
   }
 
   .hp-hero__sub {
-    font-size: clamp(1rem, 0.9rem + 0.5vw, 1.1875rem);
-    line-height: 1.7;
+    font-size: clamp(0.9375rem, 0.85rem + 0.4vw, 1.125rem);
+    line-height: 1.75;
     color: var(--color-text-secondary);
-    max-width: 440px;
-    margin-bottom: 32px;
-    animation: fade-up 0.7s ease 0.6s both;
+    max-width: 460px;
+    margin-bottom: 36px;
+    animation: fade-up 0.7s ease 0.5s both;
   }
-  .hp-hero__ctas {
+
+  .hp-hero__actions {
     display: flex;
     flex-wrap: wrap;
+    gap: 14px;
+    margin-bottom: 48px;
+    animation: fade-up 0.7s ease 0.65s both;
+  }
+
+  .hp-hero__stats {
+    display: flex;
     align-items: center;
-    gap: 16px;
-    animation: fade-up 0.7s ease 0.75s both;
+    gap: 24px;
+    animation: fade-up 0.7s ease 0.8s both;
+  }
+  .hp-hero__stat-num {
+    display: block;
+    font-family: var(--font-display);
+    font-size: 1.5rem;
+    color: var(--color-text-primary);
+    letter-spacing: -0.02em;
+  }
+  .hp-hero__stat-label {
+    font-size: 0.6875rem;
+    color: var(--color-text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-weight: 500;
+  }
+  .hp-hero__stat-sep {
+    width: 1px;
+    height: 32px;
+    background: var(--color-border);
   }
 
   @keyframes fade-up {
-    from { opacity: 0; transform: translateY(16px); }
+    from { opacity: 0; transform: translateY(20px); }
     to { opacity: 1; transform: translateY(0); }
   }
 
-  /* Hero right: stacked preview cards */
-  .hp-hero__right {
-    animation: fade-up 0.8s ease 0.5s both;
+  /* ═══ Hero Stacked Cards ═══ */
+  .hp-hero__visual {
+    perspective: 1200px;
+    animation: fade-up 0.9s ease 0.4s both;
   }
-  .hp-hero__cards {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
+  .hp-hero__visual:not(:hover) .hp-hero__stack {
+    animation: card-float 6s ease-in-out infinite 3s;
   }
-  .hp-hero__card {
-    display: block;
-    padding: 20px 24px;
-    border-radius: 14px;
+  @keyframes card-float {
+    0%, 100% { transform: perspective(1200px) translateY(0) rotateX(0) rotateY(0); }
+    25% { transform: perspective(1200px) translateY(-8px) rotateX(1deg) rotateY(-1.5deg); }
+    50% { transform: perspective(1200px) translateY(-4px) rotateX(-0.5deg) rotateY(1deg); }
+    75% { transform: perspective(1200px) translateY(-10px) rotateX(0.5deg) rotateY(-0.5deg); }
+  }
+
+  .hp-hero__stack {
+    position: relative;
+    height: 380px;
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    transform-style: preserve-3d;
+    will-change: transform;
+  }
+  @media (min-width: 1024px) {
+    .hp-hero__stack { height: 420px; }
+  }
+
+  .hp-hero__card-shine {
+    position: absolute;
+    inset: 0;
+    border-radius: 20px;
+    pointer-events: none;
+    z-index: 10;
+    transition: background 0.3s;
+  }
+
+  /* Individual stacked cards */
+  .hp-stack__card {
+    position: absolute;
+    background: #FFFDF9;
     border: 1px solid var(--color-border);
-    background: rgba(255, 255, 255, 0.7);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
-    animation: card-enter 0.6s cubic-bezier(0.16, 1, 0.3, 1) calc(var(--delay) + 0.4s) both;
+    border-radius: 16px;
+    padding: 24px;
+    transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1),
+                box-shadow 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+    overflow: hidden;
   }
-  .hp-hero__card:hover {
-    border-color: var(--color-accent);
-    transform: translateX(8px);
-    box-shadow: 0 8px 32px rgba(20, 20, 19, 0.08);
+
+  /* Card 3 — back (deepest, peeking out top-right) */
+  .hp-stack__card--3 {
+    width: 75%;
+    height: 120px;
+    top: 0;
+    right: 0;
+    transform: rotate(3deg);
+    z-index: 1;
+    background: var(--color-sage-soft);
+    border-color: rgba(45,106,79,0.15);
+    box-shadow: 0 4px 16px rgba(20,20,19,0.04);
   }
-  @keyframes card-enter {
-    from { opacity: 0; transform: translateX(40px); }
-    to { opacity: 1; transform: translateX(0); }
+  .hp-hero__visual:hover .hp-stack__card--3 {
+    transform: rotate(4deg) translate(8px, -4px);
+    box-shadow: 0 8px 32px rgba(20,20,19,0.07);
   }
-  .hp-hero__card-badge {
-    font-size: 0.625rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    padding: 2px 8px;
-    border-radius: 3px;
+
+  /* Card 2 — middle */
+  .hp-stack__card--2 {
+    width: 85%;
+    height: 160px;
+    top: 60px;
+    right: 20px;
+    transform: rotate(-1.5deg);
+    z-index: 2;
+    background: var(--color-accent-soft);
+    border-color: rgba(217,119,6,0.12);
+    box-shadow: 0 6px 24px rgba(20,20,19,0.05);
+  }
+  .hp-hero__visual:hover .hp-stack__card--2 {
+    transform: rotate(-2deg) translate(-6px, -6px);
+    box-shadow: 0 12px 40px rgba(20,20,19,0.08);
+  }
+
+  /* Card 1 — front (top, most prominent) */
+  .hp-stack__card--1 {
+    width: 92%;
+    bottom: 0;
+    left: 0;
+    transform: rotate(0.5deg);
+    z-index: 3;
+    background: #FFFDF9;
+    box-shadow:
+      0 16px 48px -8px rgba(120,53,15,0.1),
+      0 6px 16px -4px rgba(20,20,19,0.06);
+  }
+  .hp-hero__visual:hover .hp-stack__card--1 {
+    transform: rotate(0deg) translate(0, -4px);
+    box-shadow:
+      0 24px 64px -8px rgba(120,53,15,0.14),
+      0 8px 24px -4px rgba(20,20,19,0.08);
+  }
+
+  /* Card content elements */
+  .hp-stack__accent-bar {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--color-accent), var(--color-sage));
+    border-radius: 16px 16px 0 0;
+  }
+
+  .hp-stack__label {
     display: inline-block;
+    font-family: var(--font-body);
+    font-size: 0.5625rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--color-text-muted);
     margin-bottom: 8px;
   }
-  .hp-hero__card-title {
+
+  .hp-stack__tag {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+  }
+
+  .hp-stack__title {
     font-family: var(--font-display);
-    font-size: 1.0625rem;
+    font-size: 1rem;
     line-height: 1.3;
     color: var(--color-text-primary);
-    margin-bottom: 6px;
-    transition: color 0.2s;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
   }
-  .hp-hero__card:hover .hp-hero__card-title {
-    color: var(--color-accent);
+  .hp-stack__title--lg {
+    font-size: clamp(1.125rem, 1rem + 0.5vw, 1.375rem);
+    margin-bottom: 8px;
   }
-  .hp-hero__card-meta {
-    font-size: 0.75rem;
+
+  .hp-stack__desc {
+    font-size: 0.8125rem;
+    line-height: 1.6;
+    color: var(--color-text-secondary);
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    margin-bottom: 16px;
+  }
+
+  .hp-stack__meta {
+    font-size: 0.6875rem;
     color: var(--color-text-muted);
   }
 
-  /* Scroll cue */
+  .hp-stack__foot {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: 14px;
+    border-top: 1px solid var(--color-border);
+  }
+
+  .hp-stack__arrow {
+    width: 26px; height: 26px;
+    border-radius: 50%;
+    background: var(--color-bg-warm);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--color-text-muted);
+    transition: all 0.3s;
+  }
+  .hp-hero__visual:hover .hp-stack__arrow {
+    background: var(--color-accent);
+    color: #fff;
+  }
+
+  /* Floating labels */
+  .hp-hero__float {
+    position: absolute;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 14px;
+    border-radius: 10px;
+    font-size: 0.6875rem;
+    font-weight: 600;
+    white-space: nowrap;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid var(--color-border);
+    z-index: 3;
+    transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    animation: float-in 0.8s ease both;
+    box-shadow: 0 4px 16px rgba(20,20,19,0.08);
+  }
+  .hp-hero__float--1 {
+    top: -16px; right: 20px;
+    background: var(--color-accent-soft);
+    color: var(--color-accent-hover);
+    animation-delay: 1s;
+  }
+  .hp-hero__float--2 {
+    bottom: 60px; left: -24px;
+    background: var(--color-sage-soft);
+    color: var(--color-sage);
+    animation-delay: 1.2s;
+  }
+  .hp-hero__float--3 {
+    top: 50%; right: -20px;
+    background: var(--color-clay-soft);
+    color: var(--color-clay);
+    animation-delay: 1.4s;
+  }
+  @keyframes float-in {
+    from { opacity: 0; transform: scale(0.8) translateY(10px); }
+    to { opacity: 1; transform: scale(1) translateY(0); }
+  }
+
+  /* Scroll indicator */
   .hp-hero__scroll {
     position: absolute;
-    bottom: 28px;
+    bottom: 32px;
     left: 50%;
     transform: translateX(-50%);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 8px;
-    animation: fade-up 0.6s ease 1.2s both;
+    animation: fade-up 0.6s ease 1.5s both;
   }
-  .hp-hero__scroll span {
-    font-size: 0.625rem;
-    font-weight: 600;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    color: var(--color-text-muted);
-  }
-  .hp-hero__scroll-bar {
+  .hp-hero__scroll-line {
     width: 1.5px;
-    height: 36px;
-    background: var(--color-border);
+    height: 40px;
+    background: var(--color-border-strong);
     border-radius: 2px;
     overflow: hidden;
   }
   .hp-hero__scroll-dot {
     width: 100%;
-    height: 10px;
+    height: 12px;
     background: var(--color-accent);
     border-radius: 2px;
-    animation: scroll-pulse 2.2s ease-in-out infinite;
+    animation: scroll-move 2s ease-in-out infinite;
   }
-  @keyframes scroll-pulse {
-    0%, 100% { transform: translateY(-10px); }
-    50% { transform: translateY(36px); }
+  @keyframes scroll-move {
+    0%, 100% { transform: translateY(-12px); }
+    50% { transform: translateY(40px); }
   }
 
   /* ════════════════════════════════════════════
@@ -686,196 +1121,176 @@ const topics = [
     gap: 8px;
     font-size: 0.875rem;
     font-weight: 600;
-    border-radius: 100px;
+    border-radius: 12px;
+    padding: 14px 28px;
     transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
     white-space: nowrap;
   }
-  .hp-btn--primary {
-    padding: 14px 28px;
-    background: var(--color-text-primary);
-    color: #fff;
-  }
-  .hp-btn--primary:hover {
-    background: var(--color-accent);
-    transform: translateY(-2px);
-    box-shadow: 0 8px 24px rgba(217, 119, 6, 0.25);
-  }
-  .hp-btn--ghost {
-    padding: 14px 4px;
-    color: var(--color-text-secondary);
-  }
-  .hp-btn--ghost:hover { color: var(--color-accent); }
-  .hp-btn--amber {
-    padding: 16px 32px;
+  .hp-btn--glow {
     background: var(--color-accent);
     color: #fff;
+    box-shadow: 0 0 0 0 rgba(217,119,6,0);
   }
-  .hp-btn--amber:hover {
+  .hp-btn--glow:hover {
     background: var(--color-accent-hover);
     transform: translateY(-2px);
-    box-shadow: 0 8px 32px rgba(217, 119, 6, 0.35);
+    box-shadow: 0 8px 32px rgba(217,119,6,0.35), 0 0 60px rgba(217,119,6,0.15);
   }
-
-  /* ════════════════════════════════════════════
-     MARQUEE TICKER
-     ════════════════════════════════════════════ */
-  .hp-ticker {
-    border-top: 1px solid var(--color-border);
-    border-bottom: 1px solid var(--color-border);
-    padding: 14px 0;
-    overflow: hidden;
+  .hp-btn--outline {
+    background: transparent;
+    color: var(--color-text-secondary);
+    border: 1px solid var(--color-border-strong);
+  }
+  .hp-btn--outline:hover {
+    color: var(--color-text-primary);
+    border-color: var(--color-text-primary);
     background: var(--color-bg-card);
-    mask-image: linear-gradient(90deg, transparent, black 8%, black 92%, transparent);
-    -webkit-mask-image: linear-gradient(90deg, transparent, black 8%, black 92%, transparent);
-  }
-  .hp-ticker__track {
-    display: flex;
-    width: max-content;
-    animation: ticker 35s linear infinite;
-  }
-  .hp-ticker__set {
-    display: flex;
-    align-items: center;
-    flex-shrink: 0;
-  }
-  .hp-ticker__set span {
-    font-family: var(--font-display);
-    font-size: 0.875rem;
-    color: var(--color-text-primary);
-    padding: 0 20px;
-    white-space: nowrap;
-  }
-  .hp-ticker__sep {
-    color: var(--color-accent) !important;
-    font-weight: 300;
-  }
-  @keyframes ticker {
-    0% { transform: translateX(0); }
-    100% { transform: translateX(calc(-100% / 3)); }
+    transform: translateY(-2px);
+    box-shadow: 0 4px 16px rgba(20,20,19,0.06);
   }
 
   /* ════════════════════════════════════════════
-     SECTION HEADERS
+     PATH CARDS — 3D tilt
      ════════════════════════════════════════════ */
-  .hp-section-num {
-    font-family: var(--font-display);
-    font-size: 0.8125rem;
-    color: var(--color-accent);
-    opacity: 0.5;
+  .hp-paths {
+    padding: 100px 0;
+    background: var(--color-bg-primary);
   }
-  .hp-section-title {
-    font-family: var(--font-display);
-    font-size: clamp(1.5rem, 1.2rem + 1vw, 2.25rem);
-    line-height: 1.15;
-    letter-spacing: -0.025em;
-    color: var(--color-text-primary);
-  }
-  .hp-section-head {
-    margin-bottom: 32px;
-  }
-  .hp-section-head--between {
-    display: flex;
-    align-items: flex-end;
-    justify-content: space-between;
-    gap: 16px;
-  }
-  .hp-view-all {
-    font-size: 0.8125rem;
-    font-weight: 500;
-    color: var(--color-text-muted);
-    transition: color 0.2s;
-    flex-shrink: 0;
-  }
-  .hp-view-all:hover { color: var(--color-accent); }
-  .hp-view-all span { transition: transform 0.2s; display: inline-block; }
-  .hp-view-all:hover span { transform: translateX(3px); }
-
-  /* ════════════════════════════════════════════
-     TOPICS
-     ════════════════════════════════════════════ */
-  .hp-topics {
-    padding: 80px 0 64px;
-  }
-  .hp-topics__grid {
+  .hp-paths__grid {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 12px;
+    grid-template-columns: 1fr;
+    gap: 20px;
   }
   @media (min-width: 640px) {
-    .hp-topics__grid { grid-template-columns: repeat(3, 1fr); }
+    .hp-paths__grid { grid-template-columns: repeat(2, 1fr); }
   }
-  @media (min-width: 1024px) {
-    .hp-topics__grid { grid-template-columns: repeat(4, 1fr); gap: 14px; }
+
+  .hp-path-card {
+    display: block;
+    perspective: 800px;
   }
-  .hp-topic {
+  .hp-path-card__inner {
     position: relative;
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    padding: 24px;
-    border-radius: 16px;
-    border: 1px solid var(--color-border);
+    height: 100%;
+    padding: 32px;
+    border-radius: 20px;
     background: var(--color-bg-card);
+    border: 1px solid var(--color-border);
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+                border-color 0.3s,
+                box-shadow 0.3s;
+    transform-style: preserve-3d;
+    will-change: transform;
     overflow: hidden;
-    transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
   }
-  .hp-topic::before {
+  .hp-path-card__inner::before {
     content: '';
     position: absolute;
-    inset: 0;
-    background: var(--topic-bg);
+    top: 12px;
+    bottom: 12px;
+    left: 0;
+    width: 3px;
+    border-radius: 0 3px 3px 0;
+    background: var(--icon-color, var(--color-accent));
     opacity: 0;
-    transition: opacity 0.35s;
+    transform: scaleY(0);
+    transition: opacity 0.3s, transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
   }
-  .hp-topic:hover::before { opacity: 1; }
-  .hp-topic:hover {
-    border-color: var(--topic-color);
-    transform: translateY(-4px);
-    box-shadow: 0 12px 32px rgba(20, 20, 19, 0.08);
+  .hp-path-card:hover .hp-path-card__inner::before {
+    opacity: 1;
+    transform: scaleY(1);
   }
-  .hp-topic__icon {
-    font-size: 1.5rem;
-    position: relative;
+  .hp-path-card:hover .hp-path-card__inner {
+    border-color: var(--color-border-strong);
+    box-shadow:
+      0 20px 60px -15px rgba(20,20,19,0.12),
+      0 0 0 1px rgba(20,20,19,0.03);
   }
-  .hp-topic__name {
-    font-weight: 600;
-    font-size: 0.875rem;
-    color: var(--color-text-primary);
-    position: relative;
-  }
-  .hp-topic__count {
-    font-size: 0.75rem;
-    color: var(--color-text-muted);
-    position: relative;
-  }
-  .hp-topic__arrow {
+  .hp-path-card__shine {
     position: absolute;
-    top: 16px;
-    right: 16px;
-    width: 28px;
-    height: 28px;
-    border-radius: 50%;
-    background: var(--topic-color);
-    color: #fff;
+    inset: 0;
+    border-radius: 20px;
+    pointer-events: none;
+    z-index: 1;
+    transition: background 0.3s;
+  }
+  .hp-path-card__icon {
+    position: relative;
+    z-index: 2;
+    width: 56px; height: 56px;
+    border-radius: 14px;
+    background: var(--icon-bg);
+    color: var(--icon-color);
     display: flex;
     align-items: center;
     justify-content: center;
-    opacity: 0;
-    transform: translate(-4px, 4px);
-    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    margin-bottom: 20px;
+    transition: transform 0.3s;
   }
-  .hp-topic:hover .hp-topic__arrow {
-    opacity: 1;
-    transform: translate(0, 0);
+  .hp-path-card:hover .hp-path-card__icon {
+    transform: translateZ(20px) scale(1.05);
   }
+  .hp-path-card__badge {
+    position: relative;
+    z-index: 2;
+    display: inline-block;
+    font-size: 0.6875rem;
+    font-weight: 600;
+    padding: 3px 10px;
+    border-radius: 4px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 14px;
+  }
+  .hp-path-card__title {
+    position: relative;
+    z-index: 2;
+    font-family: var(--font-display);
+    font-size: 1.25rem;
+    line-height: 1.25;
+    color: var(--color-text-primary);
+    margin-bottom: 10px;
+    transition: color 0.2s;
+  }
+  .hp-path-card__desc {
+    position: relative;
+    z-index: 2;
+    font-size: 0.875rem;
+    line-height: 1.65;
+    color: var(--color-text-secondary);
+    margin-bottom: 16px;
+  }
+  .hp-path-card__meta {
+    position: relative;
+    z-index: 2;
+    display: block;
+    font-size: 0.75rem;
+    color: var(--color-text-muted);
+    margin-bottom: 20px;
+  }
+  .hp-path-card__cta {
+    position: relative;
+    z-index: 2;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.8125rem;
+    font-weight: 600;
+    color: var(--cta-color, var(--color-accent));
+    transition: gap 0.3s;
+  }
+  .hp-path-card:hover .hp-path-card__cta { gap: 12px; }
 
   /* ════════════════════════════════════════════
-     FEATURED
+     FEATURED + TUTORIALS
      ════════════════════════════════════════════ */
-  .hp-featured {
-    padding: 0 0 80px;
+  .hp-content {
+    padding: 100px 0;
+    background: var(--color-bg-warm);
   }
-  .hp-featured__card {
+
+  /* Featured card */
+  .hp-feat {
     display: grid;
     grid-template-columns: 1fr;
     border-radius: 20px;
@@ -883,43 +1298,45 @@ const topics = [
     border: 1px solid var(--color-border);
     background: var(--color-bg-card);
     transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    will-change: transform;
+    margin-bottom: 32px;
   }
   @media (min-width: 768px) {
-    .hp-featured__card { grid-template-columns: 1fr 1fr; }
+    .hp-feat { grid-template-columns: 1.2fr 1fr; }
   }
-  .hp-featured__card:hover {
+  .hp-feat:hover {
     border-color: var(--color-border-strong);
-    box-shadow: 0 24px 64px rgba(20, 20, 19, 0.1);
-    transform: translateY(-4px);
+    box-shadow: 0 24px 64px rgba(20,20,19,0.1);
   }
 
-  .hp-featured__img-wrap {
+  .hp-feat__img-wrap {
     position: relative;
-    aspect-ratio: 4/3;
+    aspect-ratio: 16/10;
     overflow: hidden;
   }
   @media (min-width: 768px) {
-    .hp-featured__img-wrap { aspect-ratio: auto; min-height: 380px; }
+    .hp-feat__img-wrap { aspect-ratio: auto; min-height: 360px; }
   }
-  .hp-featured__img {
+  .hp-feat__img {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+    transform: scale(1.1);
+    transition: transform 0.1s linear;
+    will-change: transform;
   }
-  .hp-featured__card:hover .hp-featured__img { transform: scale(1.06); }
-  .hp-featured__img-overlay {
+  .hp-feat__img-overlay {
     position: absolute;
     inset: 0;
-    background: linear-gradient(180deg, transparent 50%, rgba(20,20,19,0.3) 100%);
+    background: linear-gradient(180deg, transparent 40%, rgba(20,20,19,0.25) 100%);
   }
-  .hp-featured__img-label {
+  .hp-feat__badge-wrap {
     position: absolute;
     top: 20px;
     left: 20px;
   }
-  .hp-featured__badge {
-    padding: 6px 16px;
+  .hp-feat__badge {
+    padding: 6px 18px;
     border-radius: 100px;
     font-size: 0.6875rem;
     font-weight: 700;
@@ -928,17 +1345,16 @@ const topics = [
     background: var(--color-accent);
     color: #fff;
   }
-
-  .hp-featured__body {
-    padding: 32px 28px;
+  .hp-feat__body {
+    padding: 32px;
     display: flex;
     flex-direction: column;
     justify-content: center;
   }
   @media (min-width: 768px) {
-    .hp-featured__body { padding: 48px 52px; }
+    .hp-feat__body { padding: 48px; }
   }
-  .hp-featured__meta {
+  .hp-feat__meta {
     display: flex;
     align-items: center;
     gap: 8px;
@@ -947,28 +1363,32 @@ const topics = [
     margin-bottom: 16px;
     flex-wrap: wrap;
   }
-  .hp-featured__dot {
+  .hp-feat__meta-dot {
     width: 3px; height: 3px;
     border-radius: 50%;
     background: var(--color-border-strong);
   }
-  .hp-featured__title {
+  .hp-feat__title {
     font-family: var(--font-display);
-    font-size: clamp(1.5rem, 1.2rem + 1.2vw, 2.5rem);
-    line-height: 1.12;
-    letter-spacing: -0.03em;
+    font-size: clamp(1.5rem, 1.2rem + 1.2vw, 2.25rem);
+    line-height: 1.15;
+    letter-spacing: -0.025em;
     color: var(--color-text-primary);
-    margin-bottom: 16px;
+    margin-bottom: 14px;
     transition: color 0.3s;
   }
-  .hp-featured__card:hover .hp-featured__title { color: var(--color-accent); }
-  .hp-featured__desc {
+  .hp-feat:hover .hp-feat__title { color: var(--color-accent); }
+  .hp-feat__desc {
     font-size: 0.9375rem;
     line-height: 1.7;
     color: var(--color-text-secondary);
     margin-bottom: 24px;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
   }
-  .hp-featured__cta {
+  .hp-feat__cta {
     display: inline-flex;
     align-items: center;
     gap: 8px;
@@ -977,116 +1397,97 @@ const topics = [
     color: var(--color-accent);
     transition: gap 0.3s;
   }
-  .hp-featured__card:hover .hp-featured__cta { gap: 14px; }
+  .hp-feat:hover .hp-feat__cta { gap: 14px; }
 
-  /* ════════════════════════════════════════════
-     TUTORIALS — Horizontal scroll
-     ════════════════════════════════════════════ */
-  .hp-tuts {
-    padding: 80px 0;
-    background: var(--color-bg-warm);
-  }
-  .hp-tuts__scroll {
-    overflow-x: auto;
-    overflow-y: hidden;
-    scrollbar-width: none;
-    -ms-overflow-style: none;
-    padding: 0 clamp(16px, 4vw, 48px);
-    margin: 0 calc(clamp(16px, 4vw, 48px) * -1);
-  }
-  .hp-tuts__scroll::-webkit-scrollbar { display: none; }
-  .hp-tuts__track {
-    display: flex;
+  /* Tutorial cards grid */
+  .hp-tuts-grid {
+    display: grid;
+    grid-template-columns: 1fr;
     gap: 16px;
-    padding-bottom: 4px;
-    width: max-content;
+  }
+  @media (min-width: 640px) {
+    .hp-tuts-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (min-width: 1024px) {
+    .hp-tuts-grid { grid-template-columns: repeat(4, 1fr); }
   }
 
-  .hp-tut-card {
+  .hp-tut {
     display: flex;
     flex-direction: column;
-    width: 320px;
-    flex-shrink: 0;
     padding: 24px;
     border-radius: 16px;
     border: 1px solid var(--color-border);
     background: var(--color-bg-card);
     transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    will-change: transform;
     position: relative;
     overflow: hidden;
   }
-  .hp-tut-card::before {
+  .hp-tut::before {
     content: '';
     position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 3px;
-    background: var(--color-accent);
+    top: 0; left: 0;
+    width: 100%; height: 3px;
+    background: linear-gradient(90deg, var(--color-accent), var(--color-sage));
     transform: scaleX(0);
     transform-origin: left;
     transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
   }
-  .hp-tut-card:hover::before { transform: scaleX(1); }
-  .hp-tut-card:hover {
+  .hp-tut:hover::before { transform: scaleX(1); }
+  .hp-tut:hover {
     border-color: var(--color-border-strong);
-    transform: translateY(-4px);
-    box-shadow: 0 12px 32px rgba(20, 20, 19, 0.08);
+    box-shadow: 0 12px 40px rgba(20,20,19,0.08);
   }
 
-  .hp-tut-card__top {
+  .hp-tut__top {
     display: flex;
     align-items: flex-start;
     justify-content: space-between;
     gap: 8px;
-    margin-bottom: 16px;
+    margin-bottom: 14px;
   }
-  .hp-tut-card__badges {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 4px;
-  }
-  .hp-tut-card__time {
+  .hp-tut__time {
     font-size: 0.6875rem;
     color: var(--color-text-muted);
     flex-shrink: 0;
     padding-top: 3px;
   }
-  .hp-tut-card__title {
+  .hp-tut__title {
     font-family: var(--font-display);
-    font-size: 1.125rem;
+    font-size: 1.0625rem;
     line-height: 1.25;
     color: var(--color-text-primary);
-    margin-bottom: 10px;
+    margin-bottom: 8px;
     transition: color 0.2s;
     display: -webkit-box;
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
     overflow: hidden;
   }
-  .hp-tut-card:hover .hp-tut-card__title { color: var(--color-accent); }
-  .hp-tut-card__desc {
+  .hp-tut:hover .hp-tut__title { color: var(--color-accent); }
+  .hp-tut__desc {
     font-size: 0.8125rem;
-    line-height: 1.65;
+    line-height: 1.6;
     color: var(--color-text-secondary);
-    margin-bottom: 20px;
     flex: 1;
     display: -webkit-box;
-    -webkit-line-clamp: 3;
+    -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
     overflow: hidden;
+    margin-bottom: 16px;
   }
-  .hp-tut-card__foot {
+  .hp-tut__foot {
     display: flex;
     align-items: center;
     justify-content: space-between;
     font-size: 0.75rem;
     color: var(--color-text-muted);
-    padding-top: 16px;
+    padding-top: 14px;
     border-top: 1px solid var(--color-border);
   }
-  .hp-tut-card__arrow {
-    width: 28px; height: 28px;
+  .hp-tut__arrow {
+    width: 26px; height: 26px;
     border-radius: 50%;
     background: var(--color-bg-warm);
     display: flex;
@@ -1095,122 +1496,56 @@ const topics = [
     color: var(--color-text-muted);
     transition: all 0.3s;
   }
-  .hp-tut-card:hover .hp-tut-card__arrow {
+  .hp-tut:hover .hp-tut__arrow {
     background: var(--color-accent);
     color: #fff;
   }
 
   /* ════════════════════════════════════════════
-     NEWS
+     NEWS + BLOG FEED
      ════════════════════════════════════════════ */
-  .hp-news {
-    padding: 80px 0;
+  .hp-feed {
+    padding: 80px 0 100px;
   }
-  .hp-news__grid {
+  .hp-feed__cols {
     display: grid;
     grid-template-columns: 1fr;
+    gap: 48px;
+  }
+  @media (min-width: 768px) {
+    .hp-feed__cols { grid-template-columns: 1fr 1fr; gap: 64px; }
+  }
+
+  .hp-feed__list {
+    display: flex;
+    flex-direction: column;
     border: 1px solid var(--color-border);
-    border-radius: 20px;
+    border-radius: 16px;
     overflow: hidden;
     background: var(--color-bg-card);
   }
-  @media (min-width: 768px) {
-    .hp-news__grid { grid-template-columns: 3fr 2fr; }
-  }
-
-  .hp-news__lead {
-    padding: 36px 32px;
-    transition: background 0.3s;
-    position: relative;
-  }
-  @media (min-width: 768px) {
-    .hp-news__lead {
-      padding: 48px 44px;
-      border-right: 1px solid var(--color-border);
-    }
-  }
-  .hp-news__lead:hover { background: var(--color-bg-warm); }
-  .hp-news__lead-inner {
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-  }
-  .hp-news__lead-tag {
-    font-size: 0.6875rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    color: var(--color-sage);
-    background: var(--color-sage-soft);
-    padding: 4px 12px;
-    border-radius: 100px;
-    display: inline-block;
-    width: fit-content;
-    margin-bottom: 20px;
-  }
-  .hp-news__lead-title {
-    font-family: var(--font-display);
-    font-size: clamp(1.375rem, 1.1rem + 1vw, 2rem);
-    line-height: 1.2;
-    letter-spacing: -0.02em;
-    color: var(--color-text-primary);
-    margin-bottom: 14px;
-    transition: color 0.3s;
-  }
-  .hp-news__lead:hover .hp-news__lead-title { color: var(--color-accent); }
-  .hp-news__lead-desc {
-    font-size: 0.875rem;
-    line-height: 1.7;
-    color: var(--color-text-secondary);
-    display: -webkit-box;
-    -webkit-line-clamp: 3;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-    flex: 1;
-  }
-  .hp-news__lead-foot {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-top: 20px;
-    padding-top: 16px;
-    border-top: 1px solid var(--color-border);
-    font-size: 0.75rem;
-    color: var(--color-text-muted);
-  }
-  .hp-news__lead-cta {
-    font-weight: 600;
-    color: var(--color-accent);
-  }
-
-  .hp-news__side {
-    display: flex;
-    flex-direction: column;
-  }
-  .hp-news__item {
+  .hp-feed__item {
     display: flex;
     gap: 16px;
     padding: 20px 24px;
-    border-top: 1px solid var(--color-border);
     transition: background 0.2s;
     align-items: flex-start;
-    flex: 1;
   }
-  @media (min-width: 768px) {
-    .hp-news__item:first-child { border-top: 0; }
+  .hp-feed__item + .hp-feed__item {
+    border-top: 1px solid var(--color-border);
   }
-  .hp-news__item:hover { background: var(--color-bg-warm); }
-  .hp-news__item-num {
+  .hp-feed__item:hover { background: var(--color-bg-warm); }
+  .hp-feed__num {
     font-family: var(--font-display);
-    font-size: 1.5rem;
+    font-size: 1.375rem;
     color: var(--color-border-strong);
     line-height: 1;
     flex-shrink: 0;
     padding-top: 2px;
     transition: color 0.2s;
   }
-  .hp-news__item:hover .hp-news__item-num { color: var(--color-accent); }
-  .hp-news__item-title {
+  .hp-feed__item:hover .hp-feed__num { color: var(--color-accent); }
+  .hp-feed__item-title {
     font-family: var(--font-display);
     font-size: 0.9375rem;
     line-height: 1.35;
@@ -1218,112 +1553,15 @@ const topics = [
     margin-bottom: 6px;
     transition: color 0.2s;
   }
-  .hp-news__item:hover .hp-news__item-title { color: var(--color-accent); }
-  .hp-news__item-date {
+  .hp-feed__item:hover .hp-feed__item-title { color: var(--color-accent); }
+  .hp-feed__item-date {
     font-size: 0.6875rem;
     color: var(--color-text-muted);
   }
-
-  /* ════════════════════════════════════════════
-     BLOG — Bento grid
-     ════════════════════════════════════════════ */
-  .hp-blog {
-    padding: 80px 0;
-    background: linear-gradient(180deg, var(--color-bg-warm) 0%, var(--color-bg-primary) 40%);
-  }
-  .hp-blog__bento {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 14px;
-  }
-  @media (min-width: 768px) {
-    .hp-blog__bento {
-      grid-template-columns: repeat(2, 1fr);
-      grid-template-rows: auto auto;
-    }
-    .hp-blog__card--lead {
-      grid-row: 1 / 3;
-    }
-  }
-
-  .hp-blog__card {
-    border-radius: 16px;
-    border: 1px solid var(--color-border);
-    background: var(--color-bg-card);
-    overflow: hidden;
-    transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
-    position: relative;
-  }
-  .hp-blog__card::after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    height: 3px;
-    background: linear-gradient(90deg, var(--color-accent), var(--color-sage));
-    transform: scaleX(0);
-    transform-origin: left;
-    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-  }
-  .hp-blog__card:hover::after { transform: scaleX(1); }
-  .hp-blog__card:hover {
-    border-color: var(--color-border-strong);
-    transform: translateY(-4px);
-    box-shadow: 0 12px 40px rgba(20, 20, 19, 0.08);
-  }
-
-  .hp-blog__card-inner {
-    padding: 28px;
+  .hp-feed__item-tags {
     display: flex;
-    flex-direction: column;
-    height: 100%;
-  }
-  .hp-blog__card--lead .hp-blog__card-inner {
-    padding: 36px;
-    justify-content: space-between;
-  }
-  .hp-blog__card-tags {
-    display: flex;
-    flex-wrap: wrap;
     gap: 4px;
-    margin-bottom: 16px;
-  }
-  .hp-blog__card-title {
-    font-family: var(--font-display);
-    font-size: 1.0625rem;
-    line-height: 1.3;
-    color: var(--color-text-primary);
-    margin-bottom: 10px;
-    transition: color 0.2s;
-  }
-  .hp-blog__card--lead .hp-blog__card-title {
-    font-size: clamp(1.25rem, 1rem + 1vw, 1.75rem);
-  }
-  .hp-blog__card:hover .hp-blog__card-title { color: var(--color-accent); }
-  .hp-blog__card-desc {
-    font-size: 0.8125rem;
-    line-height: 1.65;
-    color: var(--color-text-secondary);
-    flex: 1;
-    display: -webkit-box;
-    -webkit-line-clamp: 3;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-  }
-  .hp-blog__card--lead .hp-blog__card-desc {
-    -webkit-line-clamp: 5;
-    font-size: 0.875rem;
-  }
-  .hp-blog__card-foot {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    font-size: 0.75rem;
-    color: var(--color-text-muted);
-    margin-top: 16px;
-    padding-top: 14px;
-    border-top: 1px solid var(--color-border);
+    margin-top: 6px;
   }
 
   /* ════════════════════════════════════════════
@@ -1338,40 +1576,55 @@ const topics = [
     inset: 0;
     background: var(--color-bg-dark);
   }
-  .hp-cta__pattern {
+  .hp-cta__dots {
     position: absolute;
     inset: 0;
     background-image:
       radial-gradient(circle at 1px 1px, rgba(255,255,255,0.04) 1px, transparent 0);
-    background-size: 32px 32px;
+    background-size: 28px 28px;
+  }
+  .hp-cta__orb {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(100px);
+  }
+  .hp-cta__orb--1 {
+    width: 400px; height: 400px;
+    top: -200px; right: 10%;
+    background: var(--color-accent);
+    opacity: 0.08;
+  }
+  .hp-cta__orb--2 {
+    width: 300px; height: 300px;
+    bottom: -150px; left: 20%;
+    background: var(--color-sage);
+    opacity: 0.06;
   }
   .hp-cta__inner {
     position: relative;
-    display: flex;
-    flex-direction: column;
+    display: grid;
+    grid-template-columns: 1fr;
     gap: 40px;
     padding-top: 80px;
     padding-bottom: 80px;
     align-items: center;
-    text-align: center;
   }
   @media (min-width: 768px) {
     .hp-cta__inner {
-      flex-direction: row;
-      justify-content: space-between;
-      text-align: left;
-      padding-top: 96px;
-      padding-bottom: 96px;
+      grid-template-columns: 1fr 1fr;
+      gap: 64px;
+      padding-top: 100px;
+      padding-bottom: 100px;
     }
   }
-  .hp-cta__label {
+  .hp-cta__tag {
+    display: inline-block;
     font-size: 0.6875rem;
-    font-weight: 600;
+    font-weight: 700;
     letter-spacing: 0.14em;
     text-transform: uppercase;
     color: var(--color-accent);
-    margin-bottom: 8px;
-    display: block;
+    margin-bottom: 12px;
   }
   .hp-cta__heading {
     font-family: var(--font-display);
@@ -1379,77 +1632,123 @@ const topics = [
     line-height: 1;
     letter-spacing: -0.04em;
     color: #fff;
-  }
-  .hp-cta__right {
-    max-width: 380px;
+    margin-bottom: 16px;
   }
   .hp-cta__text {
     font-size: 0.9375rem;
     line-height: 1.7;
-    color: rgba(255, 255, 255, 0.45);
-    margin-bottom: 28px;
+    color: rgba(255,255,255,0.4);
   }
+
   .hp-cta__form {
     position: relative;
   }
-  .hp-cta__input-wrap {
+  .hp-cta__input-group {
     display: flex;
     flex-direction: column;
     gap: 12px;
   }
   @media (min-width: 480px) {
-    .hp-cta__input-wrap {
-      flex-direction: row;
-      gap: 8px;
-    }
+    .hp-cta__input-group { flex-direction: row; gap: 8px; }
   }
   .hp-cta__input {
     flex: 1;
-    padding: 14px 20px;
-    border-radius: 100px;
-    border: 1px solid rgba(255, 255, 255, 0.15);
-    background: rgba(255, 255, 255, 0.08);
+    padding: 16px 20px;
+    border-radius: 12px;
+    border: 1px solid rgba(255,255,255,0.12);
+    background: rgba(255,255,255,0.06);
     color: #fff;
     font-size: 0.875rem;
     outline: none;
     transition: all 0.3s;
   }
-  .hp-cta__input::placeholder {
-    color: rgba(255, 255, 255, 0.35);
-  }
+  .hp-cta__input::placeholder { color: rgba(255,255,255,0.3); }
   .hp-cta__input:focus {
     border-color: var(--color-accent);
-    background: rgba(255, 255, 255, 0.12);
+    background: rgba(255,255,255,0.1);
+    box-shadow: 0 0 0 3px rgba(217,119,6,0.15);
   }
-  .hp-cta__btn {
+  .hp-cta__submit {
     flex-shrink: 0;
   }
-  .hp-cta__success {
-    font-size: 0.9375rem;
-    color: var(--color-accent);
-    font-weight: 600;
+  .hp-cta__fine {
+    font-size: 0.75rem;
+    color: rgba(255,255,255,0.25);
+    margin-top: 12px;
   }
-  .hidden {
-    display: none !important;
+  .hp-cta__success p {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--color-accent);
+  }
+
+  /* ════════════════════════════════════════════
+     EDITORIAL DIVIDERS
+     ════════════════════════════════════════════ */
+  .hp-divider {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    padding: 0 clamp(20px, 5vw, 48px);
+    max-width: 1280px;
+    margin: 0 auto;
+  }
+  .hp-divider__line {
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--color-border-strong) 20%, var(--color-border-strong) 80%, transparent);
+    max-width: 200px;
+  }
+  .hp-divider__diamond {
+    width: 8px;
+    height: 8px;
+    background: var(--color-accent);
+    transform: rotate(45deg);
+    flex-shrink: 0;
+    opacity: 0.6;
+  }
+
+  /* ════════════════════════════════════════════
+     SCROLL REVEAL
+     ════════════════════════════════════════════ */
+  .hp-reveal {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1),
+                transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .hp-visible {
+    opacity: 1;
+    transform: translateY(0);
   }
 
   /* ════════════════════════════════════════════
      REDUCED MOTION
      ════════════════════════════════════════════ */
   @media (prefers-reduced-motion: reduce) {
-    .hp-hero__word,
+    .hp-hero__line,
     .hp-hero__sub,
-    .hp-hero__ctas,
-    .hp-hero__right,
-    .hp-hero__card,
-    .hp-hero__scroll {
+    .hp-hero__actions,
+    .hp-hero__stats,
+    .hp-hero__visual,
+    .hp-hero__eyebrow,
+    .hp-hero__scroll,
+    .hp-hero__float {
       animation: none !important;
       opacity: 1 !important;
       transform: none !important;
       filter: none !important;
     }
-    .hp-ticker__track { animation: none; }
+    .hp-hero__orb--3 { animation: none; }
     .hp-hero__scroll-dot { animation: none; }
-    .hp-hero__orb { animation: none; }
+    .hp-hero__eyebrow-dot { animation: none; }
+    .hp-hero__keyword::after { animation: none; opacity: 0.7; transform: none; }
+    .hp-hero__visual:not(:hover) .hp-hero__stack { animation: none; }
+    .hp-stack__card { transition: none; }
+    .hp-hero__stack { transition: none; }
+    .hp-reveal { opacity: 1; transform: none; transition: none; }
+    .hp-hero__card-3d { transition: none; }
+    .hp-path-card__inner { transition: border-color 0.3s, box-shadow 0.3s; }
   }
 </style>
