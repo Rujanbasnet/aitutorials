@@ -25,9 +25,11 @@ const automationPath = learningPaths.find(p => p.id === 'automation-builder');
     <div class="hp-hero__bg" aria-hidden="true">
       <div class="hp-hero__texture"></div>
       <div class="hp-hero__gradient"></div>
-      <div class="hp-hero__orb hp-hero__orb--1" id="orb1"></div>
-      <div class="hp-hero__orb hp-hero__orb--2" id="orb2"></div>
-      <div class="hp-hero__orb hp-hero__orb--3" id="orb3"></div>
+      <canvas class="hp-hero__canvas" id="hero-canvas"></canvas>
+      <!-- Static orb fallback for reduced motion -->
+      <div class="hp-hero__orb hp-hero__orb--1 hp-hero__orb--fallback" id="orb1"></div>
+      <div class="hp-hero__orb hp-hero__orb--2 hp-hero__orb--fallback" id="orb2"></div>
+      <div class="hp-hero__orb hp-hero__orb--3 hp-hero__orb--fallback" id="orb3"></div>
       <div class="hp-hero__border-line"></div>
     </div>
 
@@ -76,6 +78,28 @@ const automationPath = learningPaths.find(p => p.id === 'automation-builder');
 
       <!-- Right: Stacked editorial cards -->
       <div class="hp-hero__visual" id="hero-visual">
+        <!-- Morphing SVG blob behind cards -->
+        <svg class="hp-hero__morph-blob" viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <defs>
+            <linearGradient id="blob-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#D97706" />
+              <stop offset="100%" stop-color="#2D6A4F" />
+            </linearGradient>
+          </defs>
+          <path fill="url(#blob-grad)" opacity="0.4">
+            <animate
+              attributeName="d"
+              dur="10s"
+              repeatCount="indefinite"
+              values="
+                M200,50 C280,50 350,120 350,200 C350,280 280,350 200,350 C120,350 50,280 50,200 C50,120 120,50 200,50 Z;
+                M220,60 C310,80 360,150 340,230 C320,310 240,360 160,340 C80,320 40,240 60,160 C80,80 130,40 220,60 Z;
+                M180,55 C270,40 355,110 345,200 C335,290 260,355 175,345 C90,335 45,260 55,175 C65,90 90,70 180,55 Z;
+                M200,50 C280,50 350,120 350,200 C350,280 280,350 200,350 C120,350 50,280 50,200 C50,120 120,50 200,50 Z
+              "
+            />
+          </path>
+        </svg>
         <div class="hp-hero__stack" id="hero-card">
           <div class="hp-hero__card-shine" id="card-shine"></div>
 
@@ -128,11 +152,13 @@ const automationPath = learningPaths.find(p => p.id === 'automation-builder');
     </div>
   </section>
 
-  <!-- Editorial divider -->
-  <div class="hp-divider" aria-hidden="true">
-    <span class="hp-divider__line"></span>
-    <span class="hp-divider__diamond"></span>
-    <span class="hp-divider__line"></span>
+  <!-- Animated SVG divider -->
+  <div class="hp-divider hp-divider--svg" aria-hidden="true">
+    <svg class="hp-divider__svg" viewBox="0 0 600 20" preserveAspectRatio="none">
+      <line class="hp-divider__draw" x1="0" y1="10" x2="275" y2="10" />
+      <rect class="hp-divider__diamond-svg" x="289" y="3" width="10" height="10" transform="rotate(45 294 8)" />
+      <line class="hp-divider__draw" x1="313" y1="10" x2="600" y2="10" />
+    </svg>
   </div>
 
   <!-- ══════ PICK YOUR PATH — 3D tilt cards ══════ -->
@@ -322,11 +348,13 @@ const automationPath = learningPaths.find(p => p.id === 'automation-builder');
     </section>
   )}
 
-  <!-- Editorial divider -->
-  <div class="hp-divider" aria-hidden="true">
-    <span class="hp-divider__line"></span>
-    <span class="hp-divider__diamond"></span>
-    <span class="hp-divider__line"></span>
+  <!-- Animated SVG divider -->
+  <div class="hp-divider hp-divider--svg" aria-hidden="true">
+    <svg class="hp-divider__svg" viewBox="0 0 600 20" preserveAspectRatio="none">
+      <line class="hp-divider__draw" x1="0" y1="10" x2="275" y2="10" />
+      <rect class="hp-divider__diamond-svg" x="289" y="3" width="10" height="10" transform="rotate(45 294 8)" />
+      <line class="hp-divider__draw" x1="313" y1="10" x2="600" y2="10" />
+    </svg>
   </div>
 
   <!-- ══════ NEWS + BLOG combined ══════ -->
@@ -454,6 +482,136 @@ const automationPath = learningPaths.find(p => p.id === 'automation-builder');
     // ── 3D Tilt Effect for cards ──
     const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
+    // ── Interactive Particle Canvas (Hero) ──
+    if (!prefersReduced) {
+      const canvas = document.getElementById('hero-canvas');
+      if (canvas) {
+        const ctx = canvas.getContext('2d');
+        let mouseX = -9999, mouseY = -9999;
+        const particles = [];
+        const COLORS = [
+          { r: 170, g: 85,  b: 0 },    // darker amber
+          { r: 30,  g: 75,  b: 55 },    // darker sage
+          { r: 95,  g: 38,  b: 8 },     // darker clay
+        ];
+        const isMobile = window.innerWidth < 768;
+        const PARTICLE_COUNT = isMobile ? 50 : 100;
+        const CONNECT_DIST = isMobile ? 110 : 160;
+        const MOUSE_REPEL = 130;
+
+        function resizeCanvas() {
+          const heroEl = document.getElementById('hero');
+          if (!heroEl) return;
+          canvas.width = heroEl.offsetWidth;
+          canvas.height = heroEl.offsetHeight;
+        }
+        resizeCanvas();
+        window.addEventListener('resize', resizeCanvas);
+
+        for (let i = 0; i < PARTICLE_COUNT; i++) {
+          const c = COLORS[Math.floor(Math.random() * COLORS.length)];
+          particles.push({
+            x: Math.random() * canvas.width,
+            y: Math.random() * canvas.height,
+            vx: (Math.random() - 0.5) * 0.35,
+            vy: (Math.random() - 0.5) * 0.35,
+            r: Math.random() * 2.5 + 1.5,
+            color: c,
+            alpha: Math.random() * 0.4 + 0.3,
+          });
+        }
+
+        // Hide static orb fallbacks when canvas is active
+        document.querySelectorAll('.hp-hero__orb--fallback').forEach(el => el.style.display = 'none');
+
+        const heroEl = document.getElementById('hero');
+        if (heroEl) {
+          heroEl.addEventListener('mousemove', (e) => {
+            const rect = heroEl.getBoundingClientRect();
+            mouseX = e.clientX - rect.left;
+            mouseY = e.clientY - rect.top;
+          });
+          heroEl.addEventListener('mouseleave', () => {
+            mouseX = -9999;
+            mouseY = -9999;
+          });
+        }
+
+        function drawParticles() {
+          ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+          for (let i = 0; i < particles.length; i++) {
+            const p = particles[i];
+
+            // Mouse repulsion
+            const dx = p.x - mouseX;
+            const dy = p.y - mouseY;
+            const dist = Math.sqrt(dx * dx + dy * dy);
+            if (dist < MOUSE_REPEL && dist > 0) {
+              const force = (MOUSE_REPEL - dist) / MOUSE_REPEL * 0.9;
+              p.vx += (dx / dist) * force;
+              p.vy += (dy / dist) * force;
+            }
+
+            // Dampen velocity
+            p.vx *= 0.985;
+            p.vy *= 0.985;
+
+            p.x += p.vx;
+            p.y += p.vy;
+
+            // Wrap around edges
+            if (p.x < 0) p.x = canvas.width;
+            if (p.x > canvas.width) p.x = 0;
+            if (p.y < 0) p.y = canvas.height;
+            if (p.y > canvas.height) p.y = 0;
+
+            // Draw particle
+            ctx.beginPath();
+            ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+            ctx.fillStyle = `rgba(${p.color.r},${p.color.g},${p.color.b},${p.alpha})`;
+            ctx.fill();
+
+            // Connect nearby particles with thicker, more visible lines
+            for (let j = i + 1; j < particles.length; j++) {
+              const p2 = particles[j];
+              const ddx = p.x - p2.x;
+              const ddy = p.y - p2.y;
+              const d = Math.sqrt(ddx * ddx + ddy * ddy);
+              if (d < CONNECT_DIST) {
+                const lineAlpha = (1 - d / CONNECT_DIST) * 0.22;
+                ctx.beginPath();
+                ctx.moveTo(p.x, p.y);
+                ctx.lineTo(p2.x, p2.y);
+                ctx.strokeStyle = `rgba(${p.color.r},${p.color.g},${p.color.b},${lineAlpha})`;
+                ctx.lineWidth = 1;
+                ctx.stroke();
+              }
+            }
+          }
+
+          requestAnimationFrame(drawParticles);
+        }
+        drawParticles();
+      }
+    }
+
+    // ── SVG Divider draw-on-scroll ──
+    if (!prefersReduced) {
+      const dividerObserver = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('hp-divider--visible');
+              dividerObserver.unobserve(entry.target);
+            }
+          });
+        },
+        { threshold: 0.5 }
+      );
+      document.querySelectorAll('.hp-divider--svg').forEach((el) => dividerObserver.observe(el));
+    }
+
     if (!prefersReduced) {
       // Hero card 3D tilt
       const heroVisual = document.getElementById('hero-visual');
@@ -531,12 +689,13 @@ const automationPath = learningPaths.find(p => p.id === 'automation-builder');
         });
       });
 
-      // Hero orbs follow mouse (subtly)
+      // Hero orbs follow mouse (only if canvas not active — reduced motion fallback)
       const hero = document.getElementById('hero');
       const orb1 = document.getElementById('orb1');
       const orb2 = document.getElementById('orb2');
+      const heroCanvas = document.getElementById('hero-canvas');
 
-      if (hero && orb1 && orb2) {
+      if (hero && orb1 && orb2 && (!heroCanvas || heroCanvas.style.display === 'none')) {
         hero.addEventListener('mousemove', (e) => {
           const x = e.clientX / window.innerWidth;
           const y = e.clientY / window.innerHeight;
@@ -863,6 +1022,7 @@ const automationPath = learningPaths.find(p => p.id === 'automation-builder');
 
   /* ═══ Hero Stacked Cards ═══ */
   .hp-hero__visual {
+    position: relative;
     perspective: 1200px;
     animation: fade-up 0.9s ease 0.4s both;
   }
@@ -1683,29 +1843,66 @@ const automationPath = learningPaths.find(p => p.id === 'automation-builder');
   }
 
   /* ════════════════════════════════════════════
-     EDITORIAL DIVIDERS
+     FULL-PAGE PARTICLE CANVAS
+     ════════════════════════════════════════════ */
+  .hp-hero__canvas {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+    pointer-events: none;
+  }
+
+  /* ════════════════════════════════════════════
+     MORPHING SVG BLOB
+     ════════════════════════════════════════════ */
+  .hp-hero__morph-blob {
+    position: absolute;
+    width: 110%;
+    height: 110%;
+    top: -5%;
+    left: -5%;
+    z-index: 0;
+    pointer-events: none;
+  }
+  @media (max-width: 639px) {
+    .hp-hero__morph-blob { display: none; }
+  }
+
+  /* ════════════════════════════════════════════
+     ANIMATED SVG DIVIDERS
      ════════════════════════════════════════════ */
   .hp-divider {
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 16px;
     padding: 0 clamp(20px, 5vw, 48px);
     max-width: 1280px;
     margin: 0 auto;
   }
-  .hp-divider__line {
-    flex: 1;
-    height: 1px;
-    background: linear-gradient(90deg, transparent, var(--color-border-strong) 20%, var(--color-border-strong) 80%, transparent);
-    max-width: 200px;
+  .hp-divider__svg {
+    width: 100%;
+    max-width: 480px;
+    height: 20px;
+    overflow: visible;
   }
-  .hp-divider__diamond {
-    width: 8px;
-    height: 8px;
-    background: var(--color-accent);
-    transform: rotate(45deg);
-    flex-shrink: 0;
+  .hp-divider__draw {
+    stroke: var(--color-border-strong);
+    stroke-width: 1;
+    stroke-dasharray: 275;
+    stroke-dashoffset: 275;
+    transition: stroke-dashoffset 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .hp-divider__diamond-svg {
+    fill: var(--color-accent);
+    opacity: 0;
+    transition: opacity 0.4s ease 0.6s;
+  }
+  .hp-divider--visible .hp-divider__draw {
+    stroke-dashoffset: 0;
+  }
+  .hp-divider--visible .hp-divider__diamond-svg {
     opacity: 0.6;
   }
 
@@ -1740,6 +1937,11 @@ const automationPath = learningPaths.find(p => p.id === 'automation-builder');
       transform: none !important;
       filter: none !important;
     }
+    .hp-hero__canvas { display: none !important; }
+    .hp-hero__orb--fallback { display: block !important; }
+    .hp-hero__morph-blob { display: none !important; }
+    .hp-divider__draw { stroke-dasharray: none; stroke-dashoffset: 0; transition: none; }
+    .hp-divider__diamond-svg { opacity: 0.6; transition: none; }
     .hp-hero__orb--3 { animation: none; }
     .hp-hero__scroll-dot { animation: none; }
     .hp-hero__eyebrow-dot { animation: none; }

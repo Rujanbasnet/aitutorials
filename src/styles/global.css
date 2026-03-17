@@ -378,3 +378,28 @@ code { font-family: var(--font-mono); font-size: 0.88em; }
   color: var(--color-accent);
   opacity: 0.4;
 }
+
+/* ── Loading spinner (warm-themed) ──────────────── */
+.spinner {
+  width: 24px;
+  height: 24px;
+  border: 2.5px solid var(--color-border);
+  border-top-color: var(--color-accent);
+  border-radius: 50%;
+  animation: spinner-rotate 0.7s linear infinite;
+  display: inline-block;
+}
+.spinner--morph {
+  border-radius: 30%;
+  animation: spinner-morph 1.2s ease-in-out infinite;
+}
+@keyframes spinner-rotate {
+  to { transform: rotate(360deg); }
+}
+@keyframes spinner-morph {
+  0%, 100% { border-radius: 30%; transform: rotate(0deg); }
+  50% { border-radius: 50%; transform: rotate(180deg); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .spinner, .spinner--morph { animation: none; }
+}

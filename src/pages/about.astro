@@ -13,6 +13,7 @@ import Button from '@components/ui/Button.astro';
       loading="eager"
       aria-hidden="true"
     />
+    <canvas class="about-canvas" id="about-canvas" aria-hidden="true"></canvas>
     <div class="relative max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-20 lg:py-24">
       <p class="label mb-4">About</p>
       <h1 class="text-display mb-6">
@@ -76,3 +77,145 @@ import Button from '@components/ui/Button.astro';
     </div>
   </section>
 </BaseLayout>
+
+<style>
+.about-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  pointer-events: none;
+}
+@media (prefers-reduced-motion: reduce) {
+  .about-canvas { display: none !important; }
+}
+</style>
+
+<script is:inline>
+(function () {
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+  const canvas = document.getElementById('about-canvas');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+
+  const DOT_COUNT = 30;
+  const DOT_RADIUS_MIN = 2.5;
+  const DOT_RADIUS_MAX = 3.5;
+  const RUNG_ALPHA = 0.1;
+  const MOUSE_RADIUS = 80;
+
+  let mouseX = -9999;
+  let mouseY = -9999;
+  let width = 0;
+  let height = 0;
+
+  function getParams() {
+    const mobile = window.innerWidth < 768;
+    return {
+      amplitude: mobile ? 40 : 60,
+      centerXRatio: mobile ? 0.5 : 0.65,
+    };
+  }
+
+  function resize() {
+    const section = canvas.closest('section');
+    if (!section) return;
+    const rect = section.getBoundingClientRect();
+    width = rect.width;
+    height = rect.height;
+    canvas.width = width * window.devicePixelRatio;
+    canvas.height = height * window.devicePixelRatio;
+    canvas.style.width = width + 'px';
+    canvas.style.height = height + 'px';
+    ctx.setTransform(window.devicePixelRatio, 0, 0, window.devicePixelRatio, 0, 0);
+  }
+
+  function draw(time) {
+    ctx.clearRect(0, 0, width, height);
+    const params = getParams();
+    const centerX = width * params.centerXRatio;
+    const amplitude = params.amplitude;
+    // frequency: ~2.5 full waves across the hero height
+    const frequency = (2.5 * 2 * Math.PI) / height;
+    const phase = time * 0.001;
+
+    for (var i = 0; i < DOT_COUNT; i++) {
+      var t = i / (DOT_COUNT - 1);
+      var y = t * height;
+      var angle = y * frequency + phase;
+      var sinVal = Math.sin(angle);
+      var cosVal = Math.cos(angle);
+
+      var x1 = centerX + amplitude * sinVal;
+      var x2 = centerX - amplitude * sinVal;
+
+      // z-depth: cosVal for strand 1, -cosVal for strand 2
+      // range [-1, 1] -> map to depth factor [0, 1]
+      var depth1 = (cosVal + 1) / 2;
+      var depth2 = (-cosVal + 1) / 2;
+
+      var r1 = DOT_RADIUS_MIN + (DOT_RADIUS_MAX - DOT_RADIUS_MIN) * depth1;
+      var r2 = DOT_RADIUS_MIN + (DOT_RADIUS_MAX - DOT_RADIUS_MIN) * depth2;
+
+      var alpha1 = 0.2 + 0.3 * depth1;
+      var alpha2 = 0.2 + 0.3 * depth2;
+
+      // Mouse interaction
+      var dx1 = mouseX - x1, dy1 = mouseY - y;
+      var dist1 = Math.sqrt(dx1 * dx1 + dy1 * dy1);
+      if (dist1 < MOUSE_RADIUS) {
+        var prox = 1 - dist1 / MOUSE_RADIUS;
+        r1 += 1.5 * prox;
+        alpha1 = Math.min(1, alpha1 + 0.3 * prox);
+      }
+
+      var dx2 = mouseX - x2, dy2 = mouseY - y;
+      var dist2 = Math.sqrt(dx2 * dx2 + dy2 * dy2);
+      if (dist2 < MOUSE_RADIUS) {
+        var prox2 = 1 - dist2 / MOUSE_RADIUS;
+        r2 += 1.5 * prox2;
+        alpha2 = Math.min(1, alpha2 + 0.3 * prox2);
+      }
+
+      // Rungs
+      ctx.beginPath();
+      ctx.moveTo(x1, y);
+      ctx.lineTo(x2, y);
+      ctx.strokeStyle = 'rgba(140, 60, 15, ' + RUNG_ALPHA + ')';
+      ctx.lineWidth = 1;
+      ctx.stroke();
+
+      // Strand 1 dot (amber)
+      ctx.beginPath();
+      ctx.arc(x1, y, r1, 0, Math.PI * 2);
+      ctx.fillStyle = 'rgba(180, 100, 20, ' + alpha1 + ')';
+      ctx.fill();
+
+      // Strand 2 dot (sage)
+      ctx.beginPath();
+      ctx.arc(x2, y, r2, 0, Math.PI * 2);
+      ctx.fillStyle = 'rgba(45, 90, 70, ' + alpha2 + ')';
+      ctx.fill();
+    }
+
+    requestAnimationFrame(draw);
+  }
+
+  canvas.closest('section').addEventListener('mousemove', function (e) {
+    var rect = canvas.getBoundingClientRect();
+    mouseX = e.clientX - rect.left;
+    mouseY = e.clientY - rect.top;
+  });
+
+  canvas.closest('section').addEventListener('mouseleave', function () {
+    mouseX = -9999;
+    mouseY = -9999;
+  });
+
+  resize();
+  window.addEventListener('resize', resize);
+  requestAnimationFrame(draw);
+})();
+</script>

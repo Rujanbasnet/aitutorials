@@ -26,6 +26,10 @@ const progressionLabels = [
 
 <BaseLayout title="Try It Yourself" description="Copy a prompt, paste it into any AI chatbot, and watch magic happen. No coding required.">
 
+  <div class="challenges-canvas-wrap" aria-hidden="true">
+    <canvas class="challenges-canvas" id="challenges-canvas"></canvas>
+  </div>
+
   <PageHero
     tag="Try It Yourself"
     title="Feel the magic."
@@ -292,8 +296,25 @@ const progressionLabels = [
     opacity: 0.5;
   }
 
+  /* ── Spark canvas ─────────────────────────────── */
+  .challenges-canvas-wrap {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 420px;
+    z-index: 1;
+    pointer-events: none;
+    overflow: hidden;
+  }
+  .challenges-canvas {
+    width: 100%;
+    height: 100%;
+  }
+
   /* Reduce motion for accessibility */
   @media (prefers-reduced-motion: reduce) {
+    .challenges-canvas-wrap { display: none !important; }
     .hero-orb,
     .pulse-dot,
     .hero-label,
@@ -304,3 +325,164 @@ const progressionLabels = [
     .step-cta { transition: none; }
   }
 </style>
+
+<script is:inline>
+(function () {
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+  var canvas = document.getElementById('challenges-canvas');
+  if (!canvas) return;
+  var ctx = canvas.getContext('2d');
+  var wrap = canvas.parentElement;
+
+  var COLORS = [
+    { r: 217, g: 119, b: 6 },
+    { r: 217, g: 119, b: 6 },
+    { r: 217, g: 119, b: 6 },
+    { r: 217, g: 119, b: 6 },
+    { r: 217, g: 119, b: 6 },
+    { r: 200, g: 80, b: 10 },
+    { r: 200, g: 80, b: 10 },
+    { r: 200, g: 80, b: 10 },
+    { r: 45, g: 106, b: 79 },
+    { r: 45, g: 106, b: 79 }
+  ];
+
+  var TRAIL_LENGTH = 5;
+  var isMobile = window.innerWidth < 768;
+  var COUNT = isMobile ? 30 : 50;
+  var mouseX = -9999;
+  var mouseY = -9999;
+  var lastBurst = 0;
+  var BURST_INTERVAL = 3000;
+
+  function resize() {
+    var rect = wrap.getBoundingClientRect();
+    canvas.width = rect.width;
+    canvas.height = rect.height;
+  }
+  resize();
+  window.addEventListener('resize', resize);
+
+  function randomRange(min, max) {
+    return min + Math.random() * (max - min);
+  }
+
+  function createSpark() {
+    var color = COLORS[Math.floor(Math.random() * COLORS.length)];
+    var x = Math.random() * canvas.width;
+    var y = Math.random() * canvas.height;
+    var trail = [];
+    for (var t = 0; t < TRAIL_LENGTH; t++) {
+      trail.push({ x: x, y: y });
+    }
+    return {
+      x: x,
+      y: y,
+      vx: randomRange(-1.5, 1.5),
+      vy: randomRange(-1.5, 1.5),
+      r: randomRange(1, 2.5),
+      alpha: randomRange(0.4, 0.7),
+      color: color,
+      trail: trail
+    };
+  }
+
+  var sparks = [];
+  for (var i = 0; i < COUNT; i++) {
+    sparks.push(createSpark());
+  }
+
+  document.addEventListener('mousemove', function (e) {
+    var rect = canvas.getBoundingClientRect();
+    mouseX = e.clientX - rect.left;
+    mouseY = e.clientY - rect.top;
+  });
+  document.addEventListener('mouseleave', function () {
+    mouseX = -9999;
+    mouseY = -9999;
+  });
+
+  function animate(time) {
+    requestAnimationFrame(animate);
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    // Burst effect every 3 seconds
+    if (time - lastBurst > BURST_INTERVAL) {
+      lastBurst = time;
+      var bx = Math.random() * canvas.width;
+      var by = Math.random() * canvas.height;
+      var burstCount = 0;
+      for (var b = 0; b < sparks.length && burstCount < 8; b++) {
+        var dx = sparks[b].x - bx;
+        var dy = sparks[b].y - by;
+        var dist = Math.sqrt(dx * dx + dy * dy);
+        if (dist < 150) {
+          var angle = Math.atan2(dy, dx);
+          sparks[b].vx += Math.cos(angle) * 3;
+          sparks[b].vy += Math.sin(angle) * 3;
+          burstCount++;
+        }
+      }
+    }
+
+    for (var i = 0; i < sparks.length; i++) {
+      var s = sparks[i];
+
+      // Mouse interaction — accelerate away (burst effect)
+      var mdx = s.x - mouseX;
+      var mdy = s.y - mouseY;
+      var mDist = Math.sqrt(mdx * mdx + mdy * mdy);
+      if (mDist < 120 && mDist > 0) {
+        var force = (120 - mDist) / 120 * 4;
+        s.vx += (mdx / mDist) * force;
+        s.vy += (mdy / mDist) * force;
+      }
+
+      // Dampen velocity slightly to prevent runaway speeds
+      s.vx *= 0.98;
+      s.vy *= 0.98;
+
+      // Ensure minimum speed so sparks don't stall
+      var speed = Math.sqrt(s.vx * s.vx + s.vy * s.vy);
+      if (speed < 0.3) {
+        s.vx += randomRange(-0.5, 0.5);
+        s.vy += randomRange(-0.5, 0.5);
+      }
+
+      s.x += s.vx;
+      s.y += s.vy;
+
+      // Wrap around edges
+      if (s.x < 0) s.x += canvas.width;
+      if (s.x > canvas.width) s.x -= canvas.width;
+      if (s.y < 0) s.y += canvas.height;
+      if (s.y > canvas.height) s.y -= canvas.height;
+
+      // Update trail
+      s.trail.pop();
+      s.trail.unshift({ x: s.x, y: s.y });
+
+      // Draw trail
+      if (s.trail.length > 1) {
+        ctx.beginPath();
+        ctx.moveTo(s.trail[0].x, s.trail[0].y);
+        for (var t = 1; t < s.trail.length; t++) {
+          ctx.lineTo(s.trail[t].x, s.trail[t].y);
+        }
+        ctx.strokeStyle = 'rgba(' + s.color.r + ',' + s.color.g + ',' + s.color.b + ',' + (s.alpha * 0.3) + ')';
+        ctx.lineWidth = s.r * 0.8;
+        ctx.stroke();
+      }
+
+      // Draw spark
+      ctx.beginPath();
+      ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+      ctx.fillStyle = 'rgba(' + s.color.r + ',' + s.color.g + ',' + s.color.b + ',' + s.alpha + ')';
+      ctx.fill();
+    }
+  }
+
+  requestAnimationFrame(animate);
+})();
+</script>
