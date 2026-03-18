@@ -21,9 +21,9 @@ Here's how I built it, what it costs, and what I've learned after 38 published v
 Each video flows through seven automated steps:
 
 1. **Script Generation** — Claude writes the meditation script using a master prompt that includes style guidelines, format rules, and performance learnings from analytics
-2. **Voice Generation** — ElevenLabs V3 converts the script to natural speech with word-level timestamps
-3. **Music & SFX** — ElevenLabs generates ambient background music and nature sound effects
-4. **Avatar Video** — HeyGen creates a video of a photorealistic avatar speaking the script, lip-synced to the audio
+2. **Voice Generation** — [ElevenLabs](https://try.elevenlabs.io/oihzdmiepi30) V3 converts the script to natural speech with word-level timestamps
+3. **Music & SFX** — [ElevenLabs](https://try.elevenlabs.io/oihzdmiepi30) generates ambient background music and nature sound effects
+4. **Avatar Video** — [HeyGen](https://www.heygen.com) creates a video of a photorealistic avatar speaking the script, lip-synced to the audio
 5. **Captions** — A Python script builds animated karaoke-style captions (ASS format) synced to each word
 6. **Assembly** — FFmpeg combines avatar video, voice, music, SFX, and captions into the final video
 7. **Upload** — The YouTube Data API uploads the video with title, description, tags, and thumbnail
@@ -36,10 +36,10 @@ This was one of my biggest concerns going in. Here's what each Short actually co
 
 | Component | Cost |
 |-----------|------|
-| ElevenLabs voice | ~$0.30 |
-| ElevenLabs music | ~$0.10 |
-| ElevenLabs SFX | ~$0.05 |
-| HeyGen avatar | ~$0.85 |
+| [ElevenLabs](https://try.elevenlabs.io/oihzdmiepi30) voice | ~$0.30 |
+| [ElevenLabs](https://try.elevenlabs.io/oihzdmiepi30) music | ~$0.10 |
+| [ElevenLabs](https://try.elevenlabs.io/oihzdmiepi30) SFX | ~$0.05 |
+| [HeyGen](https://www.heygen.com) avatar | ~$0.85 |
 | **Total per Short** | **~$1.30** |
 
 Claude (for script writing) is covered by my existing subscription. YouTube hosting and upload is free.
@@ -81,13 +81,13 @@ The retention numbers above 100% mean viewers are watching the Short more than o
 
 ### AI tools are mature enough for production
 
-This isn't a proof of concept. It's a real pipeline producing real content that real people watch. ElevenLabs voices sound natural. HeyGen avatars look convincing. Claude writes scripts that match the tone I want. A year ago this wouldn't have been possible at this quality level.
+This isn't a proof of concept. It's a real pipeline producing real content that real people watch. [ElevenLabs](https://try.elevenlabs.io/oihzdmiepi30) voices sound natural. [HeyGen](https://www.heygen.com) avatars look convincing. Claude writes scripts that match the tone I want. A year ago this wouldn't have been possible at this quality level.
 
 ### The hardest part wasn't coding — it was debugging
 
 I built this pipeline with Claude Code as my coding partner. I described what I wanted, it wrote the Python, I tested it. The actual coding was the easy part.
 
-The hard part was debugging integration issues. ElevenLabs V3 developed a Japanese accent when the text contained blank lines. HeyGen's API would silently fail if the audio was too long. YouTube's OAuth tokens expire and need refreshing. Each of these took hours to figure out.
+The hard part was debugging integration issues. [ElevenLabs](https://try.elevenlabs.io/oihzdmiepi30) V3 developed a Japanese accent when the text contained blank lines. [HeyGen](https://www.heygen.com)'s API would silently fail if the audio was too long. YouTube's OAuth tokens expire and need refreshing. Each of these took hours to figure out.
 
 ### Data-driven improvement actually works
 
@@ -107,7 +107,7 @@ The Shorts pipeline was just the beginning. Here's what's live now:
 
 - **Long-form content** — 5-minute guided meditation videos with new characters and deeper sessions. The long-form pipeline is fully built and tested.
 - **TikTok and Instagram** — Cross-posting is fully integrated. Same content, same automation, three platforms instead of one.
-- **Spanish pipeline (FlickpauseES)** — A complete Spanish-language version of the channel, built and tested using ElevenLabs V3's native Spanish voice capabilities.
+- **Spanish pipeline (FlickpauseES)** — A complete Spanish-language version of the channel, built and tested using [ElevenLabs](https://try.elevenlabs.io/oihzdmiepi30) V3's native Spanish voice capabilities.
 - **Analytics self-improvement loop** — Running weekly, automatically updating prompts based on real performance data.
 
 ## Try It Yourself
