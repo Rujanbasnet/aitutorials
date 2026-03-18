@@ -55,12 +55,19 @@ const fullTitle = title === 'AI Tutorials' ? title : `${title} | AI Tutorials`;
       <meta property="article:author" content={author} />
     )}
 
+    <link rel="alternate" type="application/rss+xml" title="AI Tutorials RSS" href="/rss.xml" />
+
     <script type="application/ld+json" set:html={JSON.stringify({
       "@context": "https://schema.org",
       "@type": "WebSite",
       "name": "AI Tutorials",
       "url": "https://aitutorials.com.au",
       "description": description,
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": "https://aitutorials.com.au/?q={search_term_string}",
+        "query-input": "required name=search_term_string"
+      }
     })} />
 
     <!-- Fonts: Instrument Serif (display) + Instrument Sans (body) + JetBrains Mono (code) -->
@@ -72,7 +79,7 @@ const fullTitle = title === 'AI Tutorials' ? title : `${title} | AI Tutorials`;
     />
 
     <!-- Umami Analytics -->
-    <script defer src="https://cloud.umami.is/script.js" data-website-id="REPLACE_WITH_YOUR_UMAMI_ID"></script>
+    <script defer src="https://cloud.umami.is/script.js" data-website-id="ed605b1f-128b-46e8-bbbe-0d4f754a8980"></script>
   </head>
   <body class="min-h-screen flex flex-col">
     <Header />

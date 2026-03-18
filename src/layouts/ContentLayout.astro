@@ -190,7 +190,7 @@ const collectionLabel = collectionLabels[collection] || collection.charAt(0).toU
 
     {image ? (
       <div class="mb-12 rounded-xl overflow-hidden border border-[var(--color-border)]">
-        <img src={image} alt={title} class="w-full h-auto" loading="lazy" />
+        <img src={image} alt={title} class="w-full h-auto" loading="lazy" width="1200" height="630" decoding="async" />
       </div>
     ) : (
       <div class="mb-12 rounded-xl overflow-hidden border border-[var(--color-border)]">
