@@ -1,0 +1,158 @@
+---
+title: "Meta's Manus Launches 'My Computer': Turning Your Desktop Into an AI Agent"
+description: "Meta's My Computer (powered by Manus) launched March 17, 2026. It's a local AI agent that can control your files, terminal, and build applications. Here's what it actually does."
+pubDate: 2026-03-18
+author: "AI Tutorials"
+tags: ["ai-tools", "review", "meta", "ai-agents", "manus"]
+category: "review"
+draft: false
+---
+
+Yesterday (March 17, 2026), Meta launched **My Computer**. If you haven't heard about it yet, you should pay attention.
+
+My Computer is what happens when you take an AI agent and decide it shouldn't live in the cloud. It should live on your machine. It should control your files. It should execute code. It should build apps. And it should do all of this while respecting your privacy by keeping your data on your device by default.
+
+Meta acquired Manus (a startup focused on desktop automation) a few months ago. Nobody paid much attention. Today, that acquisition shipped a product that's genuinely surprising.
+
+This is the complete opposite of Perplexity Computer (cloud-based, model-orchestrated, expensive). This is the other way to build agents. And it actually works better for certain problems.
+
+## What My Computer Actually Does
+
+My Computer is fundamentally a **local desktop AI that can read files, execute code, and control your machine**. It's not a chatbot that talks to you. It's an automation layer that does work while you're looking at it (or while you're not).
+
+Here's what it can actually do:
+
+**File and folder management**: You can give it a task like "organize my photos from the last year into folders by month, create thumbnails for each folder, and tag them by location based on metadata." It accesses your file system, reads metadata, creates folders, moves files, and generates thumbnails. You watch it work in real-time.
+
+**Terminal and command execution**: It can execute terminal commands safely in a sandbox. You can tell it "rename all my invoice PDFs with a consistent naming scheme: YYYY-MM-DD_InvoiceName_Amount.pdf" and it does it. The sandbox prevents it from accidentally deleting your entire home directory (though you still have to approve the commands first).
+
+**Application building**: This is the surprising one. My Computer can build functional applications from your description. Tell it "build me a Python script that scans my Downloads folder daily, identifies unread emails with attachments, downloads those attachments, categorizes them by type, and stores them in organized folders." It writes the code, tests it, and sets it up to run on a schedule. You can watch it write code line by line.
+
+**Local ML model training**: If you have a GPU in your machine (more common on Windows and newer Macs than you'd think), My Computer can train machine learning models locally. Not just run inference — actually train. You can say "teach this model to identify product defects in photos" and it'll build the pipeline, label your training data, train the model, and validate it.
+
+**System automation**: It can set up cron jobs, scheduled tasks, file watchers, and integration workflows. Traditional automation tools like Zapier require you to figure out the logic. My Computer figures it out for you.
+
+All of this runs on your machine, not in Meta's cloud. Your photos don't go to Meta's servers. Your personal files stay local. Your machine learning models train on your GPU, not Meta's infrastructure.
+
+This is a fundamentally different philosophy from every other agent on the market.
+
+## How to Get It (And Where It Runs)
+
+My Computer launched yesterday (March 17, 2026) and is currently available in **open beta**.
+
+**Supported platforms:**
+- **macOS with Apple Silicon** (M1, M2, M3, M4) — Full support
+- **Windows 11 and Windows 10** — Full support
+- **macOS with Intel** — Limited support (no local GPU inference)
+- **Linux** — Not available yet (but coming)
+
+**Pricing**: Completely free during beta. Meta hasn't announced pricing for the general release, but based on their pattern with other AI tools, it'll likely be free indefinitely or have a very low premium tier.
+
+**Installation**: Download the app from Meta's website, sign in with your Meta account, and it works immediately. The entire model (around 4-5GB depending on version) runs locally on your machine. No internet connection required after the initial setup, though cloud backup is optional.
+
+**System requirements**: Any modern machine with 8GB RAM will work. 16GB is comfortable. If you want local model training, 32GB RAM and a GPU make things much faster. But the base agent works fine on modest hardware.
+
+## How It Works (The Architecture)
+
+My Computer isn't using GPT-5 or Opus 4.6. It's using **Meta's Llama 3.2** (the most powerful open-source model Meta released in late 2025) running locally on your device.
+
+Here's why that matters:
+
+**Speed**: Inference happens on your machine, not through the internet. Latency is milliseconds, not seconds. It feels responsive.
+
+**Privacy**: Nothing leaves your device unless you explicitly tell it to. Meta doesn't see your files. Meta doesn't see your tasks. Meta doesn't see your data.
+
+**Cost**: There's no inference cost per query. It's just compute on your hardware.
+
+**Customization**: Because Llama is open-source, you can fine-tune the model for your specific use cases if you want to get technical.
+
+The trade-off: Llama 3.2 is powerful but not as capable as GPT-5.2 or Opus 4.6 at extremely complex reasoning. For most real-world automation tasks, it's more than sufficient. For cutting-edge AI research or extreme reasoning tasks, you'd want something else.
+
+My Computer also has **optional cloud backup and cloud compute**. If you want to use Meta's servers (which have faster GPUs), you can send tasks to the cloud. But it's optional and requires explicit permission per task.
+
+## Security and Trust Model
+
+Here's where My Computer gets serious:
+
+**Every command requires explicit approval.** You can't just say "do this" and walk away. The agent prepares the command, shows you exactly what it's about to do, and waits for you to approve.
+
+Once you understand the agent's behavior and trust it, you can mark certain task types as "trusted" so they run automatically. For example: "automatically organize my photos monthly" becomes a trusted task that runs without approval each time.
+
+**All actions are logged and auditable.** You can see exactly what commands were executed, when, what they did, and what they changed. If something went wrong, you can roll back or investigate.
+
+**The sandbox prevents destructive commands.** The agent can't accidentally delete your entire home directory. It can't modify system files. It can't install malware. It can't access anything outside its sandbox unless you explicitly grant permission.
+
+**Permission model is granular.** You can give My Computer access to specific folders, not your entire hard drive. You can say "access Downloads and Desktop" but not "access Documents." You control the scope.
+
+This is genuinely trustworthy design. It's what you'd want from an agent that actually runs on your machine.
+
+Compare this to a cloud-based agent where all your data flows through someone else's servers. My Computer's security model is objectively better because your data never leaves your machine unless you send it there.
+
+## Real-World Use Cases
+
+**Photo and media organization**: "I have 15 years of photos in a messy folder structure. Organize them by year and month, create backups, delete obvious duplicates, and tag them by location. Show me a report of what was organized."
+
+My Computer does this in an afternoon. By itself. While you work on other things.
+
+**Document processing**: "I have 500 PDF invoices with inconsistent naming. Rename them all with a consistent format, extract key data (date, amount, vendor), and create a searchable CSV."
+
+Done. In parallel on your GPU. No API calls to external services (though you can integrate them if you want).
+
+**Application development**: "Build me a Python app that syncs my photos to a cloud backup, runs daily, and logs what was synced."
+
+My Computer builds the script, sets up the cron job, tests it, and shows you the code. You can review it and run it immediately.
+
+**Data analysis workflows**: "I have a folder of CSV files with customer data. Combine them, clean the data, identify duplicates, create a normalized database, and build a dashboard to visualize trends."
+
+My Computer does the entire pipeline. No SQL knowledge required. No database setup required. It just works.
+
+**Local LLM fine-tuning**: "Take this dataset of company emails and fine-tune Llama to understand our internal jargon and terminology, then use it to automatically categorize new emails."
+
+This would cost thousands of dollars on cloud infrastructure. On My Computer, it costs only your GPU time.
+
+## Real Use Cases Where It Doesn't Work Well
+
+**Needs real-time information**: My Computer runs locally, so it can't access live data without integrating APIs. If you need current stock prices or real-time weather, you'd need to configure that integration first.
+
+**Requires specialized cloud services**: If your workflow depends on specific cloud tools (Salesforce, HubSpot, custom APIs), My Computer can be configured to integrate with them, but it requires initial setup.
+
+**Extreme reasoning tasks**: Very complex reasoning problems might benefit from GPT-5.2 or Opus 4.6 more than Llama 3.2. My Computer isn't the best choice for cutting-edge research or extreme problem-solving.
+
+**Team collaboration**: My Computer is personal. It runs on your machine. If you need multiple team members to automate tasks, you'd want a centralized agent instead. (Though Meta could solve this with server deployment.)
+
+**Latency-sensitive decisions**: Most of the time, My Computer is faster than cloud agents. But if you need decisions in milliseconds (trading algorithms, real-time game AI), you'd want purpose-built solutions.
+
+## How It Compares to Alternatives
+
+**Versus Perplexity Computer**: Perplexity is more powerful at reasoning and can orchestrate multiple models. My Computer is faster, cheaper, and privacy-focused. Pick Perplexity for research and analysis. Pick My Computer for automation and local tasks.
+
+**Versus Claude Cowork**: Claude Cowork is $20/month. My Computer is free. Claude Cowork integrates with Claude's reasoning. My Computer uses local inference. If you need scheduling and sub-agents, Claude Cowork is better. If you need privacy and speed, My Computer is better.
+
+**Versus OpenAI Operator**: Operator hasn't shipped yet and will likely be cloud-based. My Computer is available now and runs locally. But Operator will integrate with GPT-5.2, which is more capable than Llama. Depends on your priorities.
+
+**Versus traditional automation tools (Zapier, IFTTT, Make)**: Traditional tools are low-code and don't require AI. My Computer requires some comfort with AI agents but handles much more complex logic. For simple automation, traditional tools are better. For complex tasks, My Computer is revolutionary.
+
+## The Honest Verdict
+
+**My Computer is impressively well-designed.** It ships with genuine capabilities, thoughtful security design, and zero cost during beta.
+
+**The local execution philosophy is genuinely novel.** Every other agent company is betting on cloud orchestration. Meta bet on local. This is refreshing.
+
+**The timing is perfect.** It launches when everyone's realizing that agents are the future of computing. It arrives without hype, fully functional, and ready to use.
+
+**But it's still beta.** This is version 1.0. There will be bugs. Some things won't work perfectly. This is expected. By Q3 2026, the product should be bulletproof.
+
+My recommendation: **Download it today and try it on one real problem.** Pick something you've been procrastinating on because it's tedious (organizing files, renaming documents, building a script). Give My Computer an afternoon and see what it can do.
+
+If it saves you 5 hours of work, you've already won. If it saves you 20 hours, you've found a genuine superpower on your machine.
+
+This is the most accessible AI agent you can use right now. It's free. It's local. It's fast. And it actually works.
+
+The only reason not to try it is if you haven't heard of it. Now you have.
+
+## Related Articles
+
+- **[The Race to Build Jarvis: Every AI Company's Computer Agent, Compared](/blog/race-to-build-jarvis/)** — See how My Computer fits into the broader competitive landscape.
+- **[Perplexity Computer: What It Is, How It Works, and Is It Worth $200/Month?](/blog/perplexity-computer-guide/)** — The opposite approach: cloud-based, expensive, more powerful at reasoning.
+- **[OpenAI Hired the OpenClaw Creator: What This Means for AI Agents](/blog/openai-operator-openclaw/)** — Why OpenAI's strategy for Operator is different from Meta's strategy for My Computer.
+- **[How I Built an Automated YouTube Channel With AI](/blog/how-i-built-automated-youtube-channel-with-ai/)** — Practical example of building workflows (though with cloud-based agents).
