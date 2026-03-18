@@ -171,7 +171,47 @@ const automationPath = learningPaths.find(p => p.id === 'automation-builder');
       </div>
 
       <div class="hp-paths__grid">
-        <!-- Path 1: New to AI -->
+        <!-- Path 1: Feel the Magic (true beginners) -->
+        <a href="/challenges/" class="hp-path-card" data-tilt data-color="multi">
+          <div class="hp-path-card__inner">
+            <div class="hp-path-card__shine"></div>
+            <div class="hp-path-card__icon" style="--icon-bg: linear-gradient(135deg, var(--color-accent-soft), var(--color-sage-soft)); --icon-color: var(--color-accent);">
+              <svg width="28" height="28" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M15.59 14.37a6 6 0 01-5.84 7.38v-4.8m5.84-2.58a14.98 14.98 0 006.16-12.12A14.98 14.98 0 009.631 8.41m5.96 5.96a14.926 14.926 0 01-5.841 2.58m-.119-8.54a6 6 0 00-7.381 5.84h4.8m2.581-5.84a14.927 14.927 0 00-2.58 5.84m2.699 2.7c-.103.021-.207.041-.311.06a15.09 15.09 0 01-2.448-2.448 14.9 14.9 0 01.06-.312m-2.24 2.39a4.493 4.493 0 00-1.757 4.306 4.493 4.493 0 004.306-1.758M16.5 9a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0z" />
+              </svg>
+            </div>
+            <span class="hp-path-card__badge" style="background: var(--color-accent-soft); color: var(--color-accent);">Instant</span>
+            <h3 class="hp-path-card__title">Show me AI magic right now</h3>
+            <p class="hp-path-card__desc">Copy a prompt, paste it into ChatGPT or Claude, and build something incredible in 2 minutes. No setup needed.</p>
+            <span class="hp-path-card__meta">6 challenges &middot; 2-5 min each</span>
+            <span class="hp-path-card__cta" style="--cta-color: var(--color-accent);">
+              Try it now
+              <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" /></svg>
+            </span>
+          </div>
+        </a>
+
+        <!-- Path 2: Find Tools (curious explorers) -->
+        <a href="/discover/" class="hp-path-card" data-tilt data-color="amber">
+          <div class="hp-path-card__inner">
+            <div class="hp-path-card__shine"></div>
+            <div class="hp-path-card__icon" style="--icon-bg: var(--color-accent-soft); --icon-color: var(--color-accent);">
+              <svg width="28" height="28" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
+              </svg>
+            </div>
+            <span class="hp-path-card__badge" style="background: var(--color-sage-soft); color: var(--color-sage);">Explore</span>
+            <h3 class="hp-path-card__title">I want to find the right tools</h3>
+            <p class="hp-path-card__desc">Browse 24+ curated AI tools with honest descriptions, pricing, and categories. Find what fits your needs.</p>
+            <span class="hp-path-card__meta">24 tools &middot; 9 categories</span>
+            <span class="hp-path-card__cta" style="--cta-color: var(--color-accent);">
+              Browse tools
+              <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" /></svg>
+            </span>
+          </div>
+        </a>
+
+        <!-- Path 3: Get Better (dabbled, want structure) -->
         <a href="/paths/ai-foundations/" class="hp-path-card" data-tilt data-color="sage">
           <div class="hp-path-card__inner">
             <div class="hp-path-card__shine"></div>
@@ -181,39 +221,19 @@ const automationPath = learningPaths.find(p => p.id === 'automation-builder');
               </svg>
             </div>
             <span class="badge-beginner hp-path-card__badge">Beginner</span>
-            <h3 class="hp-path-card__title">I'm completely new to AI</h3>
-            <p class="hp-path-card__desc">Learn what AI actually is, how to talk to it effectively, and which tools are worth your time.</p>
+            <h3 class="hp-path-card__title">I use AI but want to get better</h3>
+            <p class="hp-path-card__desc">You've tried ChatGPT a few times. Now learn to prompt properly, pick the right tools, and get real results.</p>
             {foundationsPath && (
               <span class="hp-path-card__meta">{foundationsPath.stepCount} tutorials &middot; {foundationsPath.totalTime}</span>
             )}
             <span class="hp-path-card__cta" style="--cta-color: var(--color-sage);">
-              Start learning
+              Start the path
               <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" /></svg>
             </span>
           </div>
         </a>
 
-        <!-- Path 2: Find Tools -->
-        <a href="/tools/" class="hp-path-card" data-tilt data-color="amber">
-          <div class="hp-path-card__inner">
-            <div class="hp-path-card__shine"></div>
-            <div class="hp-path-card__icon" style="--icon-bg: var(--color-accent-soft); --icon-color: var(--color-accent);">
-              <svg width="28" height="28" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
-              </svg>
-            </div>
-            <span class="hp-path-card__badge" style="background: var(--color-accent-soft); color: var(--color-accent);">Explore</span>
-            <h3 class="hp-path-card__title">I want to find the right tools</h3>
-            <p class="hp-path-card__desc">Browse 24+ curated AI tools with honest descriptions, pricing, and categories.</p>
-            <span class="hp-path-card__meta">24 tools &middot; 9 categories</span>
-            <span class="hp-path-card__cta" style="--cta-color: var(--color-accent);">
-              Browse tools
-              <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" /></svg>
-            </span>
-          </div>
-        </a>
-
-        <!-- Path 3: Automate -->
+        <!-- Path 4: Automate (intermediate) -->
         <a href="/paths/automation-builder/" class="hp-path-card" data-tilt data-color="clay">
           <div class="hp-path-card__inner">
             <div class="hp-path-card__shine"></div>
@@ -230,26 +250,6 @@ const automationPath = learningPaths.find(p => p.id === 'automation-builder');
             )}
             <span class="hp-path-card__cta" style="--cta-color: var(--color-clay);">
               Start building
-              <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" /></svg>
-            </span>
-          </div>
-        </a>
-
-        <!-- Path 4: Try It Now -->
-        <a href="/challenges/" class="hp-path-card" data-tilt data-color="multi">
-          <div class="hp-path-card__inner">
-            <div class="hp-path-card__shine"></div>
-            <div class="hp-path-card__icon" style="--icon-bg: linear-gradient(135deg, var(--color-accent-soft), var(--color-sage-soft)); --icon-color: var(--color-accent);">
-              <svg width="28" height="28" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M15.59 14.37a6 6 0 01-5.84 7.38v-4.8m5.84-2.58a14.98 14.98 0 006.16-12.12A14.98 14.98 0 009.631 8.41m5.96 5.96a14.926 14.926 0 01-5.841 2.58m-.119-8.54a6 6 0 00-7.381 5.84h4.8m2.581-5.84a14.927 14.927 0 00-2.58 5.84m2.699 2.7c-.103.021-.207.041-.311.06a15.09 15.09 0 01-2.448-2.448 14.9 14.9 0 01.06-.312m-2.24 2.39a4.493 4.493 0 00-1.757 4.306 4.493 4.493 0 004.306-1.758M16.5 9a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0z" />
-              </svg>
-            </div>
-            <span class="hp-path-card__badge" style="background: var(--color-clay-soft); color: var(--color-clay);">Instant</span>
-            <h3 class="hp-path-card__title">Show me AI magic right now</h3>
-            <p class="hp-path-card__desc">Copy a prompt, paste it into ChatGPT or Claude, build something incredible in 2 minutes.</p>
-            <span class="hp-path-card__meta">6 challenges &middot; 2-5 min each</span>
-            <span class="hp-path-card__cta" style="--cta-color: var(--color-accent);">
-              Try it now
               <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" /></svg>
             </span>
           </div>
@@ -366,7 +366,7 @@ const automationPath = learningPaths.find(p => p.id === 'automation-builder');
           <div class="hp-feed__col">
             <div class="hp-section-header hp-section-header--row hp-section-header--sm">
               <h2 class="hp-section-title hp-section-title--sm">AI News</h2>
-              <a href="/news/" class="hp-link-arrow hp-link-arrow--sm">All news <svg width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" /></svg></a>
+              <a href="/articles/" class="hp-link-arrow hp-link-arrow--sm">All news <svg width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" /></svg></a>
             </div>
             <div class="hp-feed__list">
               {latestNews.map((n, i) => (
@@ -387,7 +387,7 @@ const automationPath = learningPaths.find(p => p.id === 'automation-builder');
           <div class="hp-feed__col">
             <div class="hp-section-header hp-section-header--row hp-section-header--sm">
               <h2 class="hp-section-title hp-section-title--sm">From the Blog</h2>
-              <a href="/blog/" class="hp-link-arrow hp-link-arrow--sm">All posts <svg width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" /></svg></a>
+              <a href="/articles/" class="hp-link-arrow hp-link-arrow--sm">All posts <svg width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" /></svg></a>
             </div>
             <div class="hp-feed__list">
               {latestBlog.map((b, i) => (

@@ -1,0 +1,155 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import PageHero from '@components/global/PageHero.astro';
+import PostCard from '@components/content/PostCard.astro';
+import FeaturedPost from '@components/content/FeaturedPost.astro';
+import { getPublishedNews, getPublishedBlog } from '@utils/collections';
+
+const news = await getPublishedNews();
+const blog = await getPublishedBlog();
+
+// Merge and sort by pubDate descending, tag each with collection
+const allPosts = [
+  ...news.map(p => ({ ...p, _collection: 'news' as const })),
+  ...blog.map(p => ({ ...p, _collection: 'blog' as const })),
+].sort((a, b) => new Date(b.data.pubDate).getTime() - new Date(a.data.pubDate).getTime());
+
+const featured = allPosts[0];
+const rest = allPosts.slice(1);
+---
+
+<BaseLayout title="News & Blogs" description="AI news, opinions, reviews, and deep dives. Stay current with the latest in AI.">
+
+  <PageHero
+    tag="Read"
+    title="News & Blogs"
+    description="AI news, product launches, opinions, and deep dives. No hype, just signal."
+    gradient="amber"
+    image="/images/news/newspaper.webp"
+    imageAlt="AI news headlines on a newspaper"
+    stats={[
+      { label: `${allPosts.length} articles`, color: 'var(--color-clay)' },
+      { label: 'Updated as it happens', color: 'var(--color-accent)' },
+    ]}
+  />
+
+  <section class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <!-- Filter pills -->
+    <div class="flex flex-wrap gap-2 mb-10" id="articles-filter-bar">
+      <button class="filter-btn filter-active px-4 py-2 rounded-xl text-sm font-medium border transition-all" data-filter="all">All</button>
+      <button class="filter-btn px-4 py-2 rounded-xl text-sm font-medium border border-[var(--color-border)] text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)] hover:border-[var(--color-border-strong)] transition-all" data-filter="news">News</button>
+      <button class="filter-btn px-4 py-2 rounded-xl text-sm font-medium border border-[var(--color-border)] text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)] hover:border-[var(--color-border-strong)] transition-all" data-filter="blog">Blog</button>
+    </div>
+
+    {allPosts.length > 0 ? (
+      <div id="articles-grid">
+        <!-- Featured latest article -->
+        {featured && (
+          <div class="mb-8 fade-in" data-collection={featured._collection}>
+            <FeaturedPost
+              title={featured.data.title}
+              description={featured.data.description}
+              href={`/${featured._collection}/${featured.id}/`}
+              pubDate={featured.data.pubDate}
+              tags={featured.data.tags}
+              image={featured.data.image}
+              body={featured.body || ''}
+              category={featured.data.category}
+              collection={featured._collection}
+            />
+          </div>
+        )}
+
+        {rest.length > 0 && (
+          <>
+            <div class="flex items-center gap-3 mb-8">
+              <h2 class="text-heading">More articles</h2>
+              <div class="flex-1 h-px bg-[var(--color-border)]"></div>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 stagger">
+              {rest.map((item) => (
+                <div class="fade-in" data-collection={item._collection}>
+                  <PostCard
+                    title={item.data.title}
+                    description={item.data.description}
+                    href={`/${item._collection}/${item.id}/`}
+                    pubDate={item.data.pubDate}
+                    tags={item.data.tags}
+                    image={item.data.image}
+                    body={item.body || ''}
+                    category={item.data.category}
+                    collection={item._collection}
+                  />
+                </div>
+              ))}
+            </div>
+          </>
+        )}
+      </div>
+    ) : (
+      <div class="card-warm p-16 text-center rounded-xl">
+        <h3 class="text-heading mb-2">Coming soon</h3>
+        <p class="text-[var(--color-text-secondary)]">Articles are being written. Check back soon.</p>
+      </div>
+    )}
+  </section>
+
+  <!-- CTA -->
+  <section class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pb-16 text-center">
+    <div class="cta-card card-warm p-8 sm:p-10 rounded-xl relative overflow-hidden">
+      <div class="cta-glow"></div>
+      <h3 class="text-heading mb-3 relative">Want to learn, not just read?</h3>
+      <p class="text-[var(--color-text-secondary)] mb-6 max-w-md mx-auto relative">News keeps you current. Tutorials make you dangerous. Try a hands-on challenge or start a learning path.</p>
+      <div class="flex flex-col sm:flex-row items-center justify-center gap-3 relative">
+        <a href="/challenges/" class="inline-flex items-center px-6 py-3 rounded-full bg-[var(--color-text-primary)] text-white font-medium hover:bg-[var(--color-text-secondary)] transition-colors text-sm">
+          Try a challenge
+        </a>
+        <a href="/tutorials/" class="inline-flex items-center px-6 py-3 rounded-full border border-[var(--color-border)] text-[var(--color-text-secondary)] font-medium hover:border-[var(--color-border-strong)] transition-colors text-sm">
+          Browse tutorials
+        </a>
+      </div>
+    </div>
+  </section>
+
+</BaseLayout>
+
+<style>
+  .filter-btn {
+    transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .filter-btn:hover {
+    transform: translateY(-1px);
+  }
+
+  .cta-glow {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at 50% 0%, var(--color-clay-soft) 0%, transparent 60%);
+    opacity: 0;
+    transition: opacity 0.5s;
+  }
+  .cta-card:hover .cta-glow {
+    opacity: 0.5;
+  }
+</style>
+
+<script>
+  const buttons = document.querySelectorAll<HTMLButtonElement>('#articles-filter-bar [data-filter]');
+  const allCards = document.querySelectorAll<HTMLElement>('#articles-grid [data-collection]');
+
+  buttons.forEach((btn) => {
+    btn.addEventListener('click', () => {
+      buttons.forEach((b) => b.classList.remove('filter-active'));
+      btn.classList.add('filter-active');
+
+      const filter = btn.dataset.filter;
+      allCards.forEach((card) => {
+        if (filter === 'all' || card.dataset.collection === filter) {
+          card.style.display = '';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+    });
+  });
+</script>

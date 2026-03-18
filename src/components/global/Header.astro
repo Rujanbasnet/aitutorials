@@ -2,23 +2,24 @@
 import Search from './Search.astro';
 
 const navLinks = [
-  { label: 'Start Here', href: '/start/', highlight: true },
   { label: 'Tutorials', href: '/tutorials/' },
-  { label: 'News', href: '/news/' },
-  { label: 'Tools', href: '/tools/' },
-  { label: 'Products', href: '/products/' },
-];
-
-const moreLinks = [
-  { label: 'Blog', href: '/blog/' },
-  { label: 'Challenges', href: '/challenges/' },
-  { label: 'Non-Coder', href: '/non-coder/' },
-  { label: 'Resources', href: '/resources/' },
-  { label: 'Learning Paths', href: '/paths/' },
+  { label: 'News & Blogs', href: '/articles/' },
+  { label: 'Tools & Products', href: '/discover/' },
   { label: 'About', href: '/about/' },
 ];
 
 const currentPath = Astro.url.pathname;
+
+// Sub-route matching for active highlighting
+function isActive(href: string): boolean {
+  if (href === '/articles/') {
+    return currentPath.startsWith('/articles/') || currentPath.startsWith('/news/') || currentPath.startsWith('/blog/');
+  }
+  if (href === '/discover/') {
+    return currentPath.startsWith('/discover/') || currentPath.startsWith('/tools/') || currentPath.startsWith('/products/');
+  }
+  return currentPath.startsWith(href);
+}
 ---
 
 <header class="glass-nav fixed top-0 left-0 right-0 z-50">
@@ -40,54 +41,22 @@ const currentPath = Astro.url.pathname;
     <!-- Desktop Nav -->
     <div class="hidden md:flex items-center gap-0.5">
       {navLinks.map((link) => {
-        const isActive = currentPath.startsWith(link.href);
+        const active = isActive(link.href);
         return (
           <a
             href={link.href}
             class:list={[
               'nav-link px-3 py-1.5 text-sm rounded-lg transition-all hover-line',
-              isActive
+              active
                 ? 'nav-active font-semibold'
-                : link.highlight
-                  ? 'font-semibold text-[var(--color-accent)] hover:bg-[var(--color-accent-soft)]'
-                  : 'font-medium text-[var(--color-text-muted)] hover:text-[var(--color-text-primary)]',
+                : 'font-medium text-[var(--color-text-muted)] hover:text-[var(--color-text-primary)]',
             ]}
-            style={isActive ? 'color: var(--color-accent);' : undefined}
+            style={active ? 'color: var(--color-accent);' : undefined}
           >
             {link.label}
           </a>
         );
       })}
-
-      <!-- More dropdown -->
-      <div class="nav-dropdown-wrap relative">
-        <button
-          class="nav-link px-3 py-1.5 text-sm font-medium text-[var(--color-text-muted)] hover:text-[var(--color-text-primary)] transition-colors rounded-lg flex items-center gap-1"
-          id="nav-more-btn"
-          aria-expanded="false"
-        >
-          More
-          <svg class="w-3.5 h-3.5 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
-          </svg>
-        </button>
-        <div id="nav-more-menu" class="nav-dropdown hidden">
-          {moreLinks.map((link) => {
-            const isActive = currentPath.startsWith(link.href);
-            return (
-              <a
-                href={link.href}
-                class:list={[
-                  'nav-dropdown__item',
-                  isActive && 'nav-dropdown__item--active',
-                ]}
-              >
-                {link.label}
-              </a>
-            );
-          })}
-        </div>
-      </div>
     </div>
 
     <!-- Actions -->
@@ -120,7 +89,7 @@ const currentPath = Astro.url.pathname;
           href={link.href}
           class:list={[
             'block px-4 py-2.5 rounded-lg text-sm font-medium transition-colors',
-            currentPath.startsWith(link.href)
+            isActive(link.href)
               ? 'text-[var(--color-accent)] bg-[var(--color-accent-soft)]'
               : 'text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)] hover:bg-[var(--color-bg-warm)]',
           ]}
@@ -128,22 +97,6 @@ const currentPath = Astro.url.pathname;
           {link.label}
         </a>
       ))}
-      <div class="pt-2 mt-2 border-t border-[var(--color-border)]">
-        <p class="px-4 py-1.5 text-xs font-semibold uppercase tracking-wider text-[var(--color-text-muted)]">More</p>
-        {moreLinks.map((link) => (
-          <a
-            href={link.href}
-            class:list={[
-              'block px-4 py-2 rounded-lg text-sm font-medium transition-colors',
-              currentPath.startsWith(link.href)
-                ? 'text-[var(--color-accent)] bg-[var(--color-accent-soft)]'
-                : 'text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)] hover:bg-[var(--color-bg-warm)]',
-            ]}
-          >
-            {link.label}
-          </a>
-        ))}
-      </div>
       <a href="/newsletter/" class="block px-4 py-2.5 rounded-lg text-sm font-medium text-[var(--color-accent)]">
         Subscribe
       </a>
@@ -198,42 +151,6 @@ const currentPath = Astro.url.pathname;
     background: var(--color-accent);
     border-radius: 1px;
   }
-
-  /* Dropdown */
-  .nav-dropdown {
-    position: absolute;
-    top: calc(100% + 8px);
-    right: 0;
-    min-width: 180px;
-    padding: 6px;
-    border-radius: 14px;
-    background: var(--color-bg-card);
-    border: 1px solid var(--color-border);
-    box-shadow: 0 12px 40px rgba(20,20,19,0.12), 0 0 0 1px rgba(20,20,19,0.03);
-    z-index: 100;
-    animation: dropdown-in 0.2s ease;
-  }
-  @keyframes dropdown-in {
-    from { opacity: 0; transform: translateY(-8px) scale(0.96); }
-    to { opacity: 1; transform: translateY(0) scale(1); }
-  }
-  .nav-dropdown__item {
-    display: block;
-    padding: 8px 14px;
-    font-size: 0.8125rem;
-    font-weight: 500;
-    color: var(--color-text-secondary);
-    border-radius: 8px;
-    transition: all 0.15s;
-  }
-  .nav-dropdown__item:hover {
-    background: var(--color-bg-warm);
-    color: var(--color-text-primary);
-  }
-  .nav-dropdown__item--active {
-    color: var(--color-accent);
-    background: var(--color-accent-soft);
-  }
 </style>
 
 <script>
@@ -241,28 +158,4 @@ const currentPath = Astro.url.pathname;
   const menuBtn = document.getElementById('mobile-menu-btn')!;
   const mobileMenu = document.getElementById('mobile-menu')!;
   menuBtn.addEventListener('click', () => mobileMenu.classList.toggle('hidden'));
-
-  // Desktop "More" dropdown
-  const moreBtn = document.getElementById('nav-more-btn')!;
-  const moreMenu = document.getElementById('nav-more-menu')!;
-
-  moreBtn.addEventListener('click', (e) => {
-    e.stopPropagation();
-    const isOpen = !moreMenu.classList.contains('hidden');
-    moreMenu.classList.toggle('hidden');
-    moreBtn.setAttribute('aria-expanded', String(!isOpen));
-    const chevron = moreBtn.querySelector('svg');
-    if (chevron) chevron.style.transform = isOpen ? '' : 'rotate(180deg)';
-  });
-
-  // Close dropdown on outside click
-  document.addEventListener('click', () => {
-    moreMenu.classList.add('hidden');
-    moreBtn.setAttribute('aria-expanded', 'false');
-    const chevron = moreBtn.querySelector('svg');
-    if (chevron) chevron.style.transform = '';
-  });
-
-  // Prevent dropdown from closing when clicking inside it
-  moreMenu.addEventListener('click', (e) => e.stopPropagation());
 </script>
