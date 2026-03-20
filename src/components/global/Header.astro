@@ -1,16 +1,12 @@
 ---
 import Search from './Search.astro';
-
-const navLinks = [
-  { label: 'Tutorials', href: '/tutorials/' },
-  { label: 'News & Blogs', href: '/articles/' },
-  { label: 'Tools & Products', href: '/discover/' },
-  { label: 'About', href: '/about/' },
-];
+import NavDropdown from './NavDropdown.astro';
 
 const currentPath = Astro.url.pathname;
 
-// Sub-route matching for active highlighting
+const learnPrefixes = ['/tutorials/', '/challenges/', '/paths/', '/non-coder/', '/resources/'];
+const isLearnActive = learnPrefixes.some(prefix => currentPath.startsWith(prefix));
+
 function isActive(href: string): boolean {
   if (href === '/articles/') {
     return currentPath.startsWith('/articles/') || currentPath.startsWith('/news/') || currentPath.startsWith('/blog/');
@@ -40,23 +36,69 @@ function isActive(href: string): boolean {
 
     <!-- Desktop Nav -->
     <div class="hidden md:flex items-center gap-0.5">
-      {navLinks.map((link) => {
-        const active = isActive(link.href);
-        return (
-          <a
-            href={link.href}
-            class:list={[
-              'nav-link px-3 py-1.5 text-sm rounded-lg transition-all hover-line',
-              active
-                ? 'nav-active font-semibold'
-                : 'font-medium text-[var(--color-text-muted)] hover:text-[var(--color-text-primary)]',
-            ]}
-            style={active ? 'color: var(--color-accent);' : undefined}
-          >
-            {link.label}
-          </a>
-        );
-      })}
+      <!-- Start Here -->
+      <a
+        href="/start/"
+        class:list={[
+          'nav-link nav-start px-3 py-1.5 text-sm rounded-lg transition-all',
+          isActive('/start/')
+            ? 'nav-active font-semibold'
+            : 'font-semibold',
+        ]}
+        style="color: var(--color-accent);"
+      >
+        Start Here
+      </a>
+
+      <!-- Learn (dropdown trigger) -->
+      <div class="relative" id="learn-trigger-wrap">
+        <button
+          class:list={[
+            'nav-link px-3 py-1.5 text-sm rounded-lg transition-all hover-line flex items-center gap-1 cursor-pointer',
+            isLearnActive
+              ? 'nav-active font-semibold'
+              : 'font-medium text-[var(--color-text-muted)] hover:text-[var(--color-text-primary)]',
+          ]}
+          style={isLearnActive ? 'color: var(--color-accent);' : undefined}
+          aria-expanded="false"
+          aria-haspopup="true"
+          id="learn-trigger"
+        >
+          Learn
+          <svg class="nav-chevron w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
+          </svg>
+        </button>
+        <NavDropdown currentPath={currentPath} />
+      </div>
+
+      <!-- News -->
+      <a
+        href="/articles/"
+        class:list={[
+          'nav-link px-3 py-1.5 text-sm rounded-lg transition-all hover-line',
+          isActive('/articles/')
+            ? 'nav-active font-semibold'
+            : 'font-medium text-[var(--color-text-muted)] hover:text-[var(--color-text-primary)]',
+        ]}
+        style={isActive('/articles/') ? 'color: var(--color-accent);' : undefined}
+      >
+        News
+      </a>
+
+      <!-- Tools -->
+      <a
+        href="/discover/"
+        class:list={[
+          'nav-link px-3 py-1.5 text-sm rounded-lg transition-all hover-line',
+          isActive('/discover/')
+            ? 'nav-active font-semibold'
+            : 'font-medium text-[var(--color-text-muted)] hover:text-[var(--color-text-primary)]',
+        ]}
+        style={isActive('/discover/') ? 'color: var(--color-accent);' : undefined}
+      >
+        Tools
+      </a>
     </div>
 
     <!-- Actions -->
@@ -84,19 +126,84 @@ function isActive(href: string): boolean {
   <!-- Mobile Nav -->
   <div id="mobile-menu" class="md:hidden hidden border-t border-[var(--color-border)]">
     <div class="px-4 py-3 space-y-0.5">
-      {navLinks.map((link) => (
-        <a
-          href={link.href}
+      <!-- Start Here -->
+      <a
+        href="/start/"
+        class:list={[
+          'block px-4 py-2.5 rounded-lg text-sm font-semibold transition-colors',
+          isActive('/start/')
+            ? 'bg-[var(--color-accent-soft)]'
+            : 'hover:bg-[var(--color-bg-warm)]',
+        ]}
+        style="color: var(--color-accent);"
+      >
+        Start Here
+      </a>
+
+      <!-- Learn (accordion) -->
+      <div>
+        <button
           class:list={[
-            'block px-4 py-2.5 rounded-lg text-sm font-medium transition-colors',
-            isActive(link.href)
-              ? 'text-[var(--color-accent)] bg-[var(--color-accent-soft)]'
-              : 'text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)] hover:bg-[var(--color-bg-warm)]',
+            'flex items-center justify-between w-full px-4 py-2.5 rounded-lg text-sm font-medium transition-colors cursor-pointer',
+            isLearnActive
+              ? 'bg-[var(--color-accent-soft)]'
+              : 'hover:text-[var(--color-text-primary)] hover:bg-[var(--color-bg-warm)]',
           ]}
+          style={isLearnActive ? 'color: var(--color-accent);' : 'color: var(--color-text-secondary);'}
+          aria-expanded="false"
+          id="mobile-learn-toggle"
         >
-          {link.label}
-        </a>
-      ))}
+          Learn
+          <svg class="mobile-learn-chevron w-4 h-4 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
+          </svg>
+        </button>
+        <div class="mobile-learn-items hidden ml-4 mt-0.5 mb-1 border-l-2 border-[var(--color-border)]" id="mobile-learn-items">
+          <a href="/challenges/" class="block px-4 py-2 rounded-lg text-sm transition-colors hover:text-[var(--color-text-primary)]" style={currentPath.startsWith('/challenges/') ? 'color: var(--color-accent); font-weight: 500;' : 'color: var(--color-text-secondary);'}>
+            Try It Yourself
+          </a>
+          <a href="/non-coder/" class="block px-4 py-2 rounded-lg text-sm transition-colors hover:text-[var(--color-text-primary)]" style={currentPath.startsWith('/non-coder/') ? 'color: var(--color-accent); font-weight: 500;' : 'color: var(--color-text-secondary);'}>
+            Non-Coder Guides
+          </a>
+          <a href="/paths/" class="block px-4 py-2 rounded-lg text-sm transition-colors hover:text-[var(--color-text-primary)]" style={currentPath.startsWith('/paths/') ? 'color: var(--color-accent); font-weight: 500;' : 'color: var(--color-text-secondary);'}>
+            Learning Paths
+          </a>
+          <a href="/tutorials/" class="block px-4 py-2 rounded-lg text-sm transition-colors hover:text-[var(--color-text-primary)]" style={currentPath.startsWith('/tutorials/') ? 'color: var(--color-accent); font-weight: 500;' : 'color: var(--color-text-secondary);'}>
+            Tutorials
+          </a>
+          <a href="/resources/" class="block px-4 py-2 rounded-lg text-sm transition-colors hover:text-[var(--color-text-primary)]" style={currentPath.startsWith('/resources/') ? 'color: var(--color-accent); font-weight: 500;' : 'color: var(--color-text-secondary);'}>
+            Resources
+          </a>
+        </div>
+      </div>
+
+      <!-- News -->
+      <a
+        href="/articles/"
+        class:list={[
+          'block px-4 py-2.5 rounded-lg text-sm font-medium transition-colors',
+          isActive('/articles/')
+            ? 'text-[var(--color-accent)] bg-[var(--color-accent-soft)]'
+            : 'text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)] hover:bg-[var(--color-bg-warm)]',
+        ]}
+      >
+        News
+      </a>
+
+      <!-- Tools -->
+      <a
+        href="/discover/"
+        class:list={[
+          'block px-4 py-2.5 rounded-lg text-sm font-medium transition-colors',
+          isActive('/discover/')
+            ? 'text-[var(--color-accent)] bg-[var(--color-accent-soft)]'
+            : 'text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)] hover:bg-[var(--color-bg-warm)]',
+        ]}
+      >
+        Tools
+      </a>
+
+      <!-- Subscribe -->
       <a href="/newsletter/" class="block px-4 py-2.5 rounded-lg text-sm font-medium text-[var(--color-accent)]">
         Subscribe
       </a>
@@ -151,11 +258,120 @@ function isActive(href: string): boolean {
     background: var(--color-accent);
     border-radius: 1px;
   }
+
+  .nav-chevron {
+    transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  button[aria-expanded="true"] .nav-chevron {
+    transform: rotate(180deg);
+  }
+
+  .mobile-learn-chevron {
+    transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  button[aria-expanded="true"] .mobile-learn-chevron {
+    transform: rotate(180deg);
+  }
 </style>
 
 <script>
-  // Mobile menu
+  // Mobile menu toggle
   const menuBtn = document.getElementById('mobile-menu-btn')!;
   const mobileMenu = document.getElementById('mobile-menu')!;
   menuBtn.addEventListener('click', () => mobileMenu.classList.toggle('hidden'));
+
+  // Mobile Learn accordion
+  const mobileToggle = document.getElementById('mobile-learn-toggle');
+  const mobileItems = document.getElementById('mobile-learn-items');
+  mobileToggle?.addEventListener('click', () => {
+    const expanded = mobileToggle.getAttribute('aria-expanded') === 'true';
+    mobileToggle.setAttribute('aria-expanded', String(!expanded));
+    mobileItems?.classList.toggle('hidden');
+  });
+
+  // Desktop Learn dropdown
+  const learnWrap = document.getElementById('learn-trigger-wrap');
+  const learnBtn = document.getElementById('learn-trigger');
+  const dropdown = document.getElementById('learn-dropdown');
+
+  if (learnWrap && learnBtn && dropdown) {
+    let openTimeout: ReturnType<typeof setTimeout> | null = null;
+    let closeTimeout: ReturnType<typeof setTimeout> | null = null;
+
+    function openDropdown() {
+      if (closeTimeout) clearTimeout(closeTimeout);
+      openTimeout = setTimeout(() => {
+        dropdown.classList.add('is-open');
+        learnBtn.setAttribute('aria-expanded', 'true');
+      }, 80);
+    }
+
+    function closeDropdown() {
+      if (openTimeout) clearTimeout(openTimeout);
+      closeTimeout = setTimeout(() => {
+        dropdown.classList.remove('is-open');
+        learnBtn.setAttribute('aria-expanded', 'false');
+      }, 150);
+    }
+
+    function closeImmediate() {
+      if (openTimeout) clearTimeout(openTimeout);
+      if (closeTimeout) clearTimeout(closeTimeout);
+      dropdown.classList.remove('is-open');
+      learnBtn.setAttribute('aria-expanded', 'false');
+    }
+
+    // Hover
+    learnWrap.addEventListener('mouseenter', openDropdown);
+    learnWrap.addEventListener('mouseleave', closeDropdown);
+
+    // Click (accessibility + touch)
+    learnBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      const isOpen = dropdown.classList.contains('is-open');
+      if (isOpen) {
+        closeImmediate();
+      } else {
+        if (closeTimeout) clearTimeout(closeTimeout);
+        dropdown.classList.add('is-open');
+        learnBtn.setAttribute('aria-expanded', 'true');
+        const firstItem = dropdown.querySelector<HTMLElement>('[role="menuitem"]');
+        firstItem?.focus();
+      }
+    });
+
+    // Escape closes
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && dropdown.classList.contains('is-open')) {
+        closeImmediate();
+        learnBtn.focus();
+      }
+    });
+
+    // Arrow keys within dropdown
+    dropdown.addEventListener('keydown', (e) => {
+      const items = [...dropdown.querySelectorAll<HTMLElement>('[role="menuitem"]')];
+      const current = document.activeElement as HTMLElement;
+      const index = items.indexOf(current);
+
+      if (e.key === 'ArrowDown') {
+        e.preventDefault();
+        const next = items[index + 1] || items[0];
+        next.focus();
+      } else if (e.key === 'ArrowUp') {
+        e.preventDefault();
+        const prev = items[index - 1] || items[items.length - 1];
+        prev.focus();
+      } else if (e.key === 'Tab') {
+        closeImmediate();
+      }
+    });
+
+    // Click outside closes
+    document.addEventListener('click', (e) => {
+      if (!learnWrap.contains(e.target as Node)) {
+        closeImmediate();
+      }
+    });
+  }
 </script>

@@ -1,0 +1,114 @@
+---
+interface Props {
+  currentPath: string;
+}
+
+const { currentPath } = Astro.props;
+
+const items = [
+  { label: 'Try It Yourself', description: 'Hands-on challenges — no coding needed', href: '/challenges/', color: 'var(--color-sage)' },
+  { label: 'Non-Coder Guides', description: 'AI explained in plain language', href: '/non-coder/', color: 'var(--color-accent)' },
+  { label: 'Learning Paths', description: 'Step-by-step guided courses', href: '/paths/', color: 'var(--color-clay)' },
+  { label: 'Tutorials', description: 'In-depth how-to articles', href: '/tutorials/', color: 'var(--color-text-muted)' },
+  { label: 'Resources', description: 'Cheatsheets, templates & references', href: '/resources/', color: 'var(--color-border-strong)' },
+];
+---
+
+<div class="nav-dropdown" id="learn-dropdown" role="menu" aria-label="Learn submenu">
+  {items.map((item) => {
+    const active = currentPath.startsWith(item.href);
+    return (
+      <a
+        href={item.href}
+        class:list={['nav-dropdown__item', active && 'nav-dropdown__item--active']}
+        role="menuitem"
+        tabindex="-1"
+      >
+        <span class="nav-dropdown__dot" style={`background: ${item.color};`}></span>
+        <span class="nav-dropdown__text">
+          <span class="nav-dropdown__label">{item.label}</span>
+          <span class="nav-dropdown__desc">{item.description}</span>
+        </span>
+      </a>
+    );
+  })}
+</div>
+
+<style>
+  .nav-dropdown {
+    position: absolute;
+    top: calc(100% + 8px);
+    left: 50%;
+    transform: translateX(-50%) translateY(8px);
+    width: 300px;
+    background: var(--color-bg-card);
+    border: 1px solid var(--color-border);
+    border-radius: 16px;
+    box-shadow: 0 16px 48px rgba(20, 20, 19, 0.1), 0 2px 8px rgba(20, 20, 19, 0.04);
+    padding: 8px;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.2s cubic-bezier(0.16, 1, 0.3, 1),
+                transform 0.2s cubic-bezier(0.16, 1, 0.3, 1),
+                visibility 0.2s;
+    z-index: 60;
+  }
+
+  .nav-dropdown.is-open {
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(-50%) translateY(0);
+  }
+
+  .nav-dropdown__item {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 10px 14px;
+    border-radius: 10px;
+    transition: background 0.15s;
+    text-decoration: none;
+  }
+
+  .nav-dropdown__item:hover {
+    background: var(--color-bg-warm);
+  }
+
+  .nav-dropdown__item--active {
+    background: var(--color-bg-warm);
+  }
+
+  .nav-dropdown__dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    margin-top: 6px;
+  }
+
+  .nav-dropdown__label {
+    display: block;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--color-text-primary);
+    line-height: 1.3;
+  }
+
+  .nav-dropdown__item--active .nav-dropdown__label {
+    color: var(--color-accent);
+  }
+
+  .nav-dropdown__desc {
+    display: block;
+    font-size: 0.75rem;
+    color: var(--color-text-muted);
+    line-height: 1.4;
+    margin-top: 2px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .nav-dropdown {
+      transition: opacity 0.1s, visibility 0.1s;
+    }
+  }
+</style>
