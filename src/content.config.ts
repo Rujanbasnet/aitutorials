@@ -12,6 +12,13 @@ const baseSchema = z.object({
   imageAlt: z.string().optional(),
   tags: z.array(z.string()).default([]),
   draft: z.boolean().default(false),
+  // SEO: Short 2-3 sentence answer for AI citation engines + featured snippets
+  quickAnswer: z.string().optional(),
+  // SEO: FAQ pairs for FAQPage schema + visible FAQ section
+  faqs: z.array(z.object({
+    question: z.string(),
+    answer: z.string(),
+  })).optional(),
 });
 
 const tutorials = defineCollection({

@@ -9,7 +9,9 @@ interface Props {
   image?: string;
   type?: 'website' | 'article';
   pubDate?: Date;
+  updatedDate?: Date;
   author?: string;
+  noindex?: boolean;
 }
 
 const {
@@ -18,7 +20,9 @@ const {
   image = '/images/brand/og-default.png',
   type = 'website',
   pubDate,
+  updatedDate,
   author,
+  noindex = false,
 } = Astro.props;
 
 const canonicalUrl = new URL(Astro.url.pathname, Astro.site);
@@ -36,6 +40,7 @@ const fullTitle = title === 'AI Tutorials' ? title : `${title} | AI Tutorials`;
     <title>{fullTitle}</title>
     <meta name="description" content={description} />
     <meta name="generator" content={Astro.generator} />
+    {noindex && <meta name="robots" content="noindex, follow" />}
 
     <meta property="og:type" content={type} />
     <meta property="og:url" content={canonicalUrl} />
