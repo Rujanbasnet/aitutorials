@@ -1,0 +1,49 @@
+---
+title: "Cursor Launches Composer 2 — Its First In-House AI Coding Model"
+description: "Cursor's Composer 2 is a new agentic coding model that handles multi-file tasks autonomously, costs 86% less than its predecessor, and sparked controversy over its Chinese AI origins."
+pubDate: 2026-03-24
+author: "AI Tutorials"
+quickAnswer: "Cursor released Composer 2 on March 19, 2026 — its first in-house AI coding model. Built on Moonshot AI's open-source Kimi K2.5, it handles long, multi-file coding tasks autonomously, outperforms Claude Opus 4.6 on several benchmarks, and costs roughly 86% less than Cursor's previous model. The release sparked debate after Cursor admitted the model's Chinese AI origins."
+faqs:
+  - question: "What is Cursor Composer 2?"
+    answer: "Composer 2 is Cursor's first proprietary AI coding model, released March 19, 2026. It's an agentic model that can autonomously plan, edit multiple files, run terminal commands, and debug code within your project — going far beyond simple code suggestions."
+  - question: "How much does Cursor Composer 2 cost?"
+    answer: "Composer 2 Standard costs $0.50/$2.50 per million input/output tokens, while Composer 2 Fast costs $1.50/$7.50. That's roughly 86% cheaper than the previous Composer 1.5, and 3–10x cheaper than Claude Opus 4.6 or GPT-5.4."
+  - question: "Is Cursor Composer 2 based on a Chinese AI model?"
+    answer: "Yes. On March 22, Cursor confirmed that Composer 2 is built on Moonshot AI's open-source Kimi K2.5, a Chinese large language model. Cursor fine-tuned it with extended pre-training and reinforcement learning on coding tasks. The delayed disclosure sparked industry debate about AI model transparency."
+  - question: "How does Composer 2 compare to Claude and GPT?"
+    answer: "On CursorBench, Composer 2 scores 61.3 — outperforming Claude Opus 4.6 but trailing GPT-5.4's higher configurations. On SWE-bench Multilingual it scores 73.7, a significant jump from the previous 65.9. Its main advantage is cost: it's dramatically cheaper per token."
+  - question: "Do I need a paid Cursor plan to use Composer 2?"
+    answer: "Composer 2 is available on all Cursor plans including the free Hobby tier. Pro ($20/mo), Pro+ ($60/mo), and Ultra ($200/mo) plans include higher usage allowances."
+tags: ["ai-tools", "developer-tools", "coding-with-ai", "model-release"]
+category: "product-launch"
+source: "Cursor"
+sourceUrl: "https://cursor.com/blog/composer-2"
+draft: false
+---
+
+Cursor, the AI-powered code editor used by over a million developers daily, just shipped its most significant update yet: **Composer 2**, the company's first in-house AI model built specifically for writing code.
+
+Released on March 19, Composer 2 isn't just another coding assistant that suggests the next line. It's an *agentic* model — meaning it can take a high-level instruction, plan an approach, edit files across your entire project, run terminal commands, and iterate on its own work. Think of it less as autocomplete and more as a junior developer that can handle multi-step tasks.
+
+## What Makes It Different
+
+Previous versions of Cursor relied entirely on third-party models like Claude and GPT. Composer 2 is the first model Cursor has trained itself, giving the company direct control over how it behaves inside its editor.
+
+The results are measurable. On SWE-bench Multilingual — a standard test for AI coding ability — Composer 2 scores 73.7, up from 65.9 on the previous version. It outperforms Claude Opus 4.6 on Cursor's own benchmark, though it still trails GPT-5.4 at higher configurations.
+
+The biggest practical difference is cost: Composer 2 is roughly **86% cheaper** than its predecessor. Standard pricing sits at $0.50 per million input tokens and $2.50 per million output tokens — a fraction of what frontier models charge.
+
+## The Controversy
+
+Three days after launch, [VentureBeat reported](https://venturebeat.com/technology/cursors-composer-2-was-secretly-built-on-a-chinese-ai-model-and-it-exposes-a/) that Composer 2 was built on top of **Moonshot AI's Kimi K2.5**, an open-source model from a Chinese AI lab. Cursor confirmed this on March 22, explaining that it used Kimi K2.5 as a base and applied extended pre-training and reinforcement learning on long-horizon coding tasks.
+
+The disclosure raised questions about transparency in AI model supply chains. Enterprise customers, in particular, want to know what's running under the hood — especially when it involves code that touches proprietary systems. Cursor has since been more explicit about the model's provenance, but the episode highlights an industry-wide gap in how AI companies communicate model origins.
+
+## What This Means for You
+
+If you use [Cursor](/blog/claude-code-vs-cursor/) — or you've been considering it — Composer 2 makes the free and paid tiers significantly more capable. The agentic workflow means you can describe a task like "add authentication to this API" and watch it plan and execute across multiple files, rather than prompting one file at a time.
+
+It's available now on all plans, including Cursor's free Hobby tier. The model runs up to eight parallel agents in [Cursor 2.0's architecture](https://cursor.com/changelog), making it practical for larger refactors and multi-file features.
+
+For developers already using AI coding tools, Composer 2 is worth testing — the performance-to-cost ratio is hard to beat. For everyone else watching the AI space, the real story may be the transparency question: as AI tools become infrastructure, knowing what model powers your tools matters more than ever.
