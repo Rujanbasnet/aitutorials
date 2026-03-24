@@ -1,0 +1,78 @@
+---
+interface Props {
+  videoId: string;
+  title: string;
+}
+
+const { videoId, title } = Astro.props;
+const thumbnailUrl = `https://i.ytimg.com/vi/${videoId}/maxresdefault.jpg`;
+const embedUrl = `https://www.youtube-nocookie.com/embed/${videoId}?autoplay=1`;
+const watchUrl = `https://www.youtube.com/watch?v=${videoId}`;
+const uniqueId = `yt-${videoId}`;
+---
+
+<div class="my-8 not-prose">
+  <div
+    id={uniqueId}
+    class="relative w-full rounded-xl overflow-hidden bg-black cursor-pointer group"
+    style="aspect-ratio: 16/9;"
+    data-embed-url={embedUrl}
+  >
+    {/* Thumbnail */}
+    <img
+      src={thumbnailUrl}
+      alt={`Video: ${title}`}
+      class="absolute inset-0 w-full h-full object-cover group-hover:opacity-80 transition-opacity duration-300"
+      loading="lazy"
+    />
+
+    {/* Play button overlay */}
+    <div class="absolute inset-0 flex items-center justify-center">
+      <div class="w-16 h-16 sm:w-20 sm:h-20 bg-red-600 rounded-2xl flex items-center justify-center shadow-lg group-hover:bg-red-700 group-hover:scale-110 transition-all duration-300">
+        <svg class="w-7 h-7 sm:w-9 sm:h-9 text-white ml-1" fill="currentColor" viewBox="0 0 24 24">
+          <path d="M8 5v14l11-7z" />
+        </svg>
+      </div>
+    </div>
+
+    {/* Title bar */}
+    <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-4 pt-10">
+      <p class="text-white text-sm font-medium truncate">{title}</p>
+    </div>
+  </div>
+
+  <p class="mt-2 text-xs text-[var(--color-text-muted)]">
+    <a href={watchUrl} target="_blank" rel="noopener" class="hover:text-[var(--color-accent)] transition-colors">
+      Watch on YouTube
+    </a>
+  </p>
+
+  {/* VideoObject structured data */}
+  <script type="application/ld+json" set:html={JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "VideoObject",
+    "name": title,
+    "thumbnailUrl": thumbnailUrl,
+    "embedUrl": `https://www.youtube-nocookie.com/embed/${videoId}`,
+    "contentUrl": watchUrl,
+  })} />
+</div>
+
+<script define:vars={{ uniqueId, embedUrl }}>
+  // Facade: replace thumbnail with iframe on click
+  const container = document.getElementById(uniqueId);
+  if (container) {
+    container.addEventListener('click', function handleClick() {
+      const iframe = document.createElement('iframe');
+      iframe.src = embedUrl;
+      iframe.title = container.querySelector('img')?.alt || 'YouTube video';
+      iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture';
+      iframe.allowFullscreen = true;
+      iframe.style.cssText = 'position:absolute;inset:0;width:100%;height:100%;border:none;';
+      container.innerHTML = '';
+      container.style.cursor = 'default';
+      container.appendChild(iframe);
+      container.removeEventListener('click', handleClick);
+    });
+  }
+</script>

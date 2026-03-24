@@ -12,6 +12,8 @@ const baseSchema = z.object({
   imageAlt: z.string().optional(),
   tags: z.array(z.string()).default([]),
   draft: z.boolean().default(false),
+  // YouTube video ID for embedded video (e.g., 'dQw4w9WgXcQ')
+  videoId: z.string().optional(),
   // SEO: Short 2-3 sentence answer for AI citation engines + featured snippets
   quickAnswer: z.string().optional(),
   // SEO: FAQ pairs for FAQPage schema + visible FAQ section

@@ -2,7 +2,7 @@
   "version": "0.0.1",
   "configurations": [
     {
-      "name": "synthlab-dev",
+      "name": "aitutorials-dev",
       "runtimeExecutable": "C:\\Program Files\\nodejs\\npx.cmd",
       "runtimeArgs": ["astro", "dev"],
       "port": 4321

@@ -147,7 +147,7 @@
     "description": "Best-in-class AI voice synthesis. Clone voices, generate narration, and create realistic speech from text.",
     "category": "Audio",
     "url": "https://elevenlabs.io",
-    "affiliateUrl": null,
+    "affiliateUrl": "https://try.elevenlabs.io/oihzdmiepi30",
     "pricing": "Freemium",
     "pricingDetail": "Free / $5/mo Starter",
     "trending": true,
@@ -264,7 +264,7 @@
     "description": "Visual no-code automation platform. Connect 1500+ apps with AI-powered workflows and scenarios.",
     "category": "Automation",
     "url": "https://make.com",
-    "affiliateUrl": null,
+    "affiliateUrl": "https://www.make.com/en/register?pc=aitutorials",
     "pricing": "Freemium",
     "pricingDetail": "Free / $9/mo Core",
     "trending": false,
@@ -309,6 +309,19 @@
     "trending": true,
     "new": true,
     "dateAdded": "2026-03-08",
+    "image": null
+  },
+  {
+    "name": "Systeme.io",
+    "description": "All-in-one business platform — build courses, email lists, sales funnels, and websites without coding. Everything a creator needs in one tool.",
+    "category": "Productivity",
+    "url": "https://systeme.io",
+    "affiliateUrl": "https://systeme.io/?sa=sa02668283731f71c02e0b7a88c60d956c3d9a495f",
+    "pricing": "Freemium",
+    "pricingDetail": "Free / $27/mo Startup",
+    "trending": false,
+    "new": true,
+    "dateAdded": "2026-03-23",
     "image": null
   }
 ]
