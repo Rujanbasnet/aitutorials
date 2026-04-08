@@ -21,6 +21,11 @@ const baseSchema = z.object({
     question: z.string(),
     answer: z.string(),
   })).optional(),
+  // AEO: HowTo steps for tutorial/guide schema markup
+  steps: z.array(z.object({
+    name: z.string(),
+    text: z.string(),
+  })).optional(),
 });
 
 const tutorials = defineCollection({

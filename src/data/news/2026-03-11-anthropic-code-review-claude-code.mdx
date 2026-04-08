@@ -2,7 +2,14 @@
 title: "Anthropic Launches AI Code Review That Uses Parallel Agents"
 description: "Anthropic's new Code Review feature sends multiple AI agents to inspect your pull requests, catching bugs human reviewers miss."
 pubDate: 2026-03-11
+updatedDate: 2026-04-09
 author: "AI Tutorials"
+quickAnswer: "Anthropic launched Code Review for Claude Code, a feature that sends multiple parallel AI agents to inspect GitHub pull requests. Each agent examines code from a different angle (logic errors, security, cross-file regressions), then a critic component filters noise and ranks issues by severity before posting comments."
+faqs:
+  - question: "What is Anthropic's AI Code Review?"
+    answer: "Code Review for Claude Code dispatches multiple AI agents in parallel to inspect GitHub pull requests. Each agent examines different aspects (logic errors, security, parameter handling, cross-file regressions). A critic component validates findings, filters noise, and ranks issues by severity."
+  - question: "How is AI code review different from linting?"
+    answer: "Linting checks style and syntax rules. Anthropic's Code Review uses 'repository-aware reasoning' to understand your codebase's architecture and catch subtle bugs -- like a change in one file breaking something three files away. It finds semantic issues, not just style violations."
 tags: ["anthropic", "claude", "code-review", "ai-tools", "developer-tools", "github"]
 draft: false
 category: "product-launch"

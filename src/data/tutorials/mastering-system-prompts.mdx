@@ -20,6 +20,19 @@ faqs:
     answer: "Yes. ChatGPT supports system prompts via the API and Custom Instructions. Claude supports them via the API's system parameter. In both web interfaces, you can approximate system prompts by putting instructions in your first message, though API access gives you true system prompt control."
   - question: "What's the difference between a system prompt and a regular prompt?"
     answer: "A system prompt sets persistent behavior for the entire conversation (role, rules, format). A regular prompt is a single user message asking for a specific task. System prompts are invisible to the conversation flow and shape how the AI interprets every subsequent message."
+steps:
+  - name: "Define the AI's role"
+    text: "Start your system prompt with a clear role: 'You are a senior Python developer with 10 years of experience building production web applications.'"
+  - name: "Set the task context"
+    text: "Explain what the AI will be doing in this conversation: 'You will be reviewing code submitted by junior developers. Your goal is to provide constructive, actionable feedback.'"
+  - name: "Add constraints and rules"
+    text: "Set 3-7 behavioral rules: what to always do, what to never do, and how to handle edge cases. For example: 'Always explain WHY, not just what. Never rewrite entire functions.'"
+  - name: "Specify output format"
+    text: "Define exactly how responses should be structured: 'Format as Summary, Issues Found (with severity), and Suggested Changes with code snippets.'"
+  - name: "Add examples (optional)"
+    text: "Include 1-2 examples of ideal responses. This is called few-shot prompting and dramatically improves consistency."
+  - name: "Test with edge cases"
+    text: "Run your system prompt against normal inputs, unusual requests, ambiguous inputs, and adversarial attempts. Iterate until outputs are consistent."
 ---
 
 ## What Is a System Prompt?

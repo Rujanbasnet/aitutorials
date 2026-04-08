@@ -1,0 +1,102 @@
+---
+title: "What is RAG? Retrieval-Augmented Generation Explained Simply"
+description: "RAG is how AI tools give accurate, up-to-date answers by looking things up before responding. Here's what it means, how it works, and why it matters."
+pubDate: 2026-04-09
+updatedDate: 2026-04-09
+author: "AI Tutorials"
+tags: ["non-coder", "beginner", "ai-agents"]
+category: "ai-basics"
+quickAnswer: "RAG (Retrieval-Augmented Generation) is a technique where AI looks up relevant information from a knowledge base before generating a response, instead of relying only on its training data. This makes answers more accurate, up-to-date, and grounded in real sources. Perplexity, ChatGPT with browsing, and enterprise AI tools all use RAG."
+faqs:
+  - question: "What does RAG stand for in AI?"
+    answer: "RAG stands for Retrieval-Augmented Generation. 'Retrieval' means looking up relevant documents or data. 'Augmented' means enhancing the AI's knowledge with that retrieved information. 'Generation' means producing a response based on both its training and the retrieved context."
+  - question: "Why is RAG important?"
+    answer: "Without RAG, AI can only use knowledge from its training data, which has a cutoff date and may contain errors. RAG lets AI access current, verified information before answering. This reduces hallucinations, enables answers about recent events, and lets AI work with your private data."
+  - question: "What AI tools use RAG?"
+    answer: "Perplexity (searches the web before answering), ChatGPT with browsing (looks up current information), Google Gemini (accesses Google Search), and most enterprise AI tools that connect to company documents. Any AI that cites sources is likely using some form of RAG."
+  - question: "How is RAG different from fine-tuning?"
+    answer: "Fine-tuning changes the AI model itself by retraining it on new data. RAG keeps the model the same but gives it access to external information at query time. RAG is cheaper, faster to update, and doesn't risk breaking the model. Fine-tuning is better for changing the model's behavior or style."
+---
+
+## The Simple Explanation
+
+Imagine you're taking an open-book exam versus a closed-book exam.
+
+In a **closed-book exam** (regular AI), you can only use what's in your head. If you never learned something, or if your textbook is outdated, you'll give a wrong answer or make something up.
+
+In an **open-book exam** (RAG), you can look things up before answering. You search your notes, find the relevant page, and give an answer based on what you found.
+
+That's RAG. It's the open-book version of AI.
+
+## How RAG Actually Works
+
+The process happens in three steps:
+
+### Step 1: Retrieve
+
+When you ask a question, the system first searches a knowledge base for relevant information. This could be:
+- The entire internet (like Perplexity does)
+- A company's internal documents
+- A specific database or set of files
+- A collection of research papers
+
+The search doesn't use traditional keyword matching — it uses the same kind of AI understanding to find conceptually relevant content, even if the exact words don't match.
+
+### Step 2: Augment
+
+The retrieved information is added to the AI's context alongside your question. So instead of just seeing "What is the EU AI Act?", the AI sees your question plus the actual text of relevant articles, news reports, and official documents.
+
+### Step 3: Generate
+
+Now the AI generates its response using both its training knowledge and the retrieved information. It can cite specific sources, include current data, and give answers grounded in real documents.
+
+## Why RAG Matters to You
+
+### Problem 1: AI Knowledge Has a Cutoff Date
+
+Every AI model has a training cutoff. Ask about something that happened after that date and the AI either says "I don't know" or, worse, makes something up. RAG solves this by letting the AI look up current information.
+
+### Problem 2: AI Hallucinations
+
+AI sometimes confidently states things that are wrong — this is called [hallucination](/non-coder/what-are-ai-hallucinations/). RAG reduces this by grounding responses in actual documents. When the AI cites a source, you can verify the claim.
+
+### Problem 3: Private Information
+
+A general AI doesn't know about your company's policies, your personal documents, or your project's codebase. RAG lets you connect AI to your own data so it can answer questions about your specific context.
+
+## RAG in Tools You Already Use
+
+| Tool | How It Uses RAG |
+|------|----------------|
+| **Perplexity** | Searches the web, reads pages, synthesises answer with citations |
+| **ChatGPT (browsing)** | Searches Bing when it needs current information |
+| **Gemini** | Accesses Google Search, Gmail, Drive for relevant context |
+| **Claude Code** | Reads your project files before generating code |
+| **NotebookLM** | Indexes uploaded documents and answers questions from them |
+
+You've been using RAG without knowing it. Every time an AI tool shows source citations or reads your files before responding, that's retrieval-augmented generation.
+
+## RAG vs Other Approaches
+
+| Approach | What It Does | Best For |
+|----------|-------------|----------|
+| **RAG** | Looks up info before answering | Current events, private data, accuracy |
+| **Fine-tuning** | Retrains the model on new data | Changing the model's style or specialisation |
+| **Prompt engineering** | Better instructions to the model | Getting more useful outputs from existing knowledge |
+| **Larger context** | Feeding more text directly | Analysing specific documents in a single conversation |
+
+## Why You Should Care
+
+RAG is the reason AI tools are getting dramatically more useful. A year ago, AI could only answer from memory. Now it can research, verify, and cite. This is the technology behind AI answer engines — the same tools that might soon [cite your website](/blog/best-free-ai-tools-2026/) when answering questions.
+
+Understanding RAG helps you:
+- Choose the right AI tool for your task
+- Know when to trust an AI answer (does it cite sources?)
+- Understand why some AI answers are better than others
+- Build your own AI systems that access specific data
+
+## Related Articles
+
+- [What Are AI Agents?](/non-coder/what-are-ai-agents/) — Agents use RAG as one of their core capabilities
+- [AI Tools Directory](/resources/ai-tools-directory/) — Tools that use RAG for better results
+- [Getting Started with Claude](/tutorials/getting-started-with-claude/) — Start using AI with built-in RAG capabilities

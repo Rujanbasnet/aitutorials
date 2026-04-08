@@ -1,0 +1,219 @@
+---
+title: "How to Use Claude Code: The Complete Guide to AI-Powered Coding in Your Terminal"
+description: "Learn how to install and use Claude Code, Anthropic's AI coding agent that lives in your terminal. From setup to advanced workflows, with practical examples."
+pubDate: 2026-04-09
+updatedDate: 2026-04-09
+author: "AI Tutorials"
+tags: ["claude", "coding-with-ai", "developer-tools"]
+category: "coding-with-ai"
+difficulty: "beginner"
+estimatedTime: "20 min"
+prerequisites: []
+tools: ["Claude Code", "Terminal"]
+learningPath: "ai-foundations"
+quickAnswer: "Claude Code is Anthropic's AI coding agent that runs in your terminal. Install it with 'npm install -g @anthropic-ai/claude-code', then run 'claude' in any project directory. It can read your codebase, plan changes, write code across multiple files, run tests, and commit to git — all from natural language instructions."
+faqs:
+  - question: "What is Claude Code?"
+    answer: "Claude Code is Anthropic's command-line AI coding agent. Unlike browser-based AI tools, it runs directly in your terminal with full access to your project files, git history, and development tools. It can read, write, test, and debug code autonomously."
+  - question: "Is Claude Code free?"
+    answer: "Claude Code uses the Anthropic API, which is usage-based (pay per token). There's no monthly subscription — you pay only for what you use. A typical coding session costs a few cents to a few dollars depending on complexity. You can also use it with a Claude Pro subscription."
+  - question: "How is Claude Code different from Cursor?"
+    answer: "Claude Code is a terminal-based agent that works autonomously — you describe a task and it plans, writes, and tests code. Cursor is an IDE with AI features built into the editor. Claude Code is better for large refactors and autonomous work. Cursor is better for interactive, in-editor coding. Many developers use both."
+  - question: "What languages does Claude Code support?"
+    answer: "Claude Code works with any programming language or framework. It's particularly strong with Python, JavaScript, TypeScript, React, and web development, but it can handle Go, Rust, Java, C++, and more. It reads your project files to understand your tech stack."
+  - question: "Can I use Claude Code without coding experience?"
+    answer: "Yes, but with caveats. Claude Code can build entire projects from natural language descriptions (this is called 'vibe coding'). However, having basic code literacy helps you review what it builds and guide it when things go wrong. See our guide on understanding code without being a coder."
+steps:
+  - name: "Install Claude Code"
+    text: "Open your terminal and run 'npm install -g @anthropic-ai/claude-code'. You need Node.js 18+ installed. On Mac/Linux, you may need to prefix with sudo."
+  - name: "Set up authentication"
+    text: "Run 'claude' for the first time. It will guide you through authentication — either connect your Anthropic API key or sign in with your Claude account."
+  - name: "Navigate to your project"
+    text: "Use cd to navigate to any project directory. Claude Code reads your project files to understand the codebase context."
+  - name: "Start with a simple task"
+    text: "Type a request in natural language: 'explain how this project is structured' or 'find and fix any bugs in the login function'. Claude reads the relevant files and responds."
+  - name: "Give it a coding task"
+    text: "Ask it to make changes: 'add a dark mode toggle to the settings page' or 'refactor the database queries to use connection pooling'. It will plan the changes, show you what it wants to do, and ask for approval."
+  - name: "Review and iterate"
+    text: "Claude shows you diffs before applying changes. Review them, approve or reject, and ask for adjustments. Use follow-up messages to refine the output."
+---
+
+## What is Claude Code?
+
+Claude Code is Anthropic's AI coding agent that lives in your terminal. It's not a chatbot with a code plugin — it's a full autonomous agent that can read your entire codebase, plan multi-file changes, write code, run tests, and commit to git.
+
+If you've used [Claude the chatbot](/tutorials/getting-started-with-claude/), think of Claude Code as Claude with hands. Instead of copying code from a chat window, Claude Code edits your files directly.
+
+## Why Use Claude Code?
+
+Here's what makes it different from pasting code into a chat window:
+
+- **Full project context** — It reads your entire codebase, not just the file you paste
+- **Multi-file changes** — It can refactor across dozens of files in one go
+- **Runs your tools** — It executes tests, linters, and build commands to verify its work
+- **Git integration** — It creates commits with meaningful messages
+- **Plan-then-execute** — It shows you a plan before making changes, so you stay in control
+
+## Installation
+
+### Prerequisites
+
+You need Node.js 18 or later. Check your version:
+
+```bash
+node --version
+```
+
+### Install
+
+```bash
+npm install -g @anthropic-ai/claude-code
+```
+
+### First Run
+
+Navigate to any project and run:
+
+```bash
+cd your-project
+claude
+```
+
+The first time, it guides you through authentication. You can use an Anthropic API key or sign in with your Claude account.
+
+## Basic Usage
+
+### Ask Questions About Your Code
+
+```
+> explain how the authentication flow works in this project
+```
+
+Claude reads the relevant files and gives you a clear explanation — like pair programming with someone who's already read every file.
+
+### Make Changes
+
+```
+> add input validation to the signup form - email format, password strength, and matching password confirmation
+```
+
+Claude plans the changes, tells you which files it will modify, and shows diffs before applying. You approve each step.
+
+### Fix Bugs
+
+```
+> the checkout page crashes when the cart is empty - find and fix the bug
+```
+
+Claude searches for the issue, identifies the root cause, and proposes a fix.
+
+### Run Commands
+
+```
+> run the test suite and fix any failing tests
+```
+
+Claude executes your tests, reads the error output, and fixes the issues.
+
+## Intermediate Techniques
+
+### Use Plan Mode
+
+For complex tasks, ask Claude to plan first:
+
+```
+> /plan refactor the API routes from Express to Hono
+```
+
+Claude analyses the codebase, creates a detailed migration plan, and only starts coding after you approve. This is essential for large changes — you don't want the AI going off on its own for 20 minutes without alignment.
+
+### Multi-Turn Conversations
+
+Claude Code remembers context within a session. You can build on previous work:
+
+```
+> add a dark mode toggle
+> now persist the preference to localStorage
+> also respect the system preference on first load
+```
+
+Each message builds on the last, just like working with a human developer.
+
+### CLAUDE.md Files
+
+Create a `CLAUDE.md` file in your project root to give Claude persistent instructions:
+
+```markdown
+# Project Instructions
+
+## Tech Stack
+- React 19, TypeScript, Tailwind CSS v4
+- Vitest for testing
+- pnpm as package manager
+
+## Conventions
+- Use functional components with hooks
+- camelCase for variables, PascalCase for components
+- Always add TypeScript types, no `any`
+```
+
+Claude reads this file automatically and follows your conventions. Think of it as a [system prompt](/tutorials/mastering-system-prompts/) for your entire project.
+
+## Advanced Workflows
+
+### Autonomous Mode
+
+For routine tasks, let Claude work without step-by-step approval. Use the `--allowedTools` flag or configure permissions in your settings.
+
+### Hooks
+
+Hooks let you run custom scripts before or after Claude takes certain actions. For example, auto-format code after every edit, or run linting before every commit.
+
+### MCP Servers
+
+Claude Code can connect to external tools through the Model Context Protocol (MCP). This lets it access databases, APIs, design tools, and other systems your project depends on.
+
+### Sub-Agents
+
+For complex tasks, Claude Code can spawn sub-agents that work on different parts of the problem in parallel. This is how it handles large refactors efficiently.
+
+## Claude Code vs Other AI Coding Tools
+
+| Feature | Claude Code | Cursor | GitHub Copilot |
+|---------|------------|--------|----------------|
+| **Interface** | Terminal (CLI) | IDE (VS Code fork) | IDE plugin |
+| **Autonomy** | High — plans and executes | Medium — suggests in editor | Low — autocomplete |
+| **Multi-file changes** | Excellent | Good | Limited |
+| **Test execution** | Yes | No | No |
+| **Git integration** | Built-in | Limited | No |
+| **Best for** | Large refactors, autonomous work | Day-to-day coding | Inline completions |
+| **Price** | Usage-based API | $20/month | $10/month |
+
+For a deeper comparison, see our [Claude Code vs Cursor](/blog/claude-code-vs-cursor/) breakdown.
+
+## Tips for Getting Better Results
+
+1. **Be specific** — "Add error handling to the payment flow" beats "improve the code"
+2. **Give context** — Mention the tech stack, constraints, and what you've already tried
+3. **Use plan mode for big changes** — Don't let it start a 500-line refactor without alignment
+4. **Review diffs carefully** — Claude is good but not perfect. Read what it writes.
+5. **Iterate** — The first pass is a draft. Follow up with refinements.
+6. **Write a CLAUDE.md** — Project-specific instructions save time on every interaction
+
+## Common Issues
+
+### "Command not found" after installing
+Make sure your npm global bin directory is in your PATH. Run `npm config get prefix` and add `/bin` to your shell profile.
+
+### Slow responses
+Claude Code reads your project files for context. Very large repositories may be slower. Use `.claudeignore` to exclude directories that aren't relevant (like `node_modules`, `dist`, or large data files).
+
+### Token usage seems high
+Large projects consume more tokens because Claude reads more context. Use `/compact` to compress conversation history, and keep your CLAUDE.md focused to reduce overhead.
+
+## What's Next?
+
+- [Prompt Engineering Fundamentals](/tutorials/prompt-engineering-fundamentals/) — Write better instructions for Claude Code
+- [Automate Your Workflows with AI](/tutorials/automate-workflows-with-ai/) — Use Claude Code to build automation pipelines
+- [Building AI Agents from Scratch](/tutorials/building-ai-agents-from-scratch/) — Understand how Claude Code works under the hood
+- [Understanding Code Without Being a Coder](/non-coder/understanding-code-without-becoming-a-coder/) — Build the code literacy to work effectively with Claude Code

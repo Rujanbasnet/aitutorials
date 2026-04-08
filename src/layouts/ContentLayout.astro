@@ -36,6 +36,7 @@ interface Props {
   estimatedTime?: string;
   quickAnswer?: string;
   faqs?: { question: string; answer: string }[];
+  steps?: { name: string; text: string }[];
   body: string;
   collection: string;
   id?: string;
@@ -57,6 +58,7 @@ const {
   estimatedTime,
   quickAnswer,
   faqs = [],
+  steps,
   body,
   collection,
   id = '',
@@ -139,6 +141,22 @@ const collectionLabel = collectionLabels[collection] || collection.charAt(0).toU
           "@type": "Answer",
           "text": faq.answer,
         },
+      })),
+    })} />
+  )}
+
+  {steps && steps.length > 0 && (
+    <script type="application/ld+json" set:html={JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "HowTo",
+      "name": title,
+      "description": description,
+      ...(estimatedTime ? { "totalTime": `PT${estimatedTime.replace(/\s*min\s*/i, 'M').replace(/\s*hr?\s*/i, 'H')}` } : {}),
+      "step": steps.map((step, i) => ({
+        "@type": "HowToStep",
+        "position": i + 1,
+        "name": step.name,
+        "text": step.text,
       })),
     })} />
   )}
