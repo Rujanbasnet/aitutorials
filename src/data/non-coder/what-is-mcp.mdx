@@ -1,0 +1,131 @@
+---
+title: "What is MCP (Model Context Protocol)? The USB-C of AI, Explained"
+description: "MCP is the universal standard connecting AI to your tools and data. Here's what it does, why every major AI company adopted it, and what it means for you."
+pubDate: 2026-04-09
+updatedDate: 2026-04-09
+author: "AI Tutorials"
+tags: ["ai-tools", "anthropic", "non-coder"]
+category: "coding-literacy"
+quickAnswer: "MCP (Model Context Protocol) is an open standard created by Anthropic that lets AI connect to external tools and data sources — your files, calendar, email, databases, and more. Think of it as the USB-C of AI: one universal connector that works with every AI model. OpenAI, Google, and Microsoft all adopted it, making it the industry standard for AI integrations."
+faqs:
+  - question: "What does MCP stand for?"
+    answer: "MCP stands for Model Context Protocol. It's an open standard created by Anthropic in late 2024 that defines how AI models connect to external tools and data sources. It standardises the 'plugs' so any AI can work with any tool."
+  - question: "Why do I keep hearing about MCP?"
+    answer: "Because every major AI company adopted it in 2025-2026 — Anthropic, OpenAI, Google, Microsoft, and dozens of tool providers. It crossed 97 million installs by March 2026. MCP solved the fragmentation problem where every AI had its own incompatible plugin system."
+  - question: "Do I need to be a developer to use MCP?"
+    answer: "No. Most people use MCP without knowing it. When Claude connects to your Google Calendar, or ChatGPT accesses your files, that's MCP working behind the scenes. Developers build MCP servers, but end users just see 'connect to [tool]' buttons."
+  - question: "How is MCP different from plugins or extensions?"
+    answer: "Plugins were AI-specific — a ChatGPT plugin only worked with ChatGPT. MCP is universal — an MCP server for Google Calendar works with Claude, ChatGPT, Gemini, and any other AI that supports the protocol. Build once, work everywhere."
+  - question: "Is MCP safe? Can AI access all my data?"
+    answer: "MCP has a permissions system — you explicitly approve which tools an AI can access and what actions it can take. It follows a 'least privilege' model: read access to your calendar doesn't mean write access to your email. You control what's connected."
+---
+
+## The Problem MCP Solves
+
+Before MCP, connecting AI to your tools was a mess.
+
+Want ChatGPT to read your Google Docs? OpenAI built a custom integration. Want Claude to check your calendar? Anthropic built a separate one. Want Gemini to access your Slack? Google built yet another.
+
+Every AI company was building their own connectors to the same tools. And none of them worked with each other. It was like the early days of phone chargers — every brand had a different plug.
+
+MCP is the USB-C moment. One standard connector that works with everything.
+
+## How MCP Works (Simply)
+
+Think of three layers:
+
+1. **Your AI** (Claude, ChatGPT, Gemini) — the brain that thinks and responds
+2. **MCP** — the universal translator in the middle
+3. **Your tools** (Calendar, Email, Files, Databases) — where your data lives
+
+Without MCP, the AI can only work with text you paste into it. With MCP, the AI can directly read your files, check your calendar, search your email, query your database — all through a standardised connection.
+
+### A Real Example
+
+You ask [Claude](/tutorials/getting-started-with-claude/): "What meetings do I have tomorrow and do any conflict with my gym schedule?"
+
+Without MCP: You'd open your calendar, screenshot it, paste it into Claude, and manually type your gym times.
+
+With MCP: Claude connects to your Google Calendar via MCP, reads tomorrow's meetings, compares them to your recurring gym blocks, and gives you a direct answer. All in one prompt.
+
+## Why Every AI Company Adopted It
+
+Anthropic open-sourced MCP in late 2024. By early 2026, the entire industry had adopted it:
+
+| Company | When They Adopted MCP | Why |
+|---------|----------------------|-----|
+| Anthropic | Created it (2024) | Wanted a universal standard |
+| OpenAI | Early 2025 | Users demanded interoperability |
+| Google | Mid 2025 | Couldn't ignore the momentum |
+| Microsoft | 2025 | Needed it for Copilot integrations |
+| Tool providers | 2025-2026 | Build once instead of building for each AI |
+
+The key insight was that MCP helped everyone. AI companies got thousands of tool integrations without building each one. Tool providers reached all AI users with a single implementation. Users got better AI that actually connects to their digital life.
+
+## What MCP Can Connect To
+
+Practically anything. Here are categories that already have MCP servers:
+
+**Productivity**
+- Google Calendar, Gmail, Google Drive
+- Slack, Microsoft Teams
+- Notion, Linear, Jira
+
+**Development**
+- GitHub, GitLab
+- Databases (PostgreSQL, MySQL, MongoDB)
+- File systems, terminals
+
+**Data & Research**
+- Web browsing and search
+- PDF reading
+- API connections
+
+**Media & Content**
+- Image generation
+- File management
+- Content platforms
+
+The registry of available MCP servers is growing daily. If a tool has an API, someone has probably built an MCP server for it.
+
+## What This Means For You
+
+### If You're a Regular User
+
+MCP means your AI assistant gets genuinely useful instead of being a smart chatbot stuck in a text box. Instead of manually copying information between apps, you can:
+
+- Ask your AI to check your schedule and draft responses
+- Have it read documents from your Drive and summarise them
+- Let it manage tasks across your project management tools
+- Get answers that combine information from multiple sources
+
+You don't need to know MCP exists — it works behind the scenes. Just look for "connect" or "integrate" options in your AI tool.
+
+### If You're a Power User
+
+MCP lets you build custom connections. [Claude Code](/tutorials/how-to-use-claude-code/) supports MCP servers natively — you can connect it to your company's internal tools, databases, or APIs. This is how people build genuinely autonomous [AI agents](/non-coder/what-are-ai-agents/) that do real work.
+
+### If You're a Developer
+
+Building an MCP server is straightforward — it's a standard protocol with SDKs in Python, TypeScript, and other languages. One MCP server makes your tool accessible to every AI that supports the protocol.
+
+## The Bigger Picture
+
+MCP is part of a shift from AI-as-chatbot to AI-as-assistant. A chatbot answers questions. An assistant does work.
+
+The progression:
+1. **2023** — Chat with AI in a text box
+2. **2024** — Upload files and images to AI
+3. **2025** — AI connects to your tools via MCP
+4. **2026** — AI autonomously manages workflows across tools
+
+We're in stage 3-4 now. MCP is the infrastructure that makes stages 3 and 4 possible. Without a universal standard for connecting AI to tools, every integration is a one-off. With MCP, the ecosystem scales.
+
+This is why [AI agents](/non-coder/what-are-ai-agents/) are the next big thing — and why MCP matters even if you never see it directly.
+
+## Want to Go Deeper?
+
+- Read about [AI agents](/non-coder/what-are-ai-agents/) — the autonomous systems MCP enables
+- Try [Claude Code](/tutorials/how-to-use-claude-code/) — it supports MCP servers natively
+- Learn about [automating workflows with AI](/tutorials/automate-workflows-with-ai/) — the practical applications of AI + tools
+- See [why AI agents will replace SaaS](/blog/why-ai-agents-will-replace-saas/) — the business implications of this shift

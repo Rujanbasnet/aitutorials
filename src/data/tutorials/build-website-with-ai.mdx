@@ -1,0 +1,194 @@
+---
+title: "How to Build a Website with AI — No Coding Required"
+description: "Build a real website using AI tools without writing code. Covers v0, Bolt, Replit Agent, and Claude Code. From idea to live site in under an hour."
+pubDate: 2026-04-09
+updatedDate: 2026-04-09
+author: "AI Tutorials"
+tags: ["coding-with-ai", "beginner"]
+category: "coding-with-ai"
+difficulty: "beginner"
+estimatedTime: "25 min"
+prerequisites: []
+tools: ["v0", "Bolt", "Replit Agent", "Claude Code"]
+learningPath: "ai-foundations"
+quickAnswer: "You can build a real website with AI by describing what you want in plain English. The best tools for this in 2026 are v0 by Vercel (best for UI components and landing pages), Bolt.new (best for full-stack apps in the browser), and Replit Agent (best for complete apps with databases). Describe your site, iterate on the result, and deploy — no code required."
+faqs:
+  - question: "Can I really build a website without coding?"
+    answer: "Yes. AI tools like v0, Bolt.new, and Replit Agent generate working websites from text descriptions. You describe what you want ('a portfolio website with a dark theme, project gallery, and contact form'), the AI builds it, and you refine through conversation. The results are production-quality HTML, CSS, and JavaScript."
+  - question: "What's the best AI website builder in 2026?"
+    answer: "v0 by Vercel is best for landing pages and UI components (free tier available). Bolt.new is best for full-stack web apps built entirely in the browser. Replit Agent is best for complex apps with databases and authentication. For maximum control, Claude Code builds anything but requires terminal comfort."
+  - question: "How much does it cost to build a website with AI?"
+    answer: "The AI tools have free tiers (v0, Bolt) or low-cost plans ($10-25/month). Hosting can be free on Vercel, Netlify, or GitHub Pages for static sites. A complete website — AI generation + hosting + custom domain — can cost under $20 total for the first year."
+  - question: "Will AI-built websites look professional?"
+    answer: "Yes, if you give good descriptions. AI tools generate modern, responsive designs using frameworks like React and Tailwind CSS. The output is comparable to what a junior developer would produce. For truly custom or brand-specific design, you'll want to iterate heavily or hire a designer for the visual direction."
+  - question: "Can I edit an AI-built website later?"
+    answer: "Yes. AI generates standard HTML/CSS/JavaScript or React code. You can continue iterating with AI ('move the navbar to the left', 'add a testimonials section') or edit the code directly if you learn some basics. The code isn't locked to any AI platform."
+steps:
+  - name: "Choose your tool"
+    text: "For a landing page or portfolio: use v0.dev (free, by Vercel). For a full web app with backend: use Bolt.new or Replit Agent. For maximum control: use Claude Code in your terminal."
+  - name: "Describe your website"
+    text: "Write a detailed description: what the site is for, what pages it needs, the style/mood, any specific features (contact form, gallery, blog). More detail = better results. Example: 'A personal portfolio for a photographer with a dark minimal theme, image gallery with lightbox, about page, and contact form.'"
+  - name: "Generate and preview"
+    text: "Submit your description and preview the generated site. Most tools show a live preview immediately. Review the layout, colours, content structure, and responsiveness (check mobile view)."
+  - name: "Iterate on the design"
+    text: "Tell the AI what to change: 'Make the header larger', 'Change the colour scheme to warm earth tones', 'Add a testimonials section below the hero'. Each instruction refines the site. Expect 5-10 rounds of iteration."
+  - name: "Add real content"
+    text: "Replace placeholder text and images with your actual content. Upload your photos, write your bio, add your real project descriptions. This is the step most people rush — real content makes or breaks the site."
+  - name: "Deploy for free"
+    text: "v0 deploys to Vercel automatically. Bolt and Replit have one-click deploy. For other tools, push to GitHub and deploy via GitHub Pages, Netlify, or Vercel (all have free tiers). Add a custom domain for $10-15/year from a registrar."
+---
+
+## The New Way to Build Websites
+
+Two years ago, building a website meant either:
+1. Learning HTML, CSS, and JavaScript (months of effort)
+2. Using a drag-and-drop builder like Wix or Squarespace ($15-30/month)
+3. Hiring a developer ($500-5,000+)
+
+Now there's option 4: describe what you want and let AI build it. This is [vibe coding](/non-coder/what-is-vibe-coding/) applied to web development, and it works surprisingly well.
+
+## The Tools
+
+### v0 by Vercel — Best for Landing Pages
+
+**What it does:** You describe a UI component or page, and v0 generates production-quality React code with Tailwind CSS styling. It produces beautiful, modern designs out of the box.
+
+**Best for:** Landing pages, portfolios, marketing sites, UI components.
+
+**Free tier:** Yes — generous generation limits.
+
+**Example prompt:**
+> "A SaaS landing page for a project management tool called 'FlowState'. Hero section with headline and CTA button, features grid with icons, pricing table with 3 tiers, testimonials carousel, footer with links. Modern, clean design with a blue-to-purple gradient accent."
+
+v0 generates this as a working React component you can deploy directly to Vercel.
+
+### Bolt.new — Best for Full-Stack Apps
+
+**What it does:** Bolt runs a full development environment in your browser. You describe an app, it builds the frontend AND backend, and you can run and test it live — all without installing anything.
+
+**Best for:** Web apps with functionality (forms that submit, user accounts, data storage).
+
+**Free tier:** Limited generations, then $20/month.
+
+**Example prompt:**
+> "Build a recipe collection app. Users can add recipes with title, ingredients, instructions, and a photo. Include search, categories (breakfast, lunch, dinner, dessert), and a favourites feature. Use a clean, food-magazine aesthetic."
+
+Bolt generates the full application — database schema, API routes, frontend, and styling.
+
+### Replit Agent — Best for Complex Apps
+
+**What it does:** Replit's AI agent builds complete applications with databases, authentication, and deployment. It's the most capable option for apps that need user accounts, payment processing, or complex data.
+
+**Best for:** Apps that need a backend, database, user auth, or integrations.
+
+**Free tier:** Limited, then $25/month for the Pro plan.
+
+### Claude Code — Most Control (Terminal-Based)
+
+[Claude Code](/tutorials/how-to-use-claude-code/) builds websites by writing code directly on your machine. It's more technical than the visual tools but gives you complete control over every file.
+
+**Best for:** Developers or people comfortable with a terminal who want full project ownership.
+
+## Building Your First Site — Walkthrough
+
+Let's build a real portfolio site using v0. This process is similar across all tools.
+
+### Step 1: Craft Your Description
+
+Don't say: "Make me a portfolio"
+
+Say:
+> "A personal portfolio website for a UX designer named Alex Chen. Dark theme with a warm accent colour (amber/gold). Sections: hero with name and tagline, about me with photo placeholder, project gallery showing 6 projects as cards with hover effects, skills as an icon grid, testimonials from 3 clients, and a contact form. Responsive design. Modern typography."
+
+The more specific you are, the less iteration you'll need.
+
+### Step 2: Review the First Draft
+
+The AI generates a working site in seconds. Review:
+- **Layout** — Is the structure what you wanted?
+- **Colours** — Does the palette match your vision?
+- **Responsiveness** — Check the mobile preview
+- **Content structure** — Are all sections present?
+
+### Step 3: Iterate
+
+Common refinements:
+- "Make the hero section taller with a subtle gradient background"
+- "Change the project cards to a masonry layout instead of a grid"
+- "Add smooth scroll animations when sections come into view"
+- "Make the contact form more prominent — add it as its own section"
+
+Each iteration takes seconds. Budget 5-10 rounds to get it right.
+
+### Step 4: Add Your Real Content
+
+This is where placeholder sites become real. Replace:
+- "Lorem ipsum" → your actual text
+- Placeholder images → your photos
+- "John Doe" → your name
+- Fake testimonials → real ones (or remove the section)
+
+### Step 5: Deploy
+
+**v0/Vercel:** Click "Deploy" — it's live in 30 seconds with a `.vercel.app` URL.
+
+**GitHub Pages (free):**
+1. Push your code to a GitHub repository
+2. Go to Settings → Pages → Enable
+3. Your site is live at `yourusername.github.io/repo-name`
+
+**Netlify (free):**
+1. Drag your site folder onto netlify.com/drop
+2. Live instantly with a `.netlify.app` URL
+
+**Custom domain:** Buy a domain ($10-15/year) from Namecheap, GoDaddy, or Cloudflare Registrar. Point it to your hosting. Most platforms have one-click domain setup.
+
+## What You Can Build
+
+| Project | Difficulty | Best Tool | Time |
+|---------|-----------|-----------|------|
+| Personal portfolio | Easy | v0 | 30 min |
+| Business landing page | Easy | v0 | 30 min |
+| Blog | Medium | Bolt, Replit | 1-2 hours |
+| E-commerce store | Medium-Hard | Replit | 2-4 hours |
+| SaaS MVP | Hard | Claude Code, Bolt | 1-2 days |
+| Community forum | Medium | Bolt | 2-3 hours |
+
+## Tips for Better Results
+
+### Be Specific About Style
+
+Instead of "modern design", say "minimalist with lots of whitespace, a single accent colour (teal), sans-serif typography, subtle animations on hover."
+
+### Reference Real Sites
+
+"Build something similar to stripe.com's landing page style — clean, gradient backgrounds, feature sections with code snippets."
+
+### Think Mobile First
+
+Explicitly mention mobile: "Must look great on mobile. Hamburger menu on small screens. Stack the two-column sections vertically on mobile."
+
+### Don't Skip the Content
+
+A beautiful empty template isn't a website. The content — your words, images, and personality — is what makes it real. AI builds the house; you make it a home.
+
+## The Honest Limitations
+
+AI-built websites are genuinely good for:
+- Personal sites, portfolios, landing pages
+- MVPs and prototypes
+- Small business websites
+- Internal tools and dashboards
+
+They're less suitable for:
+- Complex e-commerce (use Shopify instead)
+- Sites needing perfect brand consistency (hire a designer first)
+- High-traffic applications needing performance optimisation
+- Sites with complex user authentication flows (they work, but need careful testing)
+
+## What's Next
+
+- Read about [vibe coding](/non-coder/what-is-vibe-coding/) — the philosophy behind AI-assisted building
+- Try [Claude Code](/tutorials/how-to-use-claude-code/) for more hands-on website building
+- Learn [understanding code without being a coder](/non-coder/understanding-code-without-becoming-a-coder/) — helps you guide AI better
+- Check [building in public with AI](/blog/building-in-public-with-ai/) — our experience building this site

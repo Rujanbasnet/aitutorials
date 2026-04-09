@@ -1,0 +1,131 @@
+---
+title: "What is Fine-Tuning in AI? When and Why You'd Train Your Own Model"
+description: "Fine-tuning explained simply. What it is, how it differs from prompting, when it's worth it, and when you should just use a better prompt instead. No jargon."
+pubDate: 2026-04-09
+updatedDate: 2026-04-09
+author: "AI Tutorials"
+tags: ["non-coder", "beginner"]
+category: "coding-literacy"
+quickAnswer: "Fine-tuning is the process of taking a pre-trained AI model and training it further on your specific data to make it better at a particular task. Think of it like hiring a general assistant and then training them on your company's processes. Most people don't need fine-tuning — better prompts, system prompts, or RAG achieve the same results with less effort and cost."
+faqs:
+  - question: "What is fine-tuning in simple terms?"
+    answer: "Fine-tuning takes an existing AI model (like GPT or Llama) and trains it further on your specific data — your company's writing style, your domain's terminology, your particular task format. The model learns to specialise while keeping its general abilities. It's like teaching a smart generalist the specifics of your field."
+  - question: "Do I need to fine-tune a model?"
+    answer: "Probably not. 90% of use cases are better served by prompt engineering, system prompts, or RAG (giving the model your documents as context). Fine-tuning is only worth it when you need consistent behaviour across thousands of requests with a very specific format or style that prompting can't reliably reproduce."
+  - question: "How much does fine-tuning cost?"
+    answer: "OpenAI fine-tuning starts at roughly $8-25 per million training tokens (varies by model). A typical fine-tuning job with 1,000 examples might cost $5-50. But the real cost is preparing the training data — that takes hours of human work. For most people, a $20/month Claude or ChatGPT subscription with good prompts is more cost-effective."
+  - question: "What's the difference between fine-tuning and RAG?"
+    answer: "Fine-tuning changes the model itself — it learns new patterns from your data. RAG (Retrieval-Augmented Generation) gives the model your documents as context at query time without changing it. RAG is easier, cheaper, and better for factual accuracy. Fine-tuning is better for style, format, and behaviour consistency."
+  - question: "Can I fine-tune ChatGPT or Claude?"
+    answer: "OpenAI allows fine-tuning of GPT models through their API. Anthropic does not currently offer fine-tuning for Claude. For open-source models (Llama, Mistral), you can fine-tune freely on your own hardware. Fine-tuning is an API/developer feature, not something available in the chat interface."
+---
+
+## The Restaurant Analogy
+
+Imagine you hire a chef who's cooked every cuisine. They're versatile — give them any recipe, and they'll make it well. That's a pre-trained AI model.
+
+Now imagine you want this chef to specialise in your restaurant's specific menu. You have them cook your dishes hundreds of times, tasting and adjusting until every plate matches your exact standards. That's fine-tuning.
+
+The chef doesn't forget how to cook other food. They just get *really* good at your specific dishes.
+
+## What Fine-Tuning Actually Does
+
+When companies like OpenAI or Meta train AI models, they use massive amounts of internet text. The model learns language, reasoning, coding, and general knowledge. This produces a **base model** — smart but generic.
+
+Fine-tuning takes this base model and trains it further on a smaller, specific dataset:
+- A law firm's past case summaries → model that writes legal briefs in their style
+- A company's customer support tickets → model that responds in brand voice
+- Thousands of medical records → model that extracts clinical data in a specific format
+- A game studio's dialogue → model that writes character conversations consistently
+
+The model adapts its behaviour to match the patterns in your data while retaining its general intelligence.
+
+## When Fine-Tuning Makes Sense
+
+Fine-tuning is worth it when:
+
+1. **You need consistent output format** — always the same JSON structure, always the same style of analysis, always the same report template. Prompting gets you 90% consistency; fine-tuning gets you 99%.
+
+2. **You have thousands of examples** — fine-tuning needs data. If you have 500+ examples of input-output pairs, fine-tuning can learn the pattern.
+
+3. **Prompt length is a problem** — if your [system prompt](/tutorials/mastering-system-prompts/) is 3,000 words long to get the behaviour you want, fine-tuning can embed that behaviour directly into the model, saving tokens (and money) on every request.
+
+4. **Domain-specific terminology** — medical, legal, or scientific jargon that the base model handles awkwardly.
+
+## When Fine-Tuning is Overkill
+
+For most people, these alternatives work better:
+
+### Better Prompts (Free)
+Before fine-tuning, try [prompt engineering](/tutorials/prompt-engineering-fundamentals/). A well-crafted prompt with examples can achieve 90% of what fine-tuning does. This is always the first thing to try.
+
+### System Prompts (Free)
+A [system prompt](/tutorials/mastering-system-prompts/) gives the AI persistent instructions about how to behave. "You are a legal assistant who writes in formal British English. Always cite relevant legislation." This handles most style and behaviour requirements.
+
+### RAG — Retrieval-Augmented Generation (Low cost)
+[RAG](/non-coder/what-is-rag-in-ai/) feeds the model your documents as context. Need the AI to answer questions about your company handbook? RAG gives it the handbook to reference. This is better than fine-tuning for factual accuracy because the AI cites specific documents rather than learning patterns.
+
+### Few-Shot Examples (Free)
+Include 2-3 examples of the input-output format you want directly in your prompt. The AI mimics the pattern. This is surprisingly effective and costs nothing.
+
+## How Fine-Tuning Works (Simplified)
+
+1. **Prepare training data** — typically hundreds to thousands of prompt-response pairs
+   ```
+   {"prompt": "Summarise this support ticket: ...", "response": "Priority: High. Issue: ..."}
+   {"prompt": "Summarise this support ticket: ...", "response": "Priority: Low. Issue: ..."}
+   ```
+
+2. **Upload to the AI provider** — OpenAI, or your own server for open-source models
+
+3. **Train** — the provider runs the fine-tuning job (minutes to hours)
+
+4. **Test** — try your fine-tuned model and compare to the base model
+
+5. **Deploy** — use via API, same as the base model but better at your specific task
+
+You don't need to understand the machine learning behind it. The process is more like filling out a form and uploading a spreadsheet than it is like coding.
+
+## Fine-Tuning vs Prompting vs RAG — Decision Framework
+
+| Question | If Yes → |
+|----------|----------|
+| Can I get the result I want with a good prompt? | Use prompting |
+| Do I need the AI to reference specific documents? | Use [RAG](/non-coder/what-is-rag-in-ai/) |
+| Do I need extremely consistent format/style across 1000s of requests? | Consider fine-tuning |
+| Do I have 500+ examples of ideal input-output pairs? | Fine-tuning is viable |
+| Is my prompt getting too long and expensive? | Fine-tuning saves tokens |
+| Am I a developer with API access? | Fine-tuning is accessible |
+| Am I using AI through a chat interface? | Stick with prompting + RAG |
+
+Most people reading this should use better prompts and [RAG](/non-coder/what-is-rag-in-ai/). Fine-tuning is a power-user tool for specific, high-volume use cases.
+
+## The Cost Reality
+
+Fine-tuning sounds expensive. Sometimes it is, sometimes it isn't:
+
+| Approach | Upfront Cost | Per-Query Cost | Best For |
+|----------|-------------|----------------|----------|
+| Prompting | $0 | Standard token price | Most use cases |
+| System prompt | $0 | Slightly higher (more tokens) | Style/behaviour |
+| RAG | Setup time + embedding costs | Higher (retrieval + generation) | Factual accuracy |
+| Fine-tuning | $5-500+ (training) | Lower (shorter prompts needed) | High-volume consistency |
+
+Fine-tuning saves money at scale because fine-tuned models need shorter prompts (the behaviour is baked in). But the upfront investment in preparing training data — cleaning, formatting, quality-checking hundreds of examples — is the real cost.
+
+## Common Misconceptions
+
+**"Fine-tuning makes the model smarter"** — No. It makes the model more specialised. A fine-tuned model might be better at your specific task but could actually perform worse on general tasks.
+
+**"I need fine-tuning to use my own data"** — No. [RAG](/non-coder/what-is-rag-in-ai/) handles this better and more cheaply for most cases.
+
+**"Fine-tuning is permanent"** — Sort of. You create a new model variant. The original base model is unchanged. You can always go back to it.
+
+**"More training data is always better"** — Not necessarily. Quality matters more than quantity. 200 excellent examples often beat 2,000 mediocre ones.
+
+## What's Next
+
+- Start with [prompt engineering](/tutorials/prompt-engineering-fundamentals/) — it's always the right first step
+- Learn about [RAG](/non-coder/what-is-rag-in-ai/) — the alternative that works for most people
+- Explore [system prompts](/tutorials/mastering-system-prompts/) — persistent instructions that shape AI behaviour
+- Read about [running AI locally](/tutorials/how-to-run-ai-locally/) — if you want to fine-tune open-source models on your own hardware

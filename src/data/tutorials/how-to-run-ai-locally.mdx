@@ -1,0 +1,184 @@
+---
+title: "How to Run AI on Your Own Computer — No Cloud, No Subscription"
+description: "Run AI models locally on your PC or Mac with LM Studio or Ollama. Free, private, offline. Step-by-step setup guide for beginners."
+pubDate: 2026-04-09
+updatedDate: 2026-04-09
+author: "AI Tutorials"
+tags: ["ai-tools", "beginner"]
+category: "ai-tools"
+difficulty: "beginner"
+estimatedTime: "20 min"
+prerequisites: []
+tools: ["LM Studio", "Ollama"]
+learningPath: "ai-foundations"
+quickAnswer: "You can run AI models locally on your own computer using free tools like LM Studio or Ollama. LM Studio gives you a visual interface — download it, pick a model like Llama 3.3 8B, and start chatting. Ollama is command-line based. Both work offline with no subscriptions, no data leaving your machine, and no usage limits."
+faqs:
+  - question: "Can I run AI on my laptop for free?"
+    answer: "Yes. Tools like LM Studio and Ollama let you download and run open-source AI models completely free. You need at least 8GB of RAM for small models (7-8B parameters) and 16GB+ for larger ones. No GPU required for basic models, though a dedicated GPU dramatically improves speed."
+  - question: "Is local AI as good as ChatGPT or Claude?"
+    answer: "Smaller local models (7-8B parameters) are noticeably less capable than ChatGPT or Claude for complex reasoning. However, 70B+ models running locally can rival GPT-4 class performance. The sweet spot for most people is a 13B model — capable enough for most tasks, runs on consumer hardware."
+  - question: "What computer do I need to run AI locally?"
+    answer: "Minimum: 8GB RAM and a modern CPU (last 5 years). This runs 7B models slowly but works. Recommended: 16GB RAM and any dedicated GPU with 6GB+ VRAM. Ideal: 32GB RAM with an NVIDIA RTX 3060 or better. Apple Silicon Macs (M1-M4) are excellent for local AI due to unified memory."
+  - question: "Is running AI locally private?"
+    answer: "Yes, completely. Nothing leaves your computer. No internet connection required after downloading the model. Your prompts, documents, and conversations stay entirely on your machine. This is why local AI is popular with lawyers, doctors, and anyone handling sensitive data."
+  - question: "LM Studio vs Ollama — which should I use?"
+    answer: "LM Studio if you want a visual interface with a chat window, model browser, and easy settings. Ollama if you're comfortable with the terminal and want to integrate AI into scripts or other tools. Both use the same underlying models — the difference is the interface."
+steps:
+  - name: "Choose your tool"
+    text: "Download LM Studio (visual interface, recommended for beginners) from lmstudio.ai, or install Ollama (command-line) from ollama.com. Both are free and available for Windows, Mac, and Linux."
+  - name: "Download a model"
+    text: "In LM Studio, browse the model catalog and download Llama 3.3 8B Instruct (about 5GB). In Ollama, run 'ollama pull llama3.3' in your terminal. Start with an 8B model — they're fast and fit on most hardware."
+  - name: "Start chatting"
+    text: "In LM Studio, click the chat tab, select your downloaded model, and start typing. In Ollama, run 'ollama run llama3.3' and type your prompt. The first response may take a moment as the model loads into memory."
+  - name: "Adjust settings for your hardware"
+    text: "If responses are slow, try a smaller model (3B) or reduce the context length. If you have a GPU, enable GPU acceleration in LM Studio settings. On Apple Silicon Macs, GPU acceleration works automatically."
+  - name: "Try different models"
+    text: "Once comfortable, explore other models. Mistral for coding, Phi-3 for efficiency, or Llama 3.3 70B if your hardware can handle it. Each model has different strengths."
+  - name: "Go offline"
+    text: "Disconnect from the internet and verify everything still works. Once a model is downloaded, it runs entirely offline. Your data never leaves your computer."
+---
+
+## Why Run AI Locally?
+
+Three reasons people ditch the cloud:
+
+1. **Privacy** — your prompts and data never leave your machine
+2. **Cost** — no subscription, no usage limits, completely free after download
+3. **Offline access** — works on a plane, in a cabin, anywhere
+
+The trade-off is power. Cloud models like [Claude](/tutorials/getting-started-with-claude/) and [ChatGPT](/blog/chatgpt-vs-claude-vs-gemini/) have hundreds of billions of parameters running on data centre GPUs. Local models are smaller and slower. But for many tasks — writing help, summarising documents, brainstorming, basic coding — they're more than enough.
+
+## What You Need
+
+### Minimum (runs 7B models)
+- 8GB RAM
+- Modern CPU (Intel 8th gen+ or AMD Ryzen 3000+)
+- 10GB free disk space
+- No GPU required
+
+### Recommended (runs 13B models comfortably)
+- 16GB RAM
+- Any dedicated GPU with 6GB+ VRAM
+- 30GB free disk space
+
+### Ideal (runs 70B models)
+- 32GB+ RAM
+- NVIDIA RTX 3060 12GB or better
+- 100GB+ free disk space
+
+**Apple Silicon note:** M1, M2, M3, and M4 Macs are unusually good at local AI. Their unified memory architecture means the GPU can access all system RAM. An M2 MacBook Air with 16GB can run 13B models faster than most Windows laptops with discrete GPUs.
+
+## Option 1: LM Studio (Visual Interface)
+
+LM Studio is the easiest way to get started. It's a desktop app with a clean interface — no terminal required.
+
+### Installation
+
+Download from lmstudio.ai. Available for Windows, macOS, and Linux. Install like any normal app.
+
+### Downloading Your First Model
+
+1. Open LM Studio and click the **Discover** tab
+2. Search for "Llama 3.3 8B Instruct"
+3. Pick the **Q4_K_M** quantisation (best balance of quality and size, about 5GB)
+4. Click Download and wait
+
+**What's quantisation?** Full AI models are enormous. Quantisation compresses them by reducing number precision. Q4 means 4-bit — roughly 4x smaller than the original with minimal quality loss. Always start with Q4_K_M.
+
+### Your First Conversation
+
+1. Click the **Chat** tab
+2. Select your downloaded model from the dropdown
+3. Type a message and press Enter
+
+That's it. You're running AI locally.
+
+### Settings Worth Changing
+
+| Setting | What It Does | Recommended |
+|---------|-------------|-------------|
+| Context Length | How much text the model remembers | 4096 (raise if you have RAM) |
+| Temperature | Creativity vs consistency | 0.7 for chat, 0.2 for factual tasks |
+| GPU Offload | Layers processed by GPU | Max your GPU VRAM allows |
+| System Prompt | Persistent instructions | Set your own or leave default |
+
+## Option 2: Ollama (Command Line)
+
+Ollama is leaner. No GUI — just your terminal. It's faster to set up and better for automation.
+
+### Installation
+
+**Mac/Linux:**
+```bash
+curl -fsSL https://ollama.com/install.sh | sh
+```
+
+**Windows:**
+Download from ollama.com and run the installer.
+
+### Download and Run
+
+```bash
+ollama pull llama3.3
+ollama run llama3.3
+```
+
+You're now in a chat session. Type your prompt and press Enter. Type `/bye` to exit.
+
+### Useful Commands
+
+```bash
+ollama list              # See downloaded models
+ollama pull mistral      # Download Mistral (great for coding)
+ollama rm llama3.3       # Delete a model
+ollama serve             # Start API server on localhost:11434
+```
+
+The API server is powerful. It means you can use local AI from any tool that supports the OpenAI API format — including some [automation workflows](/tutorials/automate-workflows-with-ai/).
+
+## Which Models to Try
+
+| Model | Parameters | Size | Best For |
+|-------|-----------|------|----------|
+| Llama 3.3 8B | 8B | ~5GB | General chat, first model |
+| Mistral 7B | 7B | ~4GB | Coding, concise answers |
+| Phi-3 Mini | 3.8B | ~2GB | Weak hardware, fast responses |
+| Llama 3.3 70B | 70B | ~40GB | Near-cloud quality (needs 64GB RAM) |
+| CodeLlama 34B | 34B | ~20GB | Dedicated coding model |
+| Gemma 2 9B | 9B | ~6GB | Google's open model, strong reasoning |
+
+Start with **Llama 3.3 8B**. It's the most capable small model and runs on almost anything.
+
+## Local AI vs Cloud AI — Honest Comparison
+
+| | Local AI | Cloud AI (Claude, ChatGPT) |
+|---|---------|--------------------------|
+| **Cost** | Free forever | $20/month+ |
+| **Privacy** | Complete | Data processed on company servers |
+| **Offline** | Yes | No |
+| **Speed** | Depends on hardware | Consistently fast |
+| **Quality** | Good to great (model dependent) | State of the art |
+| **Context window** | 4K-32K typical | 128K-200K |
+| **Multimodal** | Limited | Images, audio, video, files |
+| **Updates** | Manual model downloads | Automatic |
+
+The honest take: local AI is a complement to cloud AI, not a replacement. Use local for private data, offline work, and unlimited usage. Use [Claude](/tutorials/getting-started-with-claude/) or [ChatGPT](/blog/chatgpt-vs-claude-vs-gemini/) when you need maximum capability.
+
+## Common Issues
+
+**"It's really slow"** — You're probably running a model too large for your RAM. Drop to a smaller model or lower quantisation (Q3 instead of Q4).
+
+**"The answers are worse than ChatGPT"** — Expected with 7-8B models. Try a 13B or 70B model if your hardware allows. Also make sure you're using an "Instruct" model, not a base model.
+
+**"It's using all my RAM"** — AI models load entirely into memory. Close other apps or use a smaller model. Check your GPU offload settings — offloading to GPU frees system RAM.
+
+**"GPU not detected"** — In LM Studio, check Settings > Hardware. For NVIDIA, ensure CUDA drivers are installed. For AMD, ROCm support is improving but still less reliable.
+
+## What's Next
+
+Once you're comfortable with local AI:
+
+- Try [building automations](/tutorials/automate-workflows-with-ai/) that use your local model's API
+- Experiment with [system prompts](/tutorials/mastering-system-prompts/) to customise behaviour
+- If you want cloud-level intelligence without the subscription, check the [best free AI tools](/blog/best-free-ai-tools-2026/) for generous free tiers
+- Learn about [RAG](/non-coder/what-is-rag-in-ai/) to make your local model answer questions about your own documents

@@ -1,0 +1,171 @@
+---
+title: "AEO: How to Get Your Content Cited by ChatGPT, Perplexity, and Claude"
+description: "Answer Engine Optimization is the new SEO. Learn how to structure content so AI assistants cite your website as a source. Practical guide with real techniques."
+pubDate: 2026-04-09
+updatedDate: 2026-04-09
+author: "AI Tutorials"
+tags: ["ai-tools", "productivity"]
+category: "guide"
+quickAnswer: "AEO (Answer Engine Optimization) is the practice of structuring your content so AI assistants like Perplexity, ChatGPT, and Google AI Overviews cite it as a source. Key techniques: write clear 2-3 sentence direct answers near the top of articles, use structured data (FAQ schema, HowTo schema), keep content factual with specific data points, and update regularly. AEO complements SEO — you need both."
+faqs:
+  - question: "What is AEO (Answer Engine Optimization)?"
+    answer: "AEO is optimizing content to be cited by AI answer engines — Perplexity, ChatGPT Search, Google AI Overviews, and Claude. Unlike SEO (ranking in search results), AEO focuses on being the source AI pulls from when generating answers. It requires structured, factual, directly quotable content."
+  - question: "How is AEO different from SEO?"
+    answer: "SEO optimizes for Google's ranking algorithm — keywords, backlinks, page speed. AEO optimizes for AI citation — structured answers, schema markup, factual density, and freshness. They overlap significantly (good SEO helps AEO), but AEO specifically targets the extractability and quotability of your content."
+  - question: "How do I know if AI is citing my content?"
+    answer: "Search for topics you cover on Perplexity (perplexity.ai) — it shows source URLs. Ask ChatGPT (with browsing enabled) questions your content answers and check if it cites you. Google AI Overviews sometimes show source links. There's no equivalent of Google Search Console for AEO yet."
+  - question: "Does AEO replace SEO?"
+    answer: "No. AEO complements SEO. Most AI answer engines discover content through web search — if your page doesn't rank in Google, AI probably won't find it either. Think of SEO as getting discovered and AEO as getting cited once discovered. You need both."
+  - question: "How long does AEO take to work?"
+    answer: "Faster than SEO. AI crawlers update their indexes frequently — some within days. If your content is well-structured and the AI's crawler can access it, you can see citations within a week. SEO typically takes months. However, AEO results are less predictable and harder to track."
+---
+
+## The Shift From Search to Answers
+
+Here's what's happening: 25-48% of searches now touch AI in some form. People aren't just Googling — they're asking Perplexity, using ChatGPT Search, or getting Google AI Overviews.
+
+When someone asks "what's the best way to learn prompt engineering?", the AI doesn't show 10 blue links. It gives a direct answer and cites 3-5 sources. Being one of those sources is the new page-one ranking.
+
+This is AEO — Answer Engine Optimization. And it's a genuinely new discipline that barely existed 18 months ago.
+
+## How AI Answer Engines Choose Sources
+
+Understanding this is the whole game. AI answer engines like Perplexity and ChatGPT Search:
+
+1. **Search the web** using their own crawlers or web search APIs
+2. **Read the top results** (typically the first 10-20 pages)
+3. **Extract relevant information** from those pages
+4. **Synthesise an answer** from multiple sources
+5. **Cite the sources** they drew from
+
+Your content needs to survive every step:
+- **Step 1:** You need to be findable (that's SEO)
+- **Step 2:** Your page needs to be crawlable by AI bots
+- **Step 3:** Your content needs to be extractable (structured, clear)
+- **Step 4:** Your information needs to be authoritative and accurate
+- **Step 5:** Your content needs to be quotable (concise, specific)
+
+## The Practical Techniques
+
+### 1. Write a Quick Answer at the Top
+
+Every article should answer its core question in 2-3 sentences within the first 100 words. This is the most extractable position on the page.
+
+**What AI engines see:**
+> "Claude Code is Anthropic's AI coding agent that runs in your terminal. Install it with npm install -g @anthropic-ai/claude-code, then run claude in any project directory."
+
+That's directly quotable. An AI can pull that into an answer without modification.
+
+**What doesn't work:**
+> "In this comprehensive guide, we'll explore everything you need to know about Claude Code, starting with its history and ending with advanced tips."
+
+No AI is quoting that. It says nothing.
+
+### 2. Use Structured Data (Schema Markup)
+
+AI engines love structured data because it's machine-readable by design.
+
+**FAQPage schema** — generates rich results in Google AND makes your Q&As directly extractable by AI. Each question-answer pair is a self-contained unit an AI can cite.
+
+**HowTo schema** — step-by-step instructions with numbered steps. Perfect for tutorials and guides. AI engines can cite individual steps.
+
+**Article schema** — tells AI engines your publication date, author, and modified date. Freshness signals matter.
+
+We implemented all three across [AI Tutorials](/) — and saw citations within days.
+
+### 3. Be Factual and Specific
+
+AI engines prefer content with:
+- **Specific numbers** — "costs $20/month" beats "affordable pricing"
+- **Comparison tables** — structured data AI can extract directly
+- **Named entities** — "Claude Opus 4.6" beats "the latest AI model"
+- **Dates** — "released March 2026" beats "recently released"
+
+Vague, opinion-heavy content rarely gets cited. Factual, specific content does.
+
+### 4. Keep Content Fresh
+
+AI engines heavily weight freshness. A guide updated last week beats an identical guide from 6 months ago.
+
+Techniques:
+- Set `updatedDate` in your CMS every time you edit
+- Add `article:modified_time` meta tags
+- Actually update the content — don't just change the date
+
+### 5. Welcome AI Crawlers
+
+In your `robots.txt`, explicitly allow AI bots:
+
+```
+User-agent: GPTBot
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+```
+
+Many sites accidentally block these crawlers. If they can't crawl your site, they can't cite it.
+
+### 6. Write FAQ Sections
+
+FAQs are AEO gold. Each Q&A pair is:
+- Self-contained (makes sense without surrounding context)
+- Directly quotable (clear question, direct answer)
+- Schema-markable (FAQPage structured data)
+- What people actually search for (natural language queries)
+
+Aim for 3-5 FAQs per article. Use questions people actually ask — check Google's "People also ask", Perplexity suggestions, or your search console.
+
+### 7. Internal Linking for Context
+
+AI engines follow links. A well-linked site tells the AI: "This site has depth on this topic." If you write about [prompt engineering](/tutorials/prompt-engineering-fundamentals/) and link to your guides on [system prompts](/tutorials/mastering-system-prompts/), [Claude](/tutorials/getting-started-with-claude/), and [AI agents](/non-coder/what-are-ai-agents/), the AI sees topical authority.
+
+## AEO vs SEO — The Full Comparison
+
+| | SEO | AEO |
+|---|-----|-----|
+| **Goal** | Rank in search results | Get cited by AI engines |
+| **Audience** | Google's algorithm | Perplexity, ChatGPT, Gemini, AI Overviews |
+| **Key signals** | Backlinks, keywords, page speed | Structure, factual density, freshness, schema |
+| **Content style** | Keyword-optimised, engaging | Extractable, quotable, specific |
+| **Time to results** | 3-6 months | Days to weeks |
+| **Measurement** | Search Console, rank tracking | Manual checks on Perplexity/ChatGPT |
+| **Relationship** | Foundation | Built on top of SEO |
+
+## What We Did on This Site
+
+We implemented AEO across [AI Tutorials](/) in a single session. Here's exactly what changed:
+
+1. **robots.txt** — Added explicit `Allow` directives for 7 AI crawlers
+2. **Quick Answer field** — Added to every article's frontmatter, rendered as a highlight box
+3. **FAQ schema** — Added FAQPage JSON-LD to all 50+ articles
+4. **HowTo schema** — Added to tutorials and step-by-step guides
+5. **Modified time** — Added `article:modified_time` meta tags sitewide
+6. **Content freshness** — Updated all articles with current dates
+
+Result: citations started appearing within a week. We now get regular traffic from AI answer engines.
+
+## Getting Started With AEO
+
+If you run a website or blog:
+
+1. **Check if AI can crawl you** — search your domain on Perplexity. If nothing shows, check your robots.txt
+2. **Add quick answers** — put a 2-3 sentence direct answer in the first paragraph of every article
+3. **Add FAQ sections** — 3-5 real questions with direct answers, plus FAQPage schema markup
+4. **Update your content** — fresh dates signal relevance
+5. **Be specific** — replace vague claims with numbers, dates, and named products
+
+You don't need to choose between SEO and AEO. They reinforce each other. Good AEO content is also good SEO content.
+
+## Further Reading
+
+- [Stop Using AI Wrong](/blog/stop-using-ai-wrong/) — the mindset shift that applies to AEO too
+- [Best Free AI Tools 2026](/blog/best-free-ai-tools-2026/) — an example of AEO-structured content
+- [Prompt Engineering Fundamentals](/tutorials/prompt-engineering-fundamentals/) — helps you think about how AI processes text
+- [Building in Public with AI](/blog/building-in-public-with-ai/) — our approach to transparency on this site

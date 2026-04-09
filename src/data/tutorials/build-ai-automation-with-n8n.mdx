@@ -1,0 +1,209 @@
+---
+title: "Build Your First AI Automation with n8n (No Code Required)"
+description: "Step-by-step tutorial: build a working AI automation from scratch using n8n. Connect AI to email, documents, and databases without writing code."
+pubDate: 2026-04-09
+updatedDate: 2026-04-09
+author: "AI Tutorials"
+tags: ["automation", "ai-tools", "beginner"]
+category: "ai-tools"
+difficulty: "beginner"
+estimatedTime: "30 min"
+prerequisites: []
+tools: ["n8n"]
+learningPath: "ai-foundations"
+quickAnswer: "n8n is a free, open-source automation platform that lets you connect AI to real workflows without coding. You build workflows visually by connecting nodes — trigger (when something happens), AI (process with Claude/ChatGPT), action (do something with the result). Example: email arrives → AI summarises it → summary goes to Slack. n8n is self-hostable for complete privacy or available as a cloud service."
+faqs:
+  - question: "What is n8n?"
+    answer: "n8n (pronounced 'n-eight-n') is an open-source workflow automation platform. Think of it as a visual programming tool where you connect blocks together to automate tasks. It has 400+ integrations and native AI support. Unlike Zapier, it's free to self-host with no workflow limits."
+  - question: "Is n8n free?"
+    answer: "n8n is open-source and free to self-host on your own computer or server with no limits. They also offer a cloud version starting at $20/month for convenience. Self-hosting requires Docker or a direct install — their documentation makes it straightforward."
+  - question: "n8n vs Zapier — which is better?"
+    answer: "n8n is better for: power users, AI workflows, self-hosting, privacy, and cost (free self-hosted vs Zapier's $20-50/mo). Zapier is better for: complete beginners, mobile-friendly setup, and the widest app ecosystem. For AI automations specifically, n8n has significantly better AI integration."
+  - question: "Do I need to know how to code to use n8n?"
+    answer: "No. n8n's visual workflow builder is drag-and-drop. You connect nodes visually and configure them through forms. However, basic understanding of concepts like APIs, JSON, and data flow helps. If you can use a spreadsheet with formulas, you can use n8n."
+  - question: "Can n8n connect to Claude or ChatGPT?"
+    answer: "Yes. n8n has native nodes for OpenAI (ChatGPT), Anthropic (Claude), Google AI (Gemini), and other AI providers. You can also connect to local AI models via the HTTP node. AI nodes let you send prompts, process responses, and chain AI steps together."
+steps:
+  - name: "Install n8n"
+    text: "Fastest option: run 'npx n8n' in your terminal (requires Node.js). Or use Docker: 'docker run -it --rm -p 5678:5678 n8nio/n8n'. Or sign up for n8n cloud at n8n.io. All three give you the same interface."
+  - name: "Create a new workflow"
+    text: "Open n8n in your browser (localhost:5678 for local). Click 'New Workflow'. You'll see a blank canvas with a trigger node. This is where you build your automation visually."
+  - name: "Add a trigger"
+    text: "Click the trigger node and choose what starts your workflow. Options include: Schedule (run every hour/day), Webhook (when a URL is called), Email (when you receive an email), or Manual (click a button). Start with Manual for testing."
+  - name: "Add an AI node"
+    text: "Click the + button, search for 'OpenAI' or 'Anthropic', and add it. Configure with your API key. Set the prompt using data from the trigger. Example: 'Summarise this email: {{$json.body}}' where body comes from an email trigger."
+  - name: "Add an action"
+    text: "Add another node for what happens with the AI's response. Send it to Slack, save to Google Sheets, create a Notion page, send an email, or write to a database. Connect the nodes by dragging lines between them."
+  - name: "Test and activate"
+    text: "Click 'Test Workflow' to run it once with sample data. Check each node's output. When it works correctly, click 'Activate' to run it automatically based on your trigger."
+---
+
+## What is n8n and Why Should You Care?
+
+You've probably heard about [AI automations](/tutorials/automate-workflows-with-ai/) — using AI to handle repetitive tasks automatically. The concept is exciting, but the gap between "AI can do this" and "I've actually automated something" is where most people get stuck.
+
+n8n bridges that gap. It's a visual tool where you connect blocks together to create workflows. No code. Each block does one thing — receive an email, call an AI, post to Slack — and you chain them together.
+
+Think of it as a flowchart that actually runs.
+
+## Why n8n Over Zapier or Make?
+
+| Feature | n8n | Zapier | Make |
+|---------|-----|--------|------|
+| **Price** | Free (self-hosted) | $20-50/mo | $10-30/mo |
+| **AI integration** | Excellent (native nodes) | Good | Good |
+| **Self-hosting** | Yes (full privacy) | No | No |
+| **Complexity** | Handles complex logic | Simple chains | Medium |
+| **Open source** | Yes | No | No |
+| **Workflow limits** | Unlimited (self-hosted) | Plan-based | Plan-based |
+
+n8n wins for AI workflows specifically because:
+1. Native AI nodes with streaming, token tracking, and chain support
+2. You can self-host — your data and API keys never leave your machine
+3. No per-workflow or per-execution costs
+4. Complex branching logic that Zapier can't handle
+
+## Your First Automation: AI Email Summariser
+
+Let's build something real. This workflow:
+1. Checks your email every hour
+2. Sends new emails to Claude for summarisation
+3. Posts the summaries to a Slack channel (or Google Sheet)
+
+### Step 1: Set Up the Trigger
+
+Add a **Schedule** trigger node:
+- Interval: Every 1 hour
+- This tells n8n to run the workflow every hour
+
+Then add an **Email (IMAP)** node:
+- Connect to your email account
+- Filter: Unread emails only
+- This pulls in new emails each time the workflow runs
+
+### Step 2: Add the AI
+
+Add an **Anthropic** node (for [Claude](/tutorials/getting-started-with-claude/)):
+- Enter your Anthropic API key
+- Model: Claude Sonnet (fast and capable)
+- Prompt: 
+
+```
+Summarise this email in 2-3 bullet points. Include:
+- Who sent it and what they want
+- Any action items for me
+- Urgency level (high/medium/low)
+
+Email subject: {{$json.subject}}
+Email body: {{$json.body}}
+```
+
+The `{{$json.subject}}` syntax pulls data from the previous node — this is how nodes talk to each other.
+
+### Step 3: Route the Summary
+
+Add a **Slack** node (or Google Sheets, or email):
+- Channel: #email-summaries
+- Message: The AI's summary from the previous node
+
+Connect all three nodes: Schedule → Email → Claude → Slack.
+
+### Step 4: Test It
+
+Click **Test Workflow**. n8n runs each node and shows you the output at every step. You can see exactly what the AI received and what it produced.
+
+If it works, click **Activate**. It now runs automatically every hour.
+
+## More Automations to Build
+
+### Meeting Notes Processor
+
+**Trigger:** File uploaded to Google Drive (meeting recording)
+**AI:** Transcribe with Whisper → Summarise with Claude → Extract action items
+**Action:** Create tasks in Notion/Linear, send summary to Slack
+
+### Content Research Pipeline
+
+**Trigger:** RSS feed (new articles from industry blogs)
+**AI:** Claude analyses each article for relevance and key takeaways
+**Action:** Relevant articles added to a research database/spreadsheet with AI-generated summaries
+
+### Customer Feedback Analyser
+
+**Trigger:** New form submission or support ticket
+**AI:** Claude categorises sentiment, extracts feature requests, identifies urgent issues
+**Action:** Route to appropriate Slack channel, update tracking spreadsheet
+
+### Invoice Processor
+
+**Trigger:** Email with PDF attachment
+**AI:** Extract invoice details (amount, vendor, due date, line items) using Claude's document analysis
+**Action:** Add to accounting spreadsheet, flag if amount exceeds threshold
+
+## Key Concepts
+
+### Nodes
+
+Each block in your workflow is a node. Types:
+- **Trigger nodes** — start the workflow (schedule, webhook, email, etc.)
+- **Action nodes** — do something (send email, post to Slack, update database)
+- **AI nodes** — process with an AI model
+- **Logic nodes** — if/else branching, loops, merges
+
+### Expressions
+
+n8n uses expressions to pass data between nodes:
+- `{{$json.fieldName}}` — access data from the previous node
+- `{{$node["NodeName"].json.fieldName}}` — access data from a specific node
+- You can use JavaScript expressions for complex transformations
+
+### Credentials
+
+API keys and passwords are stored securely in n8n's credential manager. Set them up once and reuse across workflows. For [Claude](/tutorials/getting-started-with-claude/), you need an Anthropic API key. For ChatGPT, an OpenAI API key.
+
+### Error Handling
+
+Add an **Error Trigger** node to catch failures. Common pattern: if the AI node fails (rate limit, API error), wait 60 seconds and retry. If it fails again, send you a notification.
+
+## Self-Hosting vs Cloud
+
+### Self-Hosting (Free)
+
+```bash
+# Quick start with npx
+npx n8n
+
+# Or with Docker (recommended for always-on)
+docker run -d --restart unless-stopped \
+  -p 5678:5678 \
+  -v n8n_data:/home/node/.n8n \
+  n8nio/n8n
+```
+
+**Pros:** Free, unlimited workflows, complete data privacy, your API keys stay local.
+**Cons:** You manage the server, need to handle updates, requires always-on machine for scheduled workflows.
+
+### n8n Cloud ($20/month)
+
+**Pros:** Zero maintenance, always running, automatic updates, built-in monitoring.
+**Cons:** Costs money, data goes through n8n's servers.
+
+For [privacy-sensitive workflows](/tutorials/how-to-run-ai-locally/), self-hosting is the way to go.
+
+## Common Mistakes
+
+**Building too complex too fast** — start with 3-4 nodes. Get that working. Then add complexity.
+
+**Not handling errors** — AI APIs fail sometimes. Rate limits, timeouts, malformed responses. Always add error handling for production workflows.
+
+**Ignoring costs** — each AI node call costs money (API tokens). A workflow that runs every minute and sends 500 tokens to Claude costs roughly $15/month. Calculate before activating.
+
+**Not testing with real data** — test mode uses sample data. Before activating, run with actual emails/files/inputs to catch edge cases.
+
+## What's Next
+
+- Read our [workflow automation guide](/tutorials/automate-workflows-with-ai/) for broader automation concepts
+- Learn [prompt engineering](/tutorials/prompt-engineering-fundamentals/) — better prompts mean better automation results
+- Try [Claude Code](/tutorials/how-to-use-claude-code/) for code-based automations
+- Check [AI for freelancers](/blog/ai-for-freelancers/) for business automation ideas
+- Learn about [MCP](/non-coder/what-is-mcp/) — the protocol enabling deeper AI-tool connections

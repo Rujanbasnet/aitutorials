@@ -1,0 +1,156 @@
+---
+title: "What is an AI API? Explained Simply for Non-Developers"
+description: "AI APIs explained without jargon. What they are, why they matter, how apps use them, and what it means when someone says 'it uses the Claude API'. Plain English."
+pubDate: 2026-04-09
+updatedDate: 2026-04-09
+author: "AI Tutorials"
+tags: ["non-coder", "beginner"]
+category: "coding-literacy"
+quickAnswer: "An AI API is a way for apps and websites to use AI models like Claude or GPT without building their own AI. When an app 'uses the Claude API', it sends your text to Anthropic's servers, Claude processes it, and the response comes back — all invisibly. APIs are why thousands of apps have AI features without each one training their own model. You pay per use (per token), typically fractions of a cent per request."
+faqs:
+  - question: "What does API stand for?"
+    answer: "API stands for Application Programming Interface. In plain English: it's a menu of requests that one piece of software can make to another. Just like a restaurant menu tells you what you can order, an API tells software what it can ask for. An AI API lets any software ask an AI model to do things — answer questions, generate text, analyse images."
+  - question: "Why do apps use AI APIs instead of building their own AI?"
+    answer: "Building an AI model from scratch costs hundreds of millions of dollars and requires massive computing infrastructure. Using an API costs fractions of a cent per request. It's like asking why restaurants buy ingredients from suppliers instead of growing everything themselves — specialisation makes everyone more efficient."
+  - question: "How much does an AI API cost?"
+    answer: "AI APIs charge per token (roughly per word). Claude Sonnet costs about $3 per million input tokens and $15 per million output tokens. In practical terms: a typical request (asking a question and getting an answer) costs $0.001-0.01. Heavy usage might cost $50-200/month. Light usage is almost free."
+  - question: "Is my data safe when apps use AI APIs?"
+    answer: "It depends on the API provider's policy. Anthropic (Claude) and OpenAI both state they don't train on API data by default. However, your data is transmitted to their servers for processing. For sensitive data, some companies use local AI models instead. Always check the provider's data policy."
+  - question: "Do I need to know programming to use an AI API?"
+    answer: "To call an API directly, yes — basic programming knowledge is needed. But most people use AI APIs indirectly through apps and tools. When you use Notion AI, Grammarly, or any app with 'AI features', you're using an API without knowing it. Tools like n8n let you use APIs without code through visual workflows."
+---
+
+## The Simplest Explanation
+
+You use AI through a chat window — you type, [Claude](/tutorials/getting-started-with-claude/) or ChatGPT responds. That's the consumer experience.
+
+Behind the scenes, the same AI is available as an **API** — a direct line that any software can use. When a note-taking app, a customer support tool, or a marketing platform says "now with AI!", they're almost certainly using an API from Anthropic (Claude), OpenAI (GPT), or Google (Gemini).
+
+An API is like a waiter in a restaurant. You (the app) tell the waiter (the API) what you want. The waiter takes your order to the kitchen (the AI model). The kitchen prepares it. The waiter brings it back.
+
+You never see the kitchen. You just get the result.
+
+## Why This Matters to You
+
+Even if you never write code, understanding APIs helps you:
+
+1. **Evaluate AI tools** — when an app says "powered by GPT-5.4", you know it's using OpenAI's API. The app isn't the AI — it's a wrapper around someone else's AI.
+
+2. **Understand pricing** — many AI features cost money because the app is paying API fees for every request you make. That's why some apps limit AI usage or charge extra for it.
+
+3. **Assess privacy** — when you use AI in an app, your data is likely being sent to a third-party AI provider. Understanding this helps you make informed decisions about what data you share.
+
+4. **Spot BS** — when a startup claims to have "proprietary AI technology" but charges $10/month, they're probably reselling someone else's API with a nice interface. Not necessarily bad, but good to know.
+
+## How AI APIs Work
+
+### The Request
+
+An app sends a message to the AI API:
+
+```
+"Hey Claude, here's a customer support email. 
+Draft a helpful response."
+```
+
+Along with:
+- Which AI model to use (Claude Sonnet, Claude Opus, etc.)
+- How creative vs. consistent to be (temperature setting)
+- Maximum response length
+- Any special instructions ([system prompt](/tutorials/mastering-system-prompts/))
+
+### The Response
+
+The AI processes the request and sends back:
+
+```
+"Here's a draft response for the customer:
+
+Dear [Name], 
+Thank you for reaching out about..."
+```
+
+This entire exchange happens in 1-5 seconds, invisibly, every time you click "AI Assist" in any app.
+
+### The Cost
+
+APIs charge per **token** — roughly per word (1 token ≈ 0.75 words).
+
+| Model | Input Cost (per 1M tokens) | Output Cost (per 1M tokens) |
+|-------|---------------------------|----------------------------|
+| Claude Sonnet | ~$3 | ~$15 |
+| Claude Opus | ~$15 | ~$75 |
+| GPT-5.4 | ~$5 | ~$15 |
+| GPT-5.4 mini | ~$0.15 | ~$0.60 |
+
+A typical request: ~500 input tokens, ~200 output tokens = about **$0.004** (less than half a cent).
+
+This is why AI features are everywhere — they're cheap to add.
+
+## Real Examples
+
+### Notion AI
+When you click "AI Assist" in Notion, it sends your text to an AI API, gets back a response, and shows it to you. Notion pays the API cost and includes it in your subscription.
+
+### Grammarly
+Grammarly uses AI APIs for advanced suggestions beyond grammar — rewriting paragraphs, changing tone, expanding ideas. Each suggestion is an API call.
+
+### Customer Support Bots
+When a support chatbot gives a relevant, natural-sounding answer, it's likely calling an AI API with your question and the company's knowledge base as context. This is [RAG](/non-coder/what-is-rag-in-ai/) in action.
+
+### Automated Content Tools
+Tools that generate social media posts, blog drafts, or email subject lines are wrapping AI API calls with specific [prompts](/tutorials/prompt-engineering-fundamentals/) tuned for each task.
+
+## The Ecosystem
+
+Think of it as layers:
+
+1. **Foundation model companies** — Anthropic (Claude), OpenAI (GPT), Google (Gemini), Meta (Llama)
+   They build and host the AI models
+
+2. **API** — the connection layer
+   How other software accesses those models
+
+3. **Apps and tools** — thousands of them
+   They build user experiences around the API
+
+4. **You** — the end user
+   You use the apps, often without knowing which AI is behind them
+
+This is why the AI market is so large. Anthropic doesn't need to build a note-taking app, a design tool, and a customer support platform. They build one excellent AI and let thousands of companies build those apps using the API.
+
+## API vs. Direct Chat — The Difference
+
+| | Chat (claude.ai) | API |
+|---|-----------------|-----|
+| **Who uses it** | You, directly | Apps and developers |
+| **Interface** | Chat window | Code/HTTP requests |
+| **Pricing** | $20/month subscription | Pay per token (usage-based) |
+| **Customisation** | Limited | Full (system prompts, parameters, tools) |
+| **Integration** | Standalone | Embedded in any software |
+
+When you use claude.ai, you're using Anthropic's chat interface. When an app uses the Claude API, it's using the same AI through a different door.
+
+## What About [MCP](/non-coder/what-is-mcp/)?
+
+APIs let apps *talk to* AI. [MCP (Model Context Protocol)](/non-coder/what-is-mcp/) lets AI *talk to apps*. They're complementary:
+
+- **API:** App → sends text → AI → returns response → App
+- **MCP:** AI → requests data from your calendar, email, files → uses it to answer
+
+Together, they create AI that's both callable by software AND connected to your tools.
+
+## Common Misconceptions
+
+**"This app has its own AI"** — almost never true for small companies. They're using someone else's API. And that's fine — it's smart engineering.
+
+**"API access means my data is at risk"** — reputable providers (Anthropic, OpenAI) don't train on API data by default. But your data does travel to their servers for processing. For truly sensitive work, consider [local AI](/tutorials/how-to-run-ai-locally/).
+
+**"APIs are only for developers"** — directly, yes. But tools like [n8n](/tutorials/build-ai-automation-with-n8n/) and Zapier let you use APIs without code. And every time you use an AI feature in any app, you're using an API indirectly.
+
+## What's Next
+
+- Learn about [MCP](/non-coder/what-is-mcp/) — the other half of AI connectivity
+- Try [Claude](/tutorials/getting-started-with-claude/) — the consumer side of the Claude API
+- Read about [AI agents](/non-coder/what-are-ai-agents/) — what happens when APIs are combined with autonomous AI
+- Explore [building automations with n8n](/tutorials/build-ai-automation-with-n8n/) — use APIs without writing code
