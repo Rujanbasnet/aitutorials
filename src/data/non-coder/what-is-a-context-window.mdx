@@ -1,0 +1,69 @@
+---
+title: "What Is a Context Window? Why Your AI Forgets Mid-Chat"
+description: "Context windows explain why AI forgets things in long conversations. Learn what they are, how they work, and how to get better results."
+pubDate: 2026-04-19
+author: "AI Tutorials"
+tags: ["non-coder", "beginner", "ai-tools", "productivity", "chatgpt", "claude", "gemini"]
+category: "ai-basics"
+draft: false
+quickAnswer: "A context window is the amount of text an AI can 'see' at once during a conversation. When your chat gets too long, the oldest parts fall out of view and the AI forgets them. Understanding this limit helps you get better, more consistent results from any AI tool."
+faqs:
+  - question: "Why does ChatGPT forget what I said earlier in a conversation?"
+    answer: "ChatGPT has a context window of about 128,000 tokens. Once your conversation exceeds that limit, the oldest messages get dropped and the AI can no longer see them. Starting a new conversation or repeating key details can help."
+  - question: "What is a token in AI?"
+    answer: "A token is a small chunk of text that AI models use to process language. One token is roughly three-quarters of a word, so 1,000 tokens equals about 750 words."
+  - question: "Which AI chatbot has the largest context window in 2026?"
+    answer: "Google's Gemini leads with a 1,000,000-token context window, followed by Claude at 200,000 tokens and ChatGPT at 128,000 tokens. However, bigger doesn't always mean better — effective performance often drops before hitting the maximum."
+  - question: "How do I stop AI from forgetting my instructions?"
+    answer: "Put important instructions at the very start of your conversation, start new chats for new topics instead of using one long thread, and repeat key details if the conversation runs long."
+---
+
+You're deep into a conversation with ChatGPT or Claude. You've explained your project, given background details, asked follow-up questions. Then, twenty messages in, the AI seems to forget everything you told it at the start. It contradicts itself. It asks you to repeat things.
+
+You just hit the edges of something called the **context window** — and understanding it will change how you use every AI tool.
+
+## Think of It as a Desk, Not a Brain
+
+Here's the simplest way to think about a context window: it's the AI's desk, not its filing cabinet.
+
+When you chat with an AI, it doesn't "remember" your conversation the way you remember a phone call. Instead, every time you send a message, the AI reads the entire conversation from scratch — your messages, its responses, everything — and generates a reply based on all of that text.
+
+The context window is how much text fits on that desk. If your conversation gets too long, the oldest parts start falling off the edge. The AI isn't being lazy or forgetful. It literally can't see those earlier messages anymore.
+
+## How Big Is the Desk?
+
+Context windows are measured in **tokens**. A token is roughly three-quarters of a word, so 1,000 tokens is about 750 words.
+
+Here's where the major AI tools stand in 2026:
+
+| AI Tool | Context Window | Roughly Equivalent To |
+|---------|---------------|----------------------|
+| ChatGPT (Plus) | 128,000 tokens | A 200-page book |
+| Claude | 200,000 tokens | A 300-page book |
+| Gemini | 1,000,000 tokens | A 1,500-page book |
+
+These numbers sound enormous. A few years ago, AI could only handle about 4,000 tokens — a few pages at most. Today's models can process entire books in a single conversation.
+
+But there's a catch.
+
+## Bigger Doesn't Always Mean Better
+
+Having a million-token context window doesn't mean the AI pays equal attention to everything in it. Research shows that most models start losing accuracy when conversations get very long — a phenomenon called **context degradation**.
+
+Think of it like reading a 300-page report in one sitting. You'll remember the beginning and the end pretty well, but the details in the middle get fuzzy. AI models have the same problem. They pay the most attention to what's at the very beginning and what's most recent, while information in the middle can get overlooked.
+
+A model advertising 200,000 tokens of context typically performs reliably up to about 60-70% of that limit. After that point, you might notice the AI missing details or contradicting things it said earlier.
+
+## What This Means for You
+
+Understanding context windows gives you a real advantage when using any AI tool. Here are four practical habits to build:
+
+**Start new conversations for new topics.** Don't use one endless chat thread for everything. When you switch to a different project or question, start fresh. This gives the AI a clean desk to work with.
+
+**Front-load important information.** Put your most critical instructions at the very beginning of a conversation. The AI pays strong attention to what comes first.
+
+**Repeat key details in long conversations.** If you're twenty messages deep and the AI seems to be drifting, paste your original instructions again. You're putting that information back on the desk where the AI can see it.
+
+**Pick the right tool for the job.** Working with a very long document? Gemini's million-token window might serve you better than ChatGPT's 128K. Need consistent performance across a long conversation? [Claude's context window](https://claude.ai) tends to maintain accuracy better across its full range. Matching the tool to the task makes a real difference.
+
+The context window is one of those invisible constraints that shapes every AI interaction you have. Now that you can see it, you can work with it instead of against it.
