@@ -1,0 +1,44 @@
+---
+title: "Google Unveils TPU 8 Chips to Make AI Faster and Cheaper"
+description: "Google launches TPU 8t and TPU 8i at Cloud Next 2026, splitting training and inference to challenge Nvidia on AI chip performance."
+pubDate: 2026-04-22
+updatedDate: 2026-04-22
+author: "AI Tutorials"
+quickAnswer: "Google announced two new AI chips at Cloud Next 2026: the TPU 8t for training and TPU 8i for inference. The training chip delivers 2.7x better performance-per-dollar than its predecessor, while the inference chip cuts costs by 80%. Both chips will be available later this year and should make AI tools faster and cheaper to run."
+faqs:
+  - question: "What are Google's new TPU 8 chips?"
+    answer: "Google's TPU 8t and TPU 8i are eighth-generation Tensor Processing Units — custom silicon designed specifically for AI workloads. The TPU 8t handles model training and the TPU 8i handles inference, which is the process of running AI models when users submit prompts."
+  - question: "How do Google's new chips compare to Nvidia?"
+    answer: "Google is positioning the TPU 8 chips as a direct alternative to Nvidia GPUs for AI workloads, with significantly better performance-per-dollar. However, Google also announced a partnership to offer Nvidia's upcoming Vera Rubin chips on Google Cloud."
+  - question: "Will these chips make AI tools cheaper?"
+    answer: "Likely yes. The TPU 8i delivers 80% better performance-per-dollar for inference — the process that runs every time you use ChatGPT, Gemini, or any AI tool. Lower infrastructure costs typically translate to lower prices or more generous free tiers over time."
+  - question: "When will Google's TPU 8 chips be available?"
+    answer: "Google said both the TPU 8t and TPU 8i will become available to Google Cloud customers later in 2026."
+tags: ["google", "industry", "enterprise-ai", "ai-tools"]
+draft: false
+category: "product-launch"
+source: "Google"
+sourceUrl: "https://blog.google/innovation-and-ai/infrastructure-and-cloud/google-cloud/eighth-generation-tpu-agentic-era/"
+---
+
+Google today announced two new custom AI chips at its [Cloud Next 2026 conference](https://cloud.google.com/blog/products/compute/ai-infrastructure-at-next26) in Las Vegas — the TPU 8t for training and TPU 8i for inference — marking the first time the company has split these workloads into separate, purpose-built processors. The move is a direct challenge to Nvidia's dominance in AI hardware.
+
+## Why Two Chips Instead of One
+
+Every AI tool you use involves two distinct processes. **Training** is how companies build models — feeding them massive amounts of data so they learn patterns. **Inference** is what happens when you actually use the model, like asking Gemini a question or generating an image. These two jobs have very different hardware needs, and Google is now designing a dedicated chip for each.
+
+The [TPU 8t](https://techcrunch.com/2026/04/22/google-cloud-next-new-tpu-ai-chips-compete-with-nvidia/) delivers 2.7 times the performance-per-dollar of Google's previous-generation Ironwood chip for training. A single TPU 8t superpod scales to 9,600 chips with two petabytes of shared memory, and double the interchip bandwidth of the prior generation.
+
+The TPU 8i targets inference with an 80% improvement in performance-per-dollar. It packs three times more on-chip memory than Ironwood, allowing it to hold larger context windows in fast-access storage — which directly translates to quicker responses from AI models.
+
+Both chips deliver twice the performance-per-watt of their predecessors, addressing growing concerns about AI's energy footprint.
+
+## A Nvidia Partnership Too
+
+In a notable twist, [Google also announced a partnership with Nvidia](https://www.cnbc.com/2026/04/22/google-launches-training-and-inference-tpus-in-latest-shot-at-nvidia.html) to bring Nvidia's upcoming Vera Rubin chips to Google Cloud. The company is betting that customers want options — Google's own silicon for cost efficiency, and Nvidia hardware for workloads already optimised for its ecosystem.
+
+## What This Means for You
+
+You won't plug a TPU into your laptop, but these chips power the AI tools you use every day. When inference gets 80% cheaper to run, that savings flows downstream — expect faster responses from Google's AI products, more generous usage limits, and competitive pressure on other providers to match. If you use [Gemini](/news/2026-04-11-google-notebooklm-gemini-notebooks/) or any Google Cloud-powered AI service, the TPU 8i should make those experiences noticeably snappier once it rolls out later this year.
+
+For more on how AI infrastructure is evolving, check out our [guide to getting started with AI tools](/start/) or explore the latest [Claude and Anthropic updates](/news/2026-04-16-anthropic-claude-opus-4-7-release/).
