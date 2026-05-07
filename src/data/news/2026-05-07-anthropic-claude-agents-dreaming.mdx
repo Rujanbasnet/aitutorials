@@ -1,0 +1,42 @@
+---
+title: "Anthropic Teaches Claude Agents to 'Dream' and Self-Improve"
+description: "Anthropic adds dreaming, outcomes, and multiagent orchestration to Claude Managed Agents, letting AI agents learn from past sessions."
+pubDate: 2026-05-07
+updatedDate: 2026-05-07
+author: "AI Tutorials"
+quickAnswer: "Anthropic launched three new features for Claude Managed Agents on May 7, 2026: dreaming (a self-improvement system that reviews past sessions to find patterns and fix recurring mistakes), outcomes (rubric-based grading that improved task success by up to 10 percentage points), and multiagent orchestration (letting a lead agent delegate tasks to specialist sub-agents working in parallel)."
+faqs:
+  - question: "What is Claude's dreaming feature?"
+    answer: "Dreaming is a scheduled process that reviews your agent's past sessions, extracts patterns, and curates memories so the agent improves over time. You can let it update memory automatically or review changes before they apply. It's currently in research preview."
+  - question: "How does multiagent orchestration work in Claude?"
+    answer: "A lead agent breaks complex tasks into smaller jobs and delegates them to specialist sub-agents. Each sub-agent can have its own model, prompt, and tools. They work in parallel on a shared filesystem and feed results back to the lead agent."
+  - question: "What are outcomes in Claude Managed Agents?"
+    answer: "Outcomes let developers write rubrics that define what success looks like. A separate grader evaluates the agent's output and prompts revisions when the result falls short. In Anthropic's testing, this improved task success by up to 10 percentage points."
+  - question: "Are these features available now?"
+    answer: "Outcomes, multiagent orchestration, and memory are available in public beta as part of Managed Agents. Dreaming is in research preview, meaning it's accessible but still being refined."
+tags: ["anthropic", "claude", "ai-agents", "automation", "enterprise-ai"]
+draft: false
+category: "product-launch"
+source: "Anthropic"
+sourceUrl: "https://9to5mac.com/2026/05/07/anthropic-updates-claude-managed-agents-with-three-new-features/"
+---
+
+Anthropic has added three new capabilities to Claude Managed Agents that could change how businesses use AI for complex, long-running work. The headline feature — called "dreaming" — lets AI agents review their own past sessions, spot patterns, and get better at their jobs over time.
+
+## What's New
+
+**Dreaming** is the most novel addition. It works as a scheduled background process that reviews an agent's completed sessions, extracts useful patterns, and updates the agent's memory. Think of it like an employee reflecting on their week and writing down what they learned. You can let dreaming update memory automatically, or review every change before it takes effect.
+
+In practice, this means a Claude agent handling customer support tickets could notice it keeps making the same type of mistake and correct itself — without a developer manually rewriting the prompt.
+
+**Outcomes** give developers a way to define what "good enough" looks like. You write a rubric, and a separate grader checks the agent's output against it. If the work falls short, the agent revises. In Anthropic's internal testing, this improved task success by up to 10 percentage points, with the biggest gains on harder problems. File generation quality also jumped — 8.4% better for Word documents and 10.1% better for PowerPoint files.
+
+**Multiagent orchestration** lets a lead agent split a complex job into pieces and hand each one to a specialist sub-agent. Each sub-agent can run a different model, use different tools, and work in parallel on a shared filesystem. Everything stays traceable through the Claude Console.
+
+## What This Means for You
+
+If you use Claude for repetitive or multi-step work — research, content creation, data processing, coding — these features make agents noticeably more reliable. Dreaming is especially significant because it introduces a form of continuous improvement that doesn't require constant human tuning.
+
+Outcomes and multiagent orchestration are available now in public beta. Dreaming is in research preview, so you can try it, but expect rough edges. All three features are part of [Claude Managed Agents](https://9to5mac.com/2026/05/07/anthropic-updates-claude-managed-agents-with-three-new-features/), Anthropic's platform for deploying persistent AI agents.
+
+For anyone building AI workflows in a business setting, this is worth paying attention to. Self-improving agents that can coordinate with each other represent a meaningful step beyond single-prompt chatbots.
