@@ -1,0 +1,57 @@
+---
+title: "Google Kills Gemini CLI Today — Antigravity CLI Takes Over"
+description: "Google's Gemini CLI stops working June 18. Its replacement, Antigravity CLI, brings multi-agent coding and voice commands to the terminal."
+pubDate: 2026-06-18
+updatedDate: 2026-06-18
+author: "AI Tutorials"
+quickAnswer: "Google has officially retired its Gemini CLI on June 18, 2026, replacing it with Antigravity CLI — a Go-based terminal tool built for multi-agent coding workflows. Free and individual users must migrate immediately, while enterprise users get a longer transition window."
+faqs:
+  - question: "What is replacing Google Gemini CLI?"
+    answer: "Google Antigravity CLI is the direct replacement. It's a Go-based command-line tool that supports multi-agent orchestration, voice commands, and is powered by the new Gemini 3.5 Flash model."
+  - question: "Do I need to migrate from Gemini CLI to Antigravity CLI?"
+    answer: "Yes, if you're an individual or free-tier user. As of June 18, 2026, Gemini CLI and Gemini Code Assist IDE extensions stop responding to requests for non-enterprise users. Enterprise license holders are unaffected for now."
+  - question: "How long does the Antigravity CLI migration take?"
+    answer: "Google estimates the migration can be completed in under 30 minutes for individual developers. Install the new tool, authenticate via browser-based OAuth, and import your existing settings."
+  - question: "Is Antigravity CLI free to use?"
+    answer: "Yes, Antigravity CLI is available to individual developers. It replaces the free tier that Gemini CLI previously offered, with the same OAuth-based authentication flow."
+tags: ["google", "developer-tools", "coding-with-ai", "ai-tools", "gemini"]
+draft: false
+category: "product-launch"
+source: "Google Developers Blog"
+sourceUrl: "https://developers.googleblog.com/an-important-update-transitioning-gemini-cli-to-antigravity-cli/"
+---
+
+Today marks the end of Google's Gemini CLI. As of June 18, 2026, the popular terminal-based AI coding tool [stops accepting requests](https://developers.googleblog.com/an-important-update-transitioning-gemini-cli-to-antigravity-cli/) for individual and free-tier users, replaced entirely by Google's new Antigravity CLI.
+
+The transition was announced at Google I/O on May 19, giving developers roughly 30 days to migrate. If you've been putting it off, today is the deadline.
+
+## What Is Antigravity CLI?
+
+Antigravity CLI is Google's next-generation terminal interface for AI-assisted coding. Built from scratch in Go, it's designed around a concept Google calls "multi-agent orchestration" — the ability to run multiple AI agents simultaneously, each handling different parts of a complex task.
+
+Key features include:
+
+- **Multi-agent workflows** — orchestrate several agents working in parallel on different subtasks
+- **Voice commands** — speak to your terminal, similar to voice features in Gmail and Docs
+- **Gemini 3.5 Flash** — powered by Google's latest model, co-developed using Antigravity itself
+- **Antigravity SDK** — build custom agents and connect them to Google Cloud projects
+
+"Gemini CLI proved the terminal could be an incredible interface for agentic tasks, but your needs shifted," Google said. "You now require multiple agents communicating with each other to split up the work and solve complex problems."
+
+## Who Is Affected
+
+If you use Gemini CLI with a free account or Google AI Pro/Ultra subscription, your tool stops working today. Enterprise customers with paid Gemini Code Assist licenses are not affected and can continue using the legacy CLI.
+
+The Gemini Code Assist IDE extensions (for VS Code and JetBrains) also stop for individual users on the same timeline.
+
+## How to Migrate
+
+Installation takes one command: `curl -fsSL https://antigravity.google/cli/install.sh | bash`. Authentication switches from manual API keys to browser-based OAuth, with tokens stored in your system's native keyring.
+
+One notable gap: Gemini CLI's ACP stdio mode — a JSON-RPC interface used by many orchestration bridges — is not available in Antigravity CLI at launch. If your workflow depends on that interface, you'll need to find an alternative approach.
+
+## What This Means for You
+
+If you relied on [Gemini CLI for coding tasks](/tutorials/automate-workflows-with-ai/), the migration is straightforward but mandatory. The new tool is more powerful, particularly if you want to run complex multi-step tasks from your terminal.
+
+For those evaluating AI coding tools more broadly, Antigravity CLI joins an increasingly competitive field that includes [Claude Code](/blog/claude-code-vs-cursor/), GitHub Copilot CLI, and others. Google is betting that multi-agent orchestration in the terminal is where developer workflows are heading — and they're forcing the transition today.
