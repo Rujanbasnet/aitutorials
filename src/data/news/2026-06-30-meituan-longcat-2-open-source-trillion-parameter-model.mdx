@@ -1,0 +1,45 @@
+---
+title: "China's Meituan Open-Sources 1.6 Trillion Parameter Coding Model"
+description: "Meituan releases LongCat-2.0 under MIT license — a 1.6T parameter model trained entirely on Chinese chips that outperforms GPT-5.5 on coding."
+pubDate: 2026-06-30
+author: "AI Tutorials"
+quickAnswer: "Meituan has open-sourced LongCat-2.0, a 1.6 trillion parameter coding model trained entirely on domestic Chinese chips. It uses a Mixture-of-Experts architecture, supports a 1 million token context window, and scores 59.5 on SWE-bench Pro — beating GPT-5.5's 58.6. The model is available now on Hugging Face under the MIT license."
+faqs:
+  - question: "What is LongCat-2.0?"
+    answer: "LongCat-2.0 is a 1.6 trillion parameter open-source AI model built by Meituan, China's largest food delivery and services platform. It uses a Mixture-of-Experts architecture designed specifically for agentic coding tasks, with a 1 million token context window."
+  - question: "How does LongCat-2.0 compare to GPT-5.5 and other models?"
+    answer: "LongCat-2.0 scored 59.5 on SWE-bench Pro, surpassing GPT-5.5 at 58.6. It also achieved 70.8 on Terminal-Bench 2.1 and 77.3 on SWE-bench Multilingual. It is competitive with frontier models on coding tasks while being fully open-source."
+  - question: "What chips was LongCat-2.0 trained on?"
+    answer: "LongCat-2.0 was trained on a cluster of 50,000 domestically produced Chinese AI chips, reportedly Huawei Ascend processors. No Nvidia or other Western chips were used, marking a milestone for China's AI self-sufficiency."
+  - question: "Can I use LongCat-2.0 for free?"
+    answer: "Yes. LongCat-2.0 is released under the MIT license and available on Hugging Face. You can download the model weights and run it locally, or access it through API providers like OpenRouter."
+  - question: "Why does this matter for the AI industry?"
+    answer: "It demonstrates that frontier-quality AI models can be built without access to the most advanced Western chips. This challenges assumptions about the effectiveness of US export controls on AI hardware to China."
+tags: ["model-release", "coding-with-ai", "developer-tools", "industry", "ai-tools"]
+draft: false
+category: "product-launch"
+source: "Meituan"
+sourceUrl: "https://huggingface.co/meituan-longcat/LongCat-2.0"
+---
+
+Chinese tech giant Meituan has open-sourced LongCat-2.0, a 1.6 trillion parameter AI model designed for coding — and it was trained entirely on domestically produced Chinese chips. The model is available now on [Hugging Face](https://huggingface.co/meituan-longcat/LongCat-2.0) under the MIT license, making it one of the largest open-source models ever released.
+
+## What Makes LongCat-2.0 Notable
+
+LongCat-2.0 uses a Mixture-of-Experts (MoE) architecture that activates roughly 48 billion parameters per token out of its 1.6 trillion total. This makes it far more efficient than running a dense model of comparable size. It supports a 1 million token context window — enough to process an entire large codebase in a single session.
+
+On coding benchmarks, the model punches well above expectations. It scored 59.5 on [SWE-bench Pro](https://www.longcatai.org/news/longcat-2), surpassing OpenAI's GPT-5.5 at 58.6. It also posted 70.8 on Terminal-Bench 2.1 and 77.3 on SWE-bench Multilingual. These are near-frontier results from a fully open-source model.
+
+## The Hardware Story
+
+What makes this release geopolitically significant is the training infrastructure. Meituan built LongCat-2.0 on a cluster of 50,000 domestically produced AI chips — [reportedly Huawei Ascend processors](https://the-decoder.com/meituans-longcat-2-0-shows-china-can-train-massive-ai-models-without-nvidia/) — without any Nvidia or other restricted Western hardware. The team trained across more than 35 trillion tokens, navigating challenges in communication faults, memory pressure, and numerical stability at massive scale.
+
+This directly challenges assumptions about US export controls. The restrictions were designed to slow China's AI progress by limiting access to advanced chips, but LongCat-2.0 suggests that gap is narrowing faster than expected.
+
+## What This Means for You
+
+If you work with AI coding tools, LongCat-2.0 is worth watching. As an MIT-licensed model, it can be used commercially without restriction. It is already available through API providers like [OpenRouter](https://openrouter.ai/), and its 1 million token context makes it well-suited for [agentic coding workflows](/tutorials/claude-code-guide/) where an AI needs to understand an entire project at once.
+
+The broader takeaway: the open-source AI ecosystem continues to close the gap with proprietary models. Between LongCat-2.0, [Qwen 3.5](/news/2026-06-18-google-gemini-cli-dead-antigravity-cli-live/), and other recent releases, developers now have genuinely competitive alternatives to closed-source tools from OpenAI and Google.
+
+Sign up for our [newsletter](/newsletter/) to get daily AI news delivered to your inbox.
